@@ -1,49 +1,283 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * LocalFirst — Brand tokens (dark-mode editorial)
+ * Source: brand_colors_palette.png — palette in image is canon.
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Brand & accent */
+  --color-primary:          #99BBEA;
+  --color-primary-active:   #7AA5D8;
+  --color-primary-disabled: #D0E0F5;
+  --color-accent:           #F4B000;
+
+  /* Surfaces */
+  --color-hero:             #000000;
+  --color-card:             #16181C;
+  --color-card-2:           #1C1F25;
+  --color-canvas:           #FFFFFF;
+  --color-surface-soft:     #F7F7F7;
+  --color-surface-strong:   #EEF0F3;
+
+  /* Ink */
+  --color-ink:              #000000;
+  --color-body:             #5B616E;
+  --color-on-dark:          #FFFFFF;
+  --color-on-dark-soft:     #A8ACB3;
+  --color-muted:            #7C8290;
+  --color-muted-soft:       #A8ACB3;
+  --color-on-primary:       #000000;
+
+  /* Semantic */
+  --color-up:               #05B169;
+  --color-down:             #CF202F;
+
+  /* Lines */
+  --color-line:             rgba(255, 255, 255, 0.08);
+  --color-line-strong:      rgba(255, 255, 255, 0.16);
+  --color-line-ink:         rgba(0, 0, 0, 0.08);
+
+  /* Type — wired to next/font variables on <html> */
+  --font-sans:   var(--font-inter, 'Inter'), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif:  var(--font-instrument, 'Instrument Serif'), 'Times New Roman', Georgia, serif;
+  --font-mono:   ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Display sizes */
+  --text-display-1: clamp(48px, 7vw, 96px);
+  --text-display-2: clamp(36px, 5.2vw, 64px);
+
+  /* Easing & duration */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ------------------------------------------------------------------ *
+ * Reset + base
+ * ------------------------------------------------------------------ */
+html, body {
+  background: var(--color-hero);
+  color: var(--color-on-dark);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-html {
-  height: 100%;
-}
-
-html,
 body {
-  max-width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* ------------------------------------------------------------------ *
+ * Utilities
+ * ------------------------------------------------------------------ */
+.lf-shell {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 24px;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@media (min-width: 768px) {
+  .lf-shell { padding-inline: 40px; }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.lf-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.lf-eyebrow--soft {
+  color: var(--color-on-dark-soft);
+}
+
+.lf-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Floating card — the glass surface */
+.lf-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 20px 60px rgba(0, 0, 0, 0.55);
+  position: relative;
+}
+
+.lf-card--glass {
+  background: rgba(22, 24, 28, 0.65);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.lf-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-line-strong) 30%,
+    var(--color-line-strong) 70%,
+    transparent 100%
+  );
+}
+
+/* Primary button — blue pill */
+.lf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  transition: transform 280ms var(--ease-out-soft),
+              background 240ms var(--ease-out-soft),
+              border-color 240ms var(--ease-out-soft),
+              box-shadow 240ms var(--ease-out-soft);
+  will-change: transform;
+}
+
+.lf-btn--primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: 0 12px 32px rgba(153, 187, 234, 0.22);
+}
+
+.lf-btn--primary:hover {
+  background: var(--color-primary-active);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(153, 187, 234, 0.32);
+}
+
+.lf-btn--ghost {
+  background: transparent;
+  color: var(--color-on-dark);
+  border-color: var(--color-line-strong);
+}
+
+.lf-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--color-primary);
+}
+
+.lf-btn--lg { padding: 20px 36px; font-size: 18px; }
+
+/* Link with gold underline accent */
+.lf-link-gold {
+  color: var(--color-on-dark);
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 2px;
+  transition: color 200ms;
+}
+.lf-link-gold:hover { color: var(--color-accent); }
+
+/* Numeric eyebrow (01 / 02 / 03) */
+.lf-numeral {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 1;
+  color: var(--color-primary);
+  opacity: 0.7;
+  letter-spacing: -0.02em;
+}
+
+/* Section rhythm */
+.lf-section {
+  padding-block: 96px;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .lf-section { padding-block: 64px; }
+}
+
+/* Background ambient gradient */
+.lf-ambient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    rgba(153, 187, 234, 0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Headings */
+.lf-h1 {
+  font-size: var(--text-display-2);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+.lf-h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.lf-h3 {
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+.lf-body {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--color-on-dark-soft);
+}
+
+@media (max-width: 768px) {
+  .lf-body { font-size: 17px; }
+}
+
+/* Reveal initial state — GSAP toggles from this */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
+  .lf-btn { transition: none; }
+}
+
+/* Tap highlight */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Focus visible — accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
