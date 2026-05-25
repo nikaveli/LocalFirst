@@ -1,6 +1,13 @@
 'use client';
 
-import { useReveal } from './useReveal';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Counter from './Counter';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const ITEMS = [
   {
@@ -31,16 +38,94 @@ const ITEMS = [
 ];
 
 export default function WeeklyChecklist() {
-  const ref = useReveal({ stagger: 0.07, y: 28 });
+  const sectionRef = useRef(null);
+  const pinRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    if (!section || !pin) return;
+
+    const mm = gsap.matchMedia();
+
+    // Desktop + motion-OK: pin section and scrub items in one by one.
+    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px)', () => {
+      const items = pin.querySelectorAll('[data-pin-item]');
+      const math = pin.querySelector('[data-pin-math]');
+      const head = pin.querySelectorAll('[data-pin-head]');
+
+      gsap.set(items, { opacity: 0.12, y: 32, scale: 0.98 });
+      gsap.set(math, { opacity: 0, y: 28, scale: 0.97 });
+
+      // Head reveals on initial scroll-in.
+      gsap.from(head, {
+        opacity: 0,
+        y: 28,
+        rotateX: -6,
+        transformPerspective: 800,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.1,
+        scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+      });
+
+      // Pin + scrub timeline for items + math.
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => '+=' + window.innerHeight * (items.length * 0.55 + 0.8),
+          scrub: 0.8,
+          pin: pin,
+          anticipatePin: 1,
+        },
+      });
+
+      items.forEach((it, i) => {
+        tl.to(
+          it,
+          { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' },
+          i * 0.7
+        );
+      });
+      tl.to(
+        math,
+        { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power2.out' },
+        items.length * 0.7 + 0.1
+      );
+    });
+
+    // Mobile or reduced-motion: just reveal everything on enter.
+    mm.add(
+      '(prefers-reduced-motion: reduce), (max-width: 1023px)',
+      () => {
+        const targets = pin.querySelectorAll('[data-pin-item], [data-pin-math], [data-pin-head]');
+        gsap.fromTo(
+          targets,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+          }
+        );
+      }
+    );
+
+    return () => mm.revert();
+  }, []);
 
   return (
-    <section ref={ref} className="lf-section" style={{ paddingBottom: 64 }}>
-      <div className="lf-shell">
-        <div data-reveal className="lf-eyebrow" style={{ marginBottom: 16 }}>
+    <section ref={sectionRef} data-bg-hue="38" className="lf-section" style={{ paddingBottom: 64 }}>
+      <div ref={pinRef} className="lf-shell">
+        <div data-pin-head className="lf-eyebrow" style={{ marginBottom: 16 }}>
           Here&rsquo;s what it actually takes
         </div>
 
-        <h2 data-reveal className="lf-h2" style={{ maxWidth: 760, marginBottom: 56 }}>
+        <h2 data-pin-head className="lf-h2" style={{ maxWidth: 760, marginBottom: 56 }}>
           What Google&rsquo;s AI looks for.{' '}
           <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
             Every week.
@@ -52,7 +137,7 @@ export default function WeeklyChecklist() {
           {ITEMS.map((item) => (
             <li
               key={item.n}
-              data-reveal
+              data-pin-item
               className="lf-card grid items-start gap-x-6"
               style={{
                 gridTemplateColumns: '88px 1fr',
@@ -85,7 +170,7 @@ export default function WeeklyChecklist() {
         </ol>
 
         <div
-          data-reveal
+          data-pin-math
           className="lf-card mt-10"
           style={{
             padding: '32px 32px',
@@ -108,25 +193,27 @@ export default function WeeklyChecklist() {
             }}
           >
             That&rsquo;s{' '}
-            <span style={{ color: 'var(--color-accent)' }}>26 straight weeks</span>{' '}
+            <span style={{ color: 'var(--color-accent)' }}>
+              <Counter to={26} duration={1.2} /> straight weeks
+            </span>{' '}
             of posts, photos, videos, and review responses — while you&rsquo;re
             already running a business full time.
           </p>
         </div>
+      </div>
 
-        <div
-          data-reveal
-          className="text-center mt-24 mb-2"
-          style={{
-            fontFamily: 'var(--font-serif)',
-            fontStyle: 'italic',
-            fontSize: 'clamp(56px, 8vw, 96px)',
-            lineHeight: 1,
-            color: 'var(--color-accent)',
-          }}
-        >
-          Or —
-        </div>
+      {/* Outside the pin so it appears after the user scrolls past. */}
+      <div
+        className="text-center mt-24 mb-2"
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontStyle: 'italic',
+          fontSize: 'clamp(56px, 8vw, 96px)',
+          lineHeight: 1,
+          color: 'var(--color-accent)',
+        }}
+      >
+        Or —
       </div>
     </section>
   );

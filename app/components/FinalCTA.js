@@ -6,7 +6,7 @@ export default function FinalCTA() {
   const ref = useReveal({ stagger: 0.08, y: 24 });
 
   return (
-    <section ref={ref} className="lf-section lf-ambient" style={{ paddingBlock: 112 }}>
+    <section ref={ref} data-bg-hue="225" className="lf-section lf-ambient" style={{ paddingBlock: 112 }}>
       <div className="lf-shell text-center relative" style={{ maxWidth: 720, zIndex: 1 }}>
         <h2
           data-reveal

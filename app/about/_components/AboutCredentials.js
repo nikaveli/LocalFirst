@@ -1,11 +1,13 @@
 'use client';
 
 import { useReveal } from '../../components/useReveal';
+import Counter from '../../components/Counter';
 
 const CREDS = [
   {
     label: 'Google Local Guide',
     value: 'Level 7',
+    counter: { to: 7, prefix: 'Level ' },
     detail:
       'Verified Top 1% contributor on Google&rsquo;s own platform. Posts and edits I make carry source trust most agencies will never have.',
   },
@@ -66,7 +68,11 @@ export default function AboutCredentials() {
                   marginBottom: 16,
                 }}
               >
-                {c.value}
+                {c.counter ? (
+                  <Counter to={c.counter.to} prefix={c.counter.prefix} duration={1.4} />
+                ) : (
+                  c.value
+                )}
               </div>
               <p
                 className="text-[15.5px]"

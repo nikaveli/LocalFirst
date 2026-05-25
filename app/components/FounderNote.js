@@ -6,7 +6,7 @@ export default function FounderNote() {
   const ref = useReveal({ stagger: 0.1, y: 32 });
 
   return (
-    <section ref={ref} className="lf-section">
+    <section ref={ref} data-bg-hue="240" className="lf-section">
       <div className="lf-shell">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-16 items-center">
           <div data-reveal className="relative">

@@ -2,7 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TrustStrip from './TrustStrip';
+import Counter from './Counter';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Hero() {
   const root = useRef(null);
@@ -43,6 +49,51 @@ export default function Hero() {
     );
 
     return () => mm.revert();
+  }, []);
+
+  // Hero exit fade: scrub the video + content opacity and a slight zoom as
+  // the user scrolls past the hero. Gives the section a cinematic exit
+  // instead of a hard cut into the next section.
+  useEffect(() => {
+    const section = root.current;
+    const v = videoRef.current;
+    if (!section || !v) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Video pushes a touch larger as it fades out.
+    const videoTween = gsap.to(v, {
+      opacity: 0.15,
+      scale: 1.06,
+      transformOrigin: '50% 50%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    // Content drifts up and softens as section leaves.
+    const content = section.querySelectorAll('[data-hero-fade]');
+    const contentTween = gsap.to(content, {
+      opacity: 0,
+      y: -40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'bottom 80%',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    return () => {
+      if (videoTween.scrollTrigger) videoTween.scrollTrigger.kill();
+      if (contentTween.scrollTrigger) contentTween.scrollTrigger.kill();
+      videoTween.kill();
+      contentTween.kill();
+    };
   }, []);
 
   // Boomerang playback: play forward → on `ended`, step currentTime backward
@@ -100,6 +151,7 @@ export default function Hero() {
   return (
     <section
       ref={root}
+      data-bg-hue="220"
       className="relative overflow-hidden"
       style={{
         paddingTop: 140,
@@ -163,6 +215,7 @@ export default function Hero() {
 
       {/* Hero content */}
       <div
+        data-hero-fade
         className="lf-shell relative h-full flex flex-col"
         style={{ zIndex: 2, minHeight: 'calc(94vh - 236px)' }}
       >
@@ -274,7 +327,7 @@ export default function Hero() {
             fontSize: 13,
           }}
         >
-          L7
+          <Counter to={7} prefix="L" duration={1.4} />
         </div>
         <div>
           <div className="text-[13px] font-medium">Google Local Guide</div>

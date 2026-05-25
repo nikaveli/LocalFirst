@@ -1,6 +1,12 @@
 'use client';
 
-import { useReveal } from './useReveal';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const PILLARS = [
   {
@@ -54,16 +60,92 @@ const PILLARS = [
 ];
 
 export default function TheMethod() {
-  const ref = useReveal({ stagger: 0.12, y: 48 });
+  const sectionRef = useRef(null);
+  const pinRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    if (!section || !pin) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px)', () => {
+      const pillars = pin.querySelectorAll('[data-pin-pillar]');
+      const head = pin.querySelectorAll('[data-pin-head]');
+      const closer = pin.querySelector('[data-pin-closer]');
+
+      gsap.set(pillars, { opacity: 0.12, y: 60, scale: 0.96, rotateX: -10, transformPerspective: 800 });
+      gsap.set(closer, { opacity: 0, y: 24 });
+
+      gsap.from(head, {
+        opacity: 0,
+        y: 28,
+        rotateX: -6,
+        transformPerspective: 800,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.1,
+        scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => '+=' + window.innerHeight * (pillars.length * 0.7 + 0.6),
+          scrub: 0.8,
+          pin: pin,
+          anticipatePin: 1,
+        },
+      });
+
+      pillars.forEach((p, i) => {
+        tl.to(
+          p,
+          { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 1.2, ease: 'power2.out' },
+          i * 0.85
+        );
+      });
+      tl.to(
+        closer,
+        { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+        pillars.length * 0.85 + 0.1
+      );
+    });
+
+    mm.add(
+      '(prefers-reduced-motion: reduce), (max-width: 1023px)',
+      () => {
+        const targets = pin.querySelectorAll(
+          '[data-pin-pillar], [data-pin-head], [data-pin-closer]'
+        );
+        gsap.fromTo(
+          targets,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: section, start: 'top 82%', once: true },
+          }
+        );
+      }
+    );
+
+    return () => mm.revert();
+  }, []);
 
   return (
-    <section ref={ref} className="lf-section lf-ambient">
-      <div className="lf-shell relative" style={{ zIndex: 1 }}>
-        <div data-reveal className="lf-eyebrow" style={{ marginBottom: 16 }}>
+    <section ref={sectionRef} data-bg-hue="210" className="lf-section lf-ambient">
+      <div ref={pinRef} className="lf-shell relative" style={{ zIndex: 1 }}>
+        <div data-pin-head className="lf-eyebrow" style={{ marginBottom: 16 }}>
           The LocalFirst Method
         </div>
 
-        <h2 data-reveal className="lf-h2" style={{ marginBottom: 18 }}>
+        <h2 data-pin-head className="lf-h2" style={{ marginBottom: 18 }}>
           Here&rsquo;s how I{' '}
           <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
             actually
@@ -71,7 +153,7 @@ export default function TheMethod() {
           do this.
         </h2>
 
-        <p data-reveal className="lf-body" style={{ maxWidth: 640, marginBottom: 64 }}>
+        <p data-pin-head className="lf-body" style={{ maxWidth: 640, marginBottom: 64 }}>
           Three things make LocalFirst different from every other GBP
           service in Colorado. None of them can be faked. None of them
           can be outsourced. All three happen on your sidewalk.
@@ -81,7 +163,7 @@ export default function TheMethod() {
           {PILLARS.map((p) => (
             <article
               key={p.n}
-              data-reveal
+              data-pin-pillar
               className="lf-card flex flex-col"
               style={{
                 padding: '32px 28px',
@@ -109,7 +191,7 @@ export default function TheMethod() {
         </div>
 
         <div
-          data-reveal
+          data-pin-closer
           className="text-center mt-16"
           style={{
             fontSize: 'clamp(20px, 2.4vw, 28px)',

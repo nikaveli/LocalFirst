@@ -17,7 +17,7 @@ export default function ProfileChecklist() {
     setChecked((c) => c.map((v, idx) => (idx === i ? !v : v)));
 
   return (
-    <section id="checklist" ref={ref} className="lf-section">
+    <section id="checklist" data-bg-hue="0" ref={ref} className="lf-section">
       <div className="lf-shell" style={{ maxWidth: 760 }}>
         <div data-reveal className="lf-eyebrow" style={{ marginBottom: 16 }}>
           A 10-second test

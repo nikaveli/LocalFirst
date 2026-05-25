@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from './useReveal';
+import Counter from './Counter';
 
 const DELIVERABLES = [
   'Weekly professional photography on location.',
@@ -15,7 +16,7 @@ export default function Offer() {
   const ref = useReveal({ stagger: 0.06, y: 24 });
 
   return (
-    <section ref={ref} className="lf-section">
+    <section ref={ref} data-bg-hue="42" className="lf-section">
       <div className="lf-shell" style={{ maxWidth: 880 }}>
         <div
           data-reveal
@@ -91,17 +92,19 @@ export default function Offer() {
           </ul>
 
           <div data-reveal className="flex items-baseline gap-3 mb-3">
-            <span
+            <Counter
+              to={997}
+              prefix="$"
+              duration={1.6}
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(72px, 11vw, 140px)',
                 lineHeight: 1,
                 color: 'var(--color-on-dark)',
                 letterSpacing: '-0.02em',
+                fontVariantNumeric: 'tabular-nums',
               }}
-            >
-              $997
-            </span>
+            />
           </div>
           <div
             data-reveal

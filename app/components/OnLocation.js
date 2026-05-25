@@ -11,7 +11,7 @@ export default function OnLocation() {
   const ref = useReveal({ stagger: 0.08, y: 32 });
 
   return (
-    <section id="on-location" ref={ref} className="lf-section">
+    <section id="on-location" data-bg-hue="200" ref={ref} className="lf-section">
       <div className="lf-shell">
         <div data-reveal className="lf-eyebrow" style={{ marginBottom: 16 }}>
           On location

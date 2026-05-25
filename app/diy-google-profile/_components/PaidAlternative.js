@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from '../../components/useReveal';
+import Counter from '../../components/Counter';
 
 export default function PaidAlternative() {
   const ref = useReveal({ stagger: 0.08, y: 24 });
@@ -57,17 +58,19 @@ export default function PaidAlternative() {
           </p>
 
           <div data-reveal style={{ marginBottom: 8 }}>
-            <span
+            <Counter
+              to={997}
+              prefix="$"
+              duration={1.6}
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(80px, 12vw, 140px)',
                 lineHeight: 1,
                 color: 'var(--color-on-dark)',
                 letterSpacing: '-0.02em',
+                fontVariantNumeric: 'tabular-nums',
               }}
-            >
-              $997
-            </span>
+            />
           </div>
           <div
             data-reveal
