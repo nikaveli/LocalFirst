@@ -3,10 +3,11 @@
 import { Resend } from 'resend';
 
 // Where messages from the contact form land.
-const TO = 'nicholas@localfirstonline.com';
-
-// Resend's onboarding domain works without verifying localfirstonline.com.
-// Once Nicholas verifies the domain in Resend, swap this for forms@localfirstonline.com.
+// Resend's free tier restricts the default onboarding@resend.dev sender to
+// only deliver to the account-owner's verified address. Once Nicholas verifies
+// localfirstonline.com at resend.com/domains, this can flip back to
+// nicholas@localfirstonline.com (and FROM can become forms@localfirstonline.com).
+const TO = 'nikaveli@gmail.com';
 const FROM = 'LocalFirst Site <onboarding@resend.dev>';
 
 /**
@@ -73,7 +74,7 @@ export async function sendContact(_prevState, formData) {
 
   try {
     const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM,
       to: TO,
       replyTo: email || undefined,
@@ -81,7 +82,8 @@ export async function sendContact(_prevState, formData) {
       text,
     });
 
-    if (error) {
+    if (result.error) {
+      console.error('[contact] Resend returned an error:', result.error);
       return {
         ok: false,
         error: 'Something went wrong sending the message. Try again, or call 303-524-0591.',
@@ -90,6 +92,7 @@ export async function sendContact(_prevState, formData) {
 
     return { ok: true };
   } catch (err) {
+    console.error('[contact] Resend threw:', err);
     return {
       ok: false,
       error: 'Couldn’t reach the mail server. Try again, or call 303-524-0591.',
