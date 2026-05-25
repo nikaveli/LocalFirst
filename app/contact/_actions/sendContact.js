@@ -3,12 +3,11 @@
 import { Resend } from 'resend';
 
 // Where messages from the contact form land.
-// Resend's free tier restricts the default onboarding@resend.dev sender to
-// only deliver to the account-owner's verified address. Once Nicholas verifies
-// localfirstonline.com at resend.com/domains, this can flip back to
-// nicholas@localfirstonline.com (and FROM can become forms@localfirstonline.com).
-const TO = 'nikaveli@gmail.com';
-const FROM = 'LocalFirst Site <onboarding@resend.dev>';
+// Sender uses the verified localfirstonline.com domain in Resend so the
+// reply chain is fully branded and delivery isn't capped to the
+// account-owner's verified Gmail.
+const TO = 'nicholas@localfirstonline.com';
+const FROM = 'LocalFirst <forms@localfirstonline.com>';
 
 /**
  * Server Action for the contact form.
