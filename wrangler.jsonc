@@ -1,0 +1,20 @@
+// Cloudflare Workers config for the LocalFirst Next.js site.
+// Built by @opennextjs/cloudflare — the worker entry and assets directory
+// match its default output.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "localfirst",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-23",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
