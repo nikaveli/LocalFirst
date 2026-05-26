@@ -10,10 +10,15 @@
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
   },
+  // Custom Domains are managed via the Workers API (see DEPLOYMENT.md).
+  // Both localfirstonline.com and www.localfirstonline.com are attached to
+  // this worker as Custom Domains — no `routes` array needed here.
   "observability": {
     "enabled": true
   }
