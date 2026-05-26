@@ -24,3 +24,9 @@ export const VISITS = [
 export function srcFor(visit) {
   return encodeURI(`/assets/First_Impressions/${visit.file}`);
 }
+
+export function posterFor(visit) {
+  // Posters live alongside the videos in /posters/, same filename, .jpg.
+  const base = visit.file.replace(/\.mp4$/i, '.jpg');
+  return encodeURI(`/assets/First_Impressions/posters/${base}`);
+}

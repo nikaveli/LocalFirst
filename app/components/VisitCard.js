@@ -1,18 +1,72 @@
 'use client';
 
-import { useRef } from 'react';
-import { srcFor } from '../_data/visits';
+import { useEffect, useRef, useState } from 'react';
+import { srcFor, posterFor } from '../_data/visits';
 
+/**
+ * VisitCard
+ *
+ * Desktop (hover-capable pointer):
+ *   - First frame shown via `poster` (JPG)
+ *   - Hover the card → video plays
+ *   - Mouse leave → pause + reset to 0
+ *
+ * Mobile / touch (no hover):
+ *   - First frame shown via `poster`
+ *   - IntersectionObserver: when ≥55% of the card is in viewport, autoplay (muted)
+ *   - When the card scrolls out, pause + reset
+ *   - Hover handlers are no-ops (cheap to leave wired up)
+ *
+ * Badge label adapts to input mode: "Hover to play" on desktop, "In view to play" on mobile.
+ * Honors prefers-reduced-motion: no autoplay, no hover-play. Static poster only.
+ */
 export default function VisitCard({ visit, dataReveal = true }) {
   const videoRef = useRef(null);
+  const cardRef = useRef(null);
+  const [isTouch, setIsTouch] = useState(false);
+
+  // Detect input mode once on mount.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hoverOk = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    setIsTouch(!hoverOk);
+  }, []);
+
+  // Touch devices: autoplay when in view, pause when out.
+  useEffect(() => {
+    if (!isTouch) return;
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const card = cardRef.current;
+    const v = videoRef.current;
+    if (!card || !v) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+          try { v.currentTime = 0; } catch {}
+        }
+      },
+      { threshold: 0.55 }
+    );
+
+    io.observe(card);
+    return () => io.disconnect();
+  }, [isTouch]);
 
   const onEnter = () => {
+    if (isTouch) return;
     const v = videoRef.current;
     if (!v) return;
     v.play().catch(() => {});
   };
 
   const onLeave = () => {
+    if (isTouch) return;
     const v = videoRef.current;
     if (!v) return;
     v.pause();
@@ -21,6 +75,7 @@ export default function VisitCard({ visit, dataReveal = true }) {
 
   return (
     <article
+      ref={cardRef}
       {...(dataReveal ? { 'data-reveal': true } : {})}
       className="lf-card overflow-hidden group"
       style={{ borderRadius: 18, padding: 0 }}
@@ -45,6 +100,7 @@ export default function VisitCard({ visit, dataReveal = true }) {
         <video
           ref={videoRef}
           src={srcFor(visit)}
+          poster={posterFor(visit)}
           muted
           loop
           playsInline
@@ -59,17 +115,17 @@ export default function VisitCard({ visit, dataReveal = true }) {
           }}
         />
 
-        {/* Subtle hover glow */}
+        {/* Bottom gradient — keeps the type badge legible on light video frames */}
         <div
           aria-hidden
-          className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
               'linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%)',
           }}
         />
 
-        {/* Type / visit badge */}
+        {/* Type badge — label adapts to input mode */}
         <div
           className="absolute"
           style={{
@@ -94,7 +150,7 @@ export default function VisitCard({ visit, dataReveal = true }) {
           <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
             <path d="M3 1.5v9l8-4.5z" />
           </svg>
-          Hover to play
+          {isTouch ? 'Video' : 'Hover to play'}
         </div>
       </div>
 
