@@ -37,17 +37,13 @@ export async function fetchGoogleReviews() {
       rating: r.rating ?? null,
       totalReviews: r.user_ratings_total ?? 0,
       mapsUrl: r.url || `https://www.google.com/maps/place/?q=place_id:${PLACE_ID}`,
-      reviews: (r.reviews || [])
-        // Skip ratings-only reviews — the cards show a blockquote, so empty text
-        // would render as an awkward empty card.
-        .filter((rev) => (rev.text || '').trim().length > 0)
-        .map((rev) => ({
-          author: rev.author_name,
-          rating: rev.rating,
-          relativeTime: rev.relative_time_description,
-          text: rev.text,
-          profilePhoto: rev.profile_photo_url || null,
-        })),
+      reviews: (r.reviews || []).map((rev) => ({
+        author: rev.author_name,
+        rating: rev.rating,
+        relativeTime: rev.relative_time_description,
+        text: (rev.text || '').trim(),
+        profilePhoto: rev.profile_photo_url || null,
+      })),
     };
   } catch {
     return null;

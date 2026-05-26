@@ -283,3 +283,55 @@ button { font: inherit; cursor: pointer; }
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ------------------------------------------------------------------ *
+ * Reviews track — horizontal swipe on mobile, grid on desktop
+ * ------------------------------------------------------------------ */
+.reviews-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  /* Bleed the swipe surface to the screen edges on small viewports
+     so the first/last card can sit flush. */
+  padding-inline: 24px;
+  margin-inline: calc(var(--lf-shell-pad, 24px) * -1);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.reviews-track::-webkit-scrollbar { display: none; }
+.reviews-track > .reviews-card {
+  flex: 0 0 86%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+.reviews-hint {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .reviews-track > .reviews-card {
+    flex-basis: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reviews-track {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    overflow: visible;
+    padding-inline: 0;
+    margin-inline: 0;
+    scroll-snap-type: none;
+  }
+  .reviews-track > .reviews-card {
+    flex: initial;
+  }
+  .reviews-hint {
+    display: none;
+  }
+}
