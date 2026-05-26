@@ -1,0 +1,48 @@
+name: Daily refresh & redeploy
+
+# Why: the homepage embeds the Google reviews count and the latest review
+# cards. Those numbers are fetched from the Places API at *build time* and
+# baked into the Worker. A new review on Google won't appear on the site
+# until we redeploy.
+#
+# This workflow redeploys once per day so the page picks up new reviews
+# (and any other content drift) automatically. It can also be triggered
+# manually from the Actions tab.
+
+on:
+  schedule:
+    # 14:00 UTC ≈ 8 AM Mountain Daylight Time (7 AM Mountain Standard Time).
+    # Cron in GitHub Actions is always UTC; we accept the 1-hour DST drift.
+    - cron: '0 14 * * *'
+  workflow_dispatch: {}
+
+# Don't pile up runs if one is already in flight.
+concurrency:
+  group: cf-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & deploy Worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Build & deploy
+        run: npm run cf:deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
