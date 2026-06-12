@@ -52,14 +52,14 @@ export default function PaidAlternative() {
             className="lf-body"
             style={{ maxWidth: 560, marginInline: 'auto', marginBottom: 40 }}
           >
-            Nicholas at LocalFirst handles everything for 6 months. Photos,
+            Nicholas at LocalFirst handles everything for 3 months. Photos,
             video, posts, review replies, all of it. You run your business.
             He keeps you visible.
           </p>
 
           <div data-reveal style={{ marginBottom: 8 }}>
             <Counter
-              to={997}
+              to={497}
               prefix="$"
               duration={1.6}
               style={{
@@ -77,7 +77,7 @@ export default function PaidAlternative() {
             className="text-[15px]"
             style={{ color: 'var(--color-on-dark-soft)', marginBottom: 36 }}
           >
-            One-time. Six months of service. No contract.
+            One-time. Three months of service. No contract.
           </div>
 
           <div data-reveal>

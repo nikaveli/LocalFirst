@@ -26,7 +26,7 @@ export const metadata = {
     template: '%s · LocalFirst',
   },
   description:
-    'Customers are asking AI to find a business like yours. LocalFirst keeps your Google Business Profile active, credible, and recommended. Colorado-only. $997 for 6 months. No contracts.',
+    'Customers are asking AI to find a business like yours. LocalFirst keeps your Google Business Profile active, credible, and recommended. Colorado-only. $497 for 3 months. No contracts.',
   applicationName: 'LocalFirst',
   authors: [{ name: 'Nicholas Molina', url: SITE }],
   creator: 'Nicholas Molina',
@@ -53,13 +53,13 @@ export const metadata = {
     siteName: 'LocalFirst',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. $997 for 6 months. Built by a Google Local Guide Level 7.',
+      'On-site Google Business Profile management for Colorado small businesses. $497 for 3 months. Built by a Google Local Guide Level 7.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. $997 for 6 months.',
+      'On-site Google Business Profile management for Colorado small businesses. $497 for 3 months.',
   },
   robots: {
     index: true,
@@ -107,7 +107,7 @@ const localBusinessSchema = {
     addressRegion: 'CO',
     addressCountry: 'US',
   },
-  priceRange: '$997',
+  priceRange: '$497',
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -124,11 +124,11 @@ const localBusinessSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Google Business Profile Management — 6 Months',
+          name: 'Google Business Profile Management — 3 Months',
           description:
-            'Weekly on-site photography, twice-weekly GBP posts, monthly professional video, Ask Maps answers, and 48-hour review responses for six months.',
+            'Weekly on-site photography, twice-weekly GBP posts, monthly professional video, Ask Maps answers, and 48-hour review responses for three months.',
         },
-        price: '997',
+        price: '497',
         priceCurrency: 'USD',
       },
     ],

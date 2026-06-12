@@ -194,7 +194,7 @@ export default function WeeklyChecklist() {
           >
             That&rsquo;s{' '}
             <span style={{ color: 'var(--color-accent)' }}>
-              <Counter to={26} duration={1.2} /> straight weeks
+              <Counter to={13} duration={1.2} /> straight weeks
             </span>{' '}
             of posts, photos, videos, and review responses — while you&rsquo;re
             already running a business full time.

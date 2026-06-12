@@ -49,7 +49,7 @@ export default function Offer() {
           </div>
 
           <h2 data-reveal className="lf-h2" style={{ marginBottom: 10 }}>
-            Six months. One price.{' '}
+            Three months. One price.{' '}
             <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
               Everything done for you.
             </span>
@@ -93,7 +93,7 @@ export default function Offer() {
 
           <div data-reveal className="flex items-baseline gap-3 mb-3">
             <Counter
-              to={997}
+              to={497}
               prefix="$"
               duration={1.6}
               style={{
@@ -111,7 +111,7 @@ export default function Offer() {
             className="text-[15px]"
             style={{ color: 'var(--color-on-dark-soft)', marginBottom: 8 }}
           >
-            One-time. Six months of service. No monthly fees. No contract.
+            One-time. Three months of service. No monthly fees. No contract.
           </div>
           <div
             data-reveal
