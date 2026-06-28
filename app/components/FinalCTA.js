@@ -45,7 +45,7 @@ export default function FinalCTA() {
         >
           On-site visits available across the Front Range.{' '}
           <span style={{ color: 'var(--color-on-dark-soft)' }}>
-            No pressure. No contracts. If it&rsquo;s not a fit, I&rsquo;ll tell you.
+            No pressure. If it&rsquo;s not a fit, I&rsquo;ll tell you.
           </span>
         </div>
       </div>

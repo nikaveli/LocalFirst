@@ -109,7 +109,7 @@ export default function ContactContent() {
                 letterSpacing: '0.04em',
               }}
             >
-              No pressure. No contracts. If it&rsquo;s not a fit, I&rsquo;ll tell you.
+              No pressure. If it&rsquo;s not a fit, I&rsquo;ll tell you.
             </div>
           </div>
 

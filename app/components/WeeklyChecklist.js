@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Counter from './Counter';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -51,11 +50,9 @@ export default function WeeklyChecklist() {
     // Desktop + motion-OK: pin section and scrub items in one by one.
     mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px)', () => {
       const items = pin.querySelectorAll('[data-pin-item]');
-      const math = pin.querySelector('[data-pin-math]');
       const head = pin.querySelectorAll('[data-pin-head]');
 
       gsap.set(items, { opacity: 0.12, y: 32, scale: 0.98 });
-      gsap.set(math, { opacity: 0, y: 28, scale: 0.97 });
 
       // Head reveals on initial scroll-in.
       gsap.from(head, {
@@ -69,12 +66,12 @@ export default function WeeklyChecklist() {
         scrollTrigger: { trigger: section, start: 'top 85%', once: true },
       });
 
-      // Pin + scrub timeline for items + math.
+      // Pin + scrub timeline for items.
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: () => '+=' + window.innerHeight * (items.length * 0.55 + 0.8),
+          end: () => '+=' + window.innerHeight * (items.length * 0.55 + 0.3),
           scrub: 0.8,
           pin: pin,
           anticipatePin: 1,
@@ -88,18 +85,13 @@ export default function WeeklyChecklist() {
           i * 0.7
         );
       });
-      tl.to(
-        math,
-        { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power2.out' },
-        items.length * 0.7 + 0.1
-      );
     });
 
     // Mobile or reduced-motion: just reveal everything on enter.
     mm.add(
       '(prefers-reduced-motion: reduce), (max-width: 1023px)',
       () => {
-        const targets = pin.querySelectorAll('[data-pin-item], [data-pin-math], [data-pin-head]');
+        const targets = pin.querySelectorAll('[data-pin-item], [data-pin-head]');
         gsap.fromTo(
           targets,
           { opacity: 0, y: 24 },
@@ -168,38 +160,6 @@ export default function WeeklyChecklist() {
             </li>
           ))}
         </ol>
-
-        <div
-          data-pin-math
-          className="lf-card mt-10"
-          style={{
-            padding: '32px 32px',
-            borderRadius: 18,
-            borderColor: 'var(--color-accent)',
-            background:
-              'linear-gradient(180deg, rgba(244,176,0,0.08), rgba(244,176,0,0.02))',
-          }}
-        >
-          <div className="lf-eyebrow" style={{ marginBottom: 12 }}>
-            The Math
-          </div>
-          <p
-            className="text-[20px] md:text-[24px]"
-            style={{
-              color: 'var(--color-on-dark)',
-              lineHeight: 1.35,
-              letterSpacing: '-0.01em',
-              fontWeight: 500,
-            }}
-          >
-            That&rsquo;s{' '}
-            <span style={{ color: 'var(--color-accent)' }}>
-              <Counter to={13} duration={1.2} /> straight weeks
-            </span>{' '}
-            of posts, photos, videos, and review responses — while you&rsquo;re
-            already running a business full time.
-          </p>
-        </div>
       </div>
 
       {/* Outside the pin so it appears after the user scrolls past. */}

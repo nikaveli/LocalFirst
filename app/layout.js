@@ -26,7 +26,7 @@ export const metadata = {
     template: '%s · LocalFirst',
   },
   description:
-    'Customers are asking AI to find a business like yours. LocalFirst keeps your Google Business Profile active, credible, and recommended. Colorado-only. $497 for 3 months. No contracts.',
+    'Customers are asking AI to find a business like yours. LocalFirst keeps your Google Business Profile active, credible, and recommended. Colorado-only. Plans from $297/month, 6-month commitment.',
   applicationName: 'LocalFirst',
   authors: [{ name: 'Nicholas Molina', url: SITE }],
   creator: 'Nicholas Molina',
@@ -53,13 +53,13 @@ export const metadata = {
     siteName: 'LocalFirst',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. $497 for 3 months. Built by a Google Local Guide Level 7.',
+      'On-site Google Business Profile management for Colorado small businesses. Plans from $297/month. Built by a Google Local Guide Level 7.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. $497 for 3 months.',
+      'On-site Google Business Profile management for Colorado small businesses. Plans from $297/month.',
   },
   robots: {
     index: true,
@@ -107,7 +107,7 @@ const localBusinessSchema = {
     addressRegion: 'CO',
     addressCountry: 'US',
   },
-  priceRange: '$497',
+  priceRange: '$297–$497',
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -124,12 +124,37 @@ const localBusinessSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Google Business Profile Management — 3 Months',
+          name: 'Active Profile — Google Business Profile Management',
           description:
-            'Weekly on-site photography, twice-weekly GBP posts, monthly professional video, Ask Maps answers, and 48-hour review responses for three months.',
+            'Complete GBP optimization, monthly profile checkup, 5 fresh photos per month, 1 monthly post, 48-hour review replies, and core profile info kept current. 6-month commitment.',
+        },
+        price: '297',
+        priceCurrency: 'USD',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: '297',
+          priceCurrency: 'USD',
+          billingIncrement: 1,
+          unitCode: 'MON',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Growth Profile — Google Business Profile Management',
+          description:
+            'Complete GBP optimization, weekly GBP post, 8–12 fresh photos per month, monthly short video, 48-hour review replies, monthly performance snapshot, and seasonal offer support. 6-month commitment.',
         },
         price: '497',
         priceCurrency: 'USD',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: '497',
+          priceCurrency: 'USD',
+          billingIncrement: 1,
+          unitCode: 'MON',
+        },
       },
     ],
   },

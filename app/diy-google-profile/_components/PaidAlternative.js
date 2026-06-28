@@ -1,7 +1,6 @@
 'use client';
 
 import { useReveal } from '../../components/useReveal';
-import Counter from '../../components/Counter';
 
 export default function PaidAlternative() {
   const ref = useReveal({ stagger: 0.08, y: 24 });
@@ -52,37 +51,64 @@ export default function PaidAlternative() {
             className="lf-body"
             style={{ maxWidth: 560, marginInline: 'auto', marginBottom: 40 }}
           >
-            Nicholas at LocalFirst handles everything for 3 months. Photos,
+            Nicholas at LocalFirst handles everything every month. Photos,
             video, posts, review replies, all of it. You run your business.
             He keeps you visible.
           </p>
 
-          <div data-reveal style={{ marginBottom: 8 }}>
-            <Counter
-              to={497}
-              prefix="$"
-              duration={1.6}
+          <div
+            data-reveal
+            className="flex items-baseline justify-center gap-3"
+            style={{ marginBottom: 8 }}
+          >
+            <span
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(80px, 12vw, 140px)',
+                fontStyle: 'italic',
+                fontSize: 22,
+                color: 'var(--color-on-dark-soft)',
+              }}
+            >
+              From
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(72px, 11vw, 128px)',
                 lineHeight: 1,
                 color: 'var(--color-on-dark)',
                 letterSpacing: '-0.02em',
                 fontVariantNumeric: 'tabular-nums',
               }}
-            />
+            >
+              $297
+            </span>
+            <span
+              style={{
+                fontSize: 22,
+                color: 'var(--color-on-dark-soft)',
+              }}
+            >
+              /month
+            </span>
           </div>
           <div
             data-reveal
             className="text-[15px]"
             style={{ color: 'var(--color-on-dark-soft)', marginBottom: 36 }}
           >
-            One-time. Three months of service. No contract.
+            Two plans · 6-month commitment · Colorado only
           </div>
 
-          <div data-reveal>
+          <div
+            data-reveal
+            className="flex flex-wrap justify-center gap-4"
+          >
             <a href="tel:3035240591" className="lf-btn lf-btn--primary lf-btn--lg">
-              📞 Call Nicholas — 303-524-0591
+              Call Nicholas — 303-524-0591
+            </a>
+            <a href="/#pricing" className="lf-btn lf-btn--ghost lf-btn--lg">
+              See both plans →
             </a>
           </div>
 
