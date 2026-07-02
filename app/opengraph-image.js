@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
               maxWidth: 1000,
             }}
           >
-            Customers are asking AI
+            You aren&rsquo;t losing customers
           </div>
           <div
             style={{
@@ -76,7 +76,7 @@ export default function OpenGraphImage() {
               fontWeight: 700,
             }}
           >
-            to find a business like yours.
+            because they can&rsquo;t find you.
           </div>
           <div
             style={{
@@ -87,7 +87,7 @@ export default function OpenGraphImage() {
               fontFamily: 'serif',
             }}
           >
-            Are you the answer?
+            You&rsquo;re losing them right after they find you.
           </div>
         </div>
 

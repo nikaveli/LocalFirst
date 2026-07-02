@@ -28,7 +28,7 @@ export default function FICTA() {
           style={{ marginBottom: 36, maxWidth: 520, marginInline: 'auto' }}
         >
           Colorado small businesses only. I&rsquo;ll come to you, capture
-          the work, and keep your profile alive month after month.
+          the work, and make sure the people already looking choose you.
         </p>
 
         <div data-reveal className="flex flex-wrap justify-center gap-4">

@@ -29,7 +29,8 @@ export default function FinalCTA() {
           style={{ marginBottom: 36, maxWidth: 560, marginInline: 'auto' }}
         >
           If you run a brick-and-mortar business in the Denver or Aurora
-          metro and you&rsquo;re tired of being invisible, let&rsquo;s talk.
+          metro, the customers are already looking. Let&rsquo;s make sure
+          they choose you.
         </p>
 
         <div data-reveal className="flex justify-center mb-6">

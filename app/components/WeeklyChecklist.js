@@ -26,13 +26,18 @@ const ITEMS = [
   },
   {
     n: '04',
-    title: 'Upload five fresh photos.',
+    title: 'Add 2–5 fresh photos.',
     body: 'Stale photos = stale business in AI&rsquo;s eyes. New images signal activity.',
   },
   {
     n: '05',
-    title: 'Post one video.',
+    title: 'Post one short video.',
     body: 'Video is the strongest single local ranking signal AI uses. Full stop.',
+  },
+  {
+    n: '06',
+    title: 'Review and update key sections on your profile.',
+    body: 'Hours, services, and details drift out of date — and customers act on whatever the profile says.',
   },
 ];
 
@@ -160,6 +165,17 @@ export default function WeeklyChecklist() {
             </li>
           ))}
         </ol>
+
+        <p
+          data-pin-item
+          className="lf-italic text-[18px] md:text-[20px] mt-10"
+          style={{ color: 'var(--color-on-dark-soft)', letterSpacing: '-0.01em' }}
+        >
+          That&rsquo;s every week —{' '}
+          <span style={{ color: 'var(--color-accent)' }}>
+            on top of actually running your business.
+          </span>
+        </p>
       </div>
 
       {/* Outside the pin so it appears after the user scrolls past. */}

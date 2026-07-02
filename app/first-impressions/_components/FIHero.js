@@ -25,7 +25,7 @@ export default function FIHero() {
           className="lf-h2"
           style={{ color: 'var(--color-primary)', marginBottom: 36 }}
         >
-          Your Google listing is where the final decision gets made.
+          Your Google Business Profile is where the final decision gets made.
         </h2>
 
         <div

@@ -5,12 +5,31 @@ import Counter from './Counter';
 
 const PLANS = [
   {
+    id: 'visual-update',
+    name: 'Visual Update',
+    price: 497,
+    period: 'one-time',
+    commitment: 'No contract. No monthly fees.',
+    badge: 'Start here',
+    tagline: 'One on-site visit brings the whole profile current.',
+    deliverables: [
+      'Full profile update — services, hours, categories, and description brought current',
+      'Fresh professional photos, taken on-site',
+      'Google Business Profile posts',
+      'Short video',
+      '360° Virtual Tour',
+      'Replies to unanswered reviews from the past 14 days',
+    ],
+  },
+  {
     id: 'active',
     name: 'Active Profile',
     price: 297,
+    period: '/month',
+    commitment: '6-month commitment',
     tagline: 'Keeps the basics current and trustworthy.',
     deliverables: [
-      'Complete Google Business Profile optimization',
+      'Full profile refresh to start',
       'Monthly profile checkup',
       '5 fresh photo uploads per month',
       '1 Google Business Profile post per month',
@@ -22,10 +41,13 @@ const PLANS = [
     id: 'growth',
     name: 'Growth Profile',
     price: 497,
+    period: '/month',
+    commitment: '6-month commitment',
+    badge: 'Most popular',
     tagline: 'For owners who want their profile actively working every week.',
     recommended: true,
     deliverables: [
-      'Complete Google Business Profile optimization',
+      'Full profile refresh to start',
       'Weekly Google Business Profile post',
       '8–12 fresh photo uploads per month',
       '1 short video per month',
@@ -52,9 +74,9 @@ export default function Offer() {
             className="lf-h2"
             style={{ marginBottom: 18, maxWidth: 720, marginInline: 'auto' }}
           >
-            Pick the level of activity{' '}
+            Start with one visit.{' '}
             <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
-              your profile needs.
+              Stay active every month.
             </span>
           </h2>
           <p
@@ -74,24 +96,33 @@ export default function Offer() {
           </p>
         </div>
 
-        {/* Plan cards */}
-        <div
-          className="grid gap-6 md:gap-7"
-          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}
-        >
+        {/* Plan cards — explicit breakpoint so the third card never orphans */}
+        <div className="grid gap-6 md:gap-7 grid-cols-1 lg:grid-cols-3">
           {PLANS.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
         </div>
 
-        {/* Footer note */}
+        {/* Footer notes */}
+        <p
+          data-reveal
+          className="text-center"
+          style={{
+            fontSize: 14,
+            color: 'var(--color-muted-soft)',
+            marginTop: 40,
+          }}
+        >
+          360° photo add-ons: 1 photo $25 &nbsp;·&nbsp; 3 photos $50
+          &nbsp;·&nbsp; virtual tour $150
+        </p>
         <p
           data-reveal
           className="lf-italic text-center"
           style={{
             fontSize: 15,
             color: 'var(--color-on-dark-soft)',
-            marginTop: 48,
+            marginTop: 12,
           }}
         >
           Colorado-based. On-site service. Brick-and-mortar businesses only.
@@ -137,16 +168,18 @@ function PlanCard({ plan }) {
         />
       )}
 
-      {isRecommended && (
+      {plan.badge && (
         <div
           className="lf-eyebrow"
           style={{
-            color: 'var(--color-primary)',
+            color: isRecommended
+              ? 'var(--color-primary)'
+              : 'var(--color-accent)',
             marginBottom: 10,
             position: 'relative',
           }}
         >
-          Most popular
+          {plan.badge}
         </div>
       )}
 
@@ -196,7 +229,7 @@ function PlanCard({ plan }) {
             color: 'var(--color-on-dark-soft)',
           }}
         >
-          /month
+          {plan.period}
         </span>
       </div>
       <div
@@ -207,7 +240,7 @@ function PlanCard({ plan }) {
           position: 'relative',
         }}
       >
-        6-month commitment
+        {plan.commitment}
       </div>
 
       <div

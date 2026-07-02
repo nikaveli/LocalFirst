@@ -26,7 +26,7 @@ export const metadata = {
     template: '%s · LocalFirst',
   },
   description:
-    'Customers are asking AI to find a business like yours. LocalFirst keeps your Google Business Profile active, credible, and recommended. Colorado-only. Plans from $297/month, 6-month commitment.',
+    'Customers check Google before they ever contact you. LocalFirst keeps your Google Business Profile active, current, and trustworthy — so the people already looking choose you. Colorado-only. $497 one-time Visual Update, monthly plans from $297.',
   applicationName: 'LocalFirst',
   authors: [{ name: 'Nicholas Molina', url: SITE }],
   creator: 'Nicholas Molina',
@@ -53,13 +53,13 @@ export const metadata = {
     siteName: 'LocalFirst',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. Plans from $297/month. Built by a Google Local Guide Level 7.',
+      'On-site photos, posts, videos, and review replies for Colorado small businesses. $497 one-time Visual Update, monthly plans from $297. Built by a Google Local Guide Level 7.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LocalFirst — No Business Left Behind',
     description:
-      'On-site Google Business Profile management for Colorado small businesses. Plans from $297/month.',
+      'On-site photos, posts, videos, and review replies for Colorado small businesses. $497 one-time Visual Update, monthly plans from $297.',
   },
   robots: {
     index: true,
@@ -88,7 +88,7 @@ const localBusinessSchema = {
   '@id': `${SITE}/#business`,
   name: 'LocalFirst',
   description:
-    'On-site Google Business Profile management for Colorado small businesses. Weekly photos, videos, posts, and review responses by a Google Local Guide Level 7.',
+    'On-site photos, videos, posts, and review replies for Colorado small businesses — by a Google Local Guide Level 7. Keeps your Google Business Profile active, current, and trustworthy.',
   url: SITE,
   telephone: '+1-303-524-0591',
   email: 'nicholas@localfirstonline.com',
@@ -124,9 +124,20 @@ const localBusinessSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Active Profile — Google Business Profile Management',
+          name: 'Visual Update — Google Business Profile',
           description:
-            'Complete GBP optimization, monthly profile checkup, 5 fresh photos per month, 1 monthly post, 48-hour review replies, and core profile info kept current. 6-month commitment.',
+            'One-time on-site visit: full profile update, fresh photos, posts, short video, 360° Virtual Tour, and replies to unanswered reviews from the past 14 days. No contract, no monthly fees.',
+        },
+        price: '497',
+        priceCurrency: 'USD',
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Active Profile — Google Business Profile Care',
+          description:
+            'Full profile refresh, monthly profile checkup, 5 fresh photos per month, 1 monthly post, 48-hour review replies, and core profile info kept current. 6-month commitment.',
         },
         price: '297',
         priceCurrency: 'USD',
@@ -142,9 +153,9 @@ const localBusinessSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Growth Profile — Google Business Profile Management',
+          name: 'Growth Profile — Google Business Profile Care',
           description:
-            'Complete GBP optimization, weekly GBP post, 8–12 fresh photos per month, monthly short video, 48-hour review replies, monthly performance snapshot, and seasonal offer support. 6-month commitment.',
+            'Full profile refresh, weekly post, 8–12 fresh photos per month, monthly short video, 48-hour review replies, monthly performance snapshot, and seasonal offer support. 6-month commitment.',
         },
         price: '497',
         priceCurrency: 'USD',

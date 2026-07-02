@@ -51,9 +51,9 @@ export default function PaidAlternative() {
             className="lf-body"
             style={{ maxWidth: 560, marginInline: 'auto', marginBottom: 40 }}
           >
-            Nicholas at LocalFirst handles everything every month. Photos,
-            video, posts, review replies, all of it. You run your business.
-            He keeps you visible.
+            One on-site visit: full profile update, fresh photos, posts,
+            video, a 360° Virtual Tour, and replies to unanswered reviews.
+            You run your business. Nicholas makes sure Google shows it.
           </p>
 
           <div
@@ -64,16 +64,6 @@ export default function PaidAlternative() {
             <span
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontStyle: 'italic',
-                fontSize: 22,
-                color: 'var(--color-on-dark-soft)',
-              }}
-            >
-              From
-            </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(72px, 11vw, 128px)',
                 lineHeight: 1,
                 color: 'var(--color-on-dark)',
@@ -81,7 +71,7 @@ export default function PaidAlternative() {
                 fontVariantNumeric: 'tabular-nums',
               }}
             >
-              $297
+              $497
             </span>
             <span
               style={{
@@ -89,7 +79,7 @@ export default function PaidAlternative() {
                 color: 'var(--color-on-dark-soft)',
               }}
             >
-              /month
+              one-time
             </span>
           </div>
           <div
@@ -97,7 +87,7 @@ export default function PaidAlternative() {
             className="text-[15px]"
             style={{ color: 'var(--color-on-dark-soft)', marginBottom: 36 }}
           >
-            Two plans · 6-month commitment · Colorado only
+            No contract · No monthly fees · Monthly Stay Active plans from $297
           </div>
 
           <div

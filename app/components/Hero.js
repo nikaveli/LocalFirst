@@ -221,14 +221,14 @@ export default function Hero() {
       >
         <div className="max-w-[720px] flex-1 flex flex-col justify-center">
           <div data-reveal className="lf-eyebrow" style={{ marginBottom: 24 }}>
-            AI Local Search Is Live
+            Being Found Is Not Enough Anymore
           </div>
 
           <h1 data-reveal className="lf-h1" style={{ marginBottom: 28 }}>
-            Customers are asking AI to find a business like yours.
+            You aren&rsquo;t losing customers because they can&rsquo;t find you.
             <br />
             <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
-              Are you the answer?
+              You&rsquo;re losing them right after they find you.
             </span>
           </h1>
 
@@ -241,10 +241,11 @@ export default function Hero() {
               color: 'rgba(255,255,255,0.88)',
             }}
           >
-            Every day, AI decides which Colorado businesses get recommended
-            and which ones get skipped. The signal it reads is your
-            Google Business Profile. Most local profiles are invisible.
-            Yours doesn&rsquo;t have to be.
+            Customers check Google before they ever contact you — photos,
+            reviews, whether the business looks active right now. Google&rsquo;s
+            AI reads the same signals to decide who gets recommended. If the
+            profile looks outdated, you can lose the decision before you ever
+            know they were interested.
           </p>
 
           <div data-reveal className="flex flex-wrap items-center gap-5">

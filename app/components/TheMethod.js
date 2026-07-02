@@ -48,7 +48,7 @@ const PILLARS = [
   {
     n: '03',
     title: 'In-person photography & video, every visit',
-    body: 'No stock photos. No AI-generated filler. I drive to your business with professional camera gear and create real content on location. Video is the single strongest signal AI rewards — and almost no one in Colorado is delivering it weekly, on-site, for under a thousand dollars.',
+    body: 'No stock photos. No AI-generated filler. I drive to your business with professional camera gear and take the photos that make people choose your business on Google. Video is the single strongest signal AI rewards — and almost no one in Colorado is delivering it on-site.',
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
         <rect x="4" y="14" width="40" height="28" rx="4" stroke="var(--color-primary)" strokeWidth="1.5" />

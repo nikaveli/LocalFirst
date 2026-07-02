@@ -3,15 +3,20 @@
 import { useState } from 'react';
 import { useReveal } from './useReveal';
 
-const ROWS = [
-  'Posted this week',
-  'Added fresh photos',
-  'Responded to a review',
+// Flyer Side 1 "Check Your Own Numbers" walkthrough. Every step is public
+// data the owner can verify on their own phone — evidence before explanation.
+const STEPS = [
+  'Open Google Maps and search your own business.',
+  'Tap Photos, then By Owner. Tap any photo.',
+  'At the bottom, tap your business name — then tap it again.',
+  'Tap See All Photos. There are your view counts. That&rsquo;s real customers looking.',
+  'Back on your profile: find your last post. How old is it?',
+  'Count the reviews with no reply.',
 ];
 
 export default function ProfileChecklist() {
   const ref = useReveal({ stagger: 0.1 });
-  const [checked, setChecked] = useState([false, false, false]);
+  const [checked, setChecked] = useState(() => STEPS.map(() => false));
 
   const toggle = (i) =>
     setChecked((c) => c.map((v, idx) => (idx === i ? !v : v)));
@@ -20,22 +25,22 @@ export default function ProfileChecklist() {
     <section id="checklist" data-bg-hue="0" ref={ref} className="lf-section">
       <div className="lf-shell" style={{ maxWidth: 760 }}>
         <div data-reveal className="lf-eyebrow" style={{ marginBottom: 16 }}>
-          A 10-second test
+          Check your own numbers — right now
         </div>
 
         <h2 data-reveal className="lf-h2" style={{ marginBottom: 28 }}>
-          Pull up your Google Business Profile right now.{' '}
+          Pull up your Google Business Profile.{' '}
           <span style={{ color: 'var(--color-on-dark-soft)', fontWeight: 500 }}>
-            Answer honestly — when was the last time you did any of these?
+            Two minutes on your phone. Every number is public.
           </span>
         </h2>
 
         <div data-reveal className="space-y-3 mt-10">
-          {ROWS.map((row, i) => {
+          {STEPS.map((step, i) => {
             const isOn = checked[i];
             return (
               <button
-                key={row}
+                key={step}
                 type="button"
                 onClick={() => toggle(i)}
                 className="lf-card w-full flex items-center gap-5 text-left"
@@ -57,21 +62,20 @@ export default function ProfileChecklist() {
                     width: 32,
                     height: 32,
                     borderRadius: 8,
-                    border: `1.5px solid ${isOn ? 'var(--color-up)' : 'var(--color-down)'}`,
-                    color: isOn ? 'var(--color-up)' : 'var(--color-down)',
-                    fontSize: 18,
+                    border: `1.5px solid ${isOn ? 'var(--color-up)' : 'var(--color-line-strong)'}`,
+                    color: isOn ? 'var(--color-up)' : 'var(--color-primary)',
+                    fontSize: isOn ? 18 : 13,
                     fontWeight: 600,
                     transition: 'color 200ms, border-color 200ms',
                   }}
                 >
-                  {isOn ? '✓' : '✕'}
+                  {isOn ? '✓' : String(i + 1).padStart(2, '0')}
                 </span>
                 <span
                   className="text-[17px] md:text-[18px] font-medium"
                   style={{ color: 'var(--color-on-dark)' }}
-                >
-                  {row}
-                </span>
+                  dangerouslySetInnerHTML={{ __html: step }}
+                />
               </button>
             );
           })}
@@ -89,16 +93,16 @@ export default function ProfileChecklist() {
             className="lf-h3"
             style={{ color: 'var(--color-on-dark)', marginBottom: 10 }}
           >
-            If you&rsquo;re hesitating, your profile is already marked inactive.
+            If those numbers surprised you, you&rsquo;re not alone.
           </p>
           <p
             className="text-[17px]"
             style={{ color: 'var(--color-on-dark-soft)', lineHeight: 1.55 }}
           >
-            And to AI, inactive means invisible. Invisible means your
-            competitor gets the call.{' '}
+            About 7 out of 10 local businesses set up their profile once and
+            never touch it again. The attention is already there.{' '}
             <span className="lf-italic" style={{ color: 'var(--color-accent)' }}>
-              Every single week.
+              The profile just isn&rsquo;t converting it.
             </span>
           </p>
         </div>
