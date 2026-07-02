@@ -8,7 +8,7 @@ import { useReveal } from './useReveal';
 const STEPS = [
   'Open Google Maps and search your own business.',
   'Tap Photos, then By Owner. Tap any photo.',
-  'At the bottom, tap your business name — then tap it again.',
+  'At the bottom, tap your business name.',
   'Tap See All Photos. There are your view counts. That&rsquo;s real customers looking.',
   'Back on your profile: find your last post. How old is it?',
   'Count the reviews with no reply.',
