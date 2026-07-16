@@ -6,22 +6,22 @@ const BOOKS = [
   {
     title: 'Restaurants & Cafés',
     sub: '2026 GBP Best Practices Playbook · PDF',
-    href: '#',
+    href: 'https://services.google.com/fh/files/helpcenter/1_restaurant_gbp_best_practices_playbook_2026.pdf',
   },
   {
     title: 'Hotels & Accommodations',
     sub: '2026 GBP Best Practices Playbook · PDF',
-    href: '#',
+    href: 'https://services.google.com/fh/files/helpcenter/1_hotels_gbp_best_practices_playbook_2026.pdf',
   },
   {
     title: 'Tour & Activity Operators',
     sub: '2026 GBP Best Practices Playbook · PDF',
-    href: '#',
+    href: 'https://services.google.com/fh/files/helpcenter/1_tours_attractions_gbp_best_practices_playbook_2026.pdf',
   },
   {
     title: 'Service-Based Businesses',
     sub: '2026 GBP Best Practices Playbook · PDF',
-    href: '#',
+    href: 'https://services.google.com/fh/files/helpcenter/1_services_gbp_best_practices_playbook_2026.pdf',
   },
 ];
 
@@ -62,6 +62,8 @@ export default function Playbooks() {
               key={b.title}
               data-reveal
               href={b.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="lf-card group flex items-start justify-between gap-4"
               style={{
                 padding: '26px 28px',
