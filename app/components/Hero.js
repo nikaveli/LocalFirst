@@ -241,11 +241,9 @@ export default function Hero() {
               color: 'rgba(255,255,255,0.88)',
             }}
           >
-            Customers check Google before they ever contact you — photos,
-            reviews, whether the business looks active right now. Google&rsquo;s
-            AI reads the same signals to decide who gets recommended. If the
-            profile looks outdated, you can lose the decision before you ever
-            know they were interested.
+            Your Google profile is working every day whether you touch it or
+            not. Customers check it before they call. And now Google&rsquo;s AI
+            checks it too — it decides who gets recommended.
           </p>
 
           <div data-reveal className="flex flex-wrap items-center gap-5">
