@@ -123,11 +123,12 @@ export default function WeeklyChecklist() {
         </div>
 
         <h2 data-pin-head className="lf-h2" style={{ maxWidth: 760, marginBottom: 56 }}>
-          What Google&rsquo;s AI looks for.{' '}
+          <span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>DIY.</span>{' '}
           <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
             Every week.
           </span>{' '}
-          <span style={{ color: 'var(--color-on-dark-soft)' }}>No exceptions.</span>
+          <span style={{ color: 'var(--color-on-dark-soft)' }}>No exceptions.</span>{' '}
+          What Google&rsquo;s AI looks for.
         </h2>
 
         <ol className="space-y-3">

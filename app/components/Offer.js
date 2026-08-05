@@ -58,6 +58,30 @@ const PLANS = [
   },
 ];
 
+// Menu & product photography — priced two ways. The lower number is the
+// add-on rate (I'm already on-site for the Visual Update shoot); the higher
+// number is a standalone booking.
+const PHOTO_TIERS = [
+  {
+    scope: 'Hero / Small Menu',
+    photos: '10–12 photos',
+    addon: { pkg: '$250', per: '~$25 / image' },
+    standalone: { pkg: '$350', per: '~$35 / image' },
+  },
+  {
+    scope: 'Core Menu Shoot',
+    photos: '20–25 photos',
+    addon: { pkg: '$450', per: '~$20 / image' },
+    standalone: { pkg: '$600', per: '~$25 / image' },
+  },
+  {
+    scope: 'High-Volume Menu',
+    photos: '35–40+ photos',
+    addon: { pkg: '$750', per: '~$15 / image' },
+    standalone: { pkg: '$1,000', per: '~$20 / image' },
+  },
+];
+
 export default function Offer() {
   const ref = useReveal({ stagger: 0.06, y: 24 });
 
@@ -103,6 +127,9 @@ export default function Offer() {
           ))}
         </div>
 
+        {/* Menu & product photography — add-on or standalone */}
+        <PhotographyCard />
+
         {/* Footer notes */}
         <p
           data-reveal
@@ -113,8 +140,8 @@ export default function Offer() {
             marginTop: 40,
           }}
         >
-          360° photo add-ons: 1 photo $25 &nbsp;·&nbsp; 3 photos $50
-          &nbsp;·&nbsp; virtual tour $150
+          360° photo add-ons: 1 photo $95 &nbsp;·&nbsp; 3 photos $135
+          &nbsp;·&nbsp; virtual tour $175
         </p>
         <p
           data-reveal
@@ -287,6 +314,152 @@ function PlanCard({ plan }) {
           href="tel:3035240591"
           className={`lf-btn lf-btn--lg ${isRecommended ? 'lf-btn--primary' : 'lf-btn--ghost'}`}
           style={{ width: '100%', justifyContent: 'center' }}
+        >
+          Call Nicholas — 303-524-0591
+        </a>
+      </div>
+    </div>
+  );
+}
+
+const PHOTO_COLS = 'md:grid-cols-[1.5fr_1fr_1.1fr_1.1fr]';
+
+function PriceCell({ tier, label, highlight }) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        borderRadius: 14,
+        padding: '12px 16px',
+        border: `1px solid ${highlight ? 'var(--color-primary)' : 'var(--color-border)'}`,
+        background: highlight
+          ? 'linear-gradient(180deg, rgba(153,187,234,0.10), rgba(0,0,0,0))'
+          : 'rgba(255,255,255,0.02)',
+      }}
+    >
+      {/* Column label — shown inline on mobile, lives in the header row on desktop */}
+      <div
+        className="md:hidden"
+        style={{
+          fontSize: 11,
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          color: highlight ? 'var(--color-primary)' : 'var(--color-muted-soft)',
+          marginBottom: 4,
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 26,
+          lineHeight: 1.1,
+          color: 'var(--color-on-dark)',
+          letterSpacing: '-0.01em',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {tier.pkg}
+      </div>
+      <div style={{ fontSize: 13, color: 'var(--color-on-dark-soft)', marginTop: 2 }}>
+        {tier.per}
+      </div>
+    </div>
+  );
+}
+
+function PhotographyCard() {
+  return (
+    <div
+      data-reveal
+      className="lf-card relative overflow-hidden"
+      style={{
+        marginTop: 28,
+        padding: 'clamp(28px, 4vw, 44px)',
+        borderRadius: 24,
+        borderColor: 'var(--color-border)',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0))',
+      }}
+    >
+      <div className="lf-eyebrow" style={{ color: 'var(--color-accent)', marginBottom: 10 }}>
+        Add-on or standalone
+      </div>
+      <h3 className="lf-h3" style={{ marginBottom: 8, color: 'var(--color-on-dark)' }}>
+        Menu &amp; Product Photography
+      </h3>
+      <p
+        style={{
+          fontSize: 15,
+          color: 'var(--color-on-dark-soft)',
+          maxWidth: 680,
+          marginBottom: 28,
+          lineHeight: 1.5,
+        }}
+      >
+        Appetite-first photos of your food, drinks, and products — styled and
+        shot on-site. Add it to your Visual Update visit at the lower rate
+        (I&rsquo;m already there), or book it as a standalone shoot.
+      </p>
+
+      {/* Header row — desktop only */}
+      <div
+        className={`hidden md:grid ${PHOTO_COLS} gap-4`}
+        style={{
+          paddingBottom: 12,
+          fontSize: 12,
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          color: 'var(--color-muted-soft)',
+        }}
+      >
+        <div>Shoot scope</div>
+        <div>Delivered photos</div>
+        <div style={{ color: 'var(--color-primary)' }}>With your Visual Update</div>
+        <div>Standalone</div>
+      </div>
+
+      {PHOTO_TIERS.map((t) => (
+        <div
+          key={t.scope}
+          className={`grid grid-cols-1 ${PHOTO_COLS} gap-3 md:gap-4 md:items-center`}
+          style={{
+            paddingTop: 18,
+            paddingBottom: 18,
+            borderTop: '1px solid var(--color-border)',
+          }}
+        >
+          <div
+            className="text-[17px] font-semibold"
+            style={{ color: 'var(--color-on-dark)', letterSpacing: '-0.01em' }}
+          >
+            {t.scope}
+          </div>
+          <div style={{ fontSize: 15, color: 'var(--color-on-dark-soft)' }}>
+            {t.photos}
+          </div>
+          <PriceCell tier={t.addon} label="With your Visual Update" highlight />
+          <PriceCell tier={t.standalone} label="Standalone" />
+        </div>
+      ))}
+
+      <p
+        style={{
+          fontSize: 13,
+          color: 'var(--color-muted-soft)',
+          marginTop: 22,
+          lineHeight: 1.5,
+        }}
+      >
+        Final photo count depends on menu size and setup. Every image is edited
+        and delivered ready to post to your Google profile, website, and socials.
+      </p>
+
+      <div style={{ marginTop: 24 }}>
+        <a
+          href="tel:3035240591"
+          className="lf-btn lf-btn--lg lf-btn--ghost"
+          style={{ justifyContent: 'center' }}
         >
           Call Nicholas — 303-524-0591
         </a>
