@@ -221,14 +221,14 @@ export default function Hero() {
       >
         <div className="max-w-[720px] flex-1 flex flex-col justify-center">
           <div data-reveal className="lf-eyebrow" style={{ marginBottom: 24 }}>
-            Being Found Is Not Enough Anymore
+            AI Is Here
           </div>
 
           <h1 data-reveal className="lf-h1" style={{ marginBottom: 28 }}>
-            You aren&rsquo;t losing customers because they can&rsquo;t find you.
+            Customers aren&rsquo;t just searching for you anymore.
             <br />
             <span className="lf-italic" style={{ color: 'var(--color-primary)' }}>
-              You&rsquo;re losing them right after they find you.
+              Now AI decides whether to recommend you.
             </span>
           </h1>
 
@@ -241,14 +241,14 @@ export default function Hero() {
               color: 'rgba(255,255,255,0.88)',
             }}
           >
-            Your Google profile is working every day whether you touch it or
-            not. Customers check it before they call. And now Google&rsquo;s AI
-            checks it too — it decides who gets recommended.
+            Your Google Business Profile has one job: turn people searching into
+            customers. Old photos, unanswered reviews, and outdated information
+            are what AI reads first. Fix that before the 2026 holiday season.
           </p>
 
           <div data-reveal className="flex flex-wrap items-center gap-5">
             <a href="#checklist" className="lf-btn lf-btn--primary lf-btn--lg">
-              Pull Up Your Profile Right Now →
+              See What AI Sees On Your Profile →
             </a>
             <a
               href="tel:3035240591"
