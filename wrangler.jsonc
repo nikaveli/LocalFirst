@@ -2,7 +2,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "localfirst",
-  "main": ".open-next/worker.js",
+  "main": "worker.mjs",
   "compatibility_date": "2025-09-23",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,

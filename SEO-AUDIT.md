@@ -28,6 +28,12 @@ Release dependency check: Next.js was updated from 16.2.6 to 16.3.4, alongside c
 
 The patched Cloudflare Workers preview also passes all 219 checks. Final post-upgrade Lighthouse SEO rechecks remain 100/100 on all four routes; reports use `/private/tmp/localfirst-seo-final-*.json`. HTTP-to-HTTPS must be enforced at the hosting edge: a header-based application rule was tested and removed because the Workers preview did not preserve the intended HTTPS destination. The www canonical redirect passes in both runtimes.
 
+### Public release verification
+
+The replacement was pushed to `nikaveli/LocalFirst` main and deployed successfully through [GitHub Actions run 34549143030](https://github.com/nikaveli/LocalFirst/actions/runs/34549143030). On the public domain, all four pages, 57 internal links/fragments and 53 assets passed the regression suite. Two parser fixtures were added so Cloudflare's training-bot exclusions are not mistaken for Google Search restrictions: **221 checks passed live**. Live homepage Lighthouse SEO also scored **100/100** (`/private/tmp/localfirst-seo-live-home.json`). Browser checks confirmed the new logo, page navigation, all three home films loaded, and a gallery video playing without a media error.
+
+The initial live check found HTTP still returned 200. A native Cloudflare wrapper (`worker.mjs`) was added to redirect production HTTP/www page requests before the framework adapter; six unit tests cover exact host matching, path/query preservation, localhost and loop prevention. This is distinct from the removed header-based framework rule. No Cloudflare AI-training restrictions were changed. Image transformation service was not enabled; production can serve originals without an Images binding, so local performance scores must not be presented as live scores.
+
 ## Findings and corrections
 
 | Page/scope | Issue | Severity | Resolution |

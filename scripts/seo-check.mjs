@@ -18,6 +18,43 @@ const decode = (value) => value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').r
 const attributes = (tag) => Object.fromEntries([...tag.matchAll(/([\w:-]+)="([^"]*)"/g)].map((m) => [m[1], decode(m[2])]));
 const tags = (html, tag) => [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>`, "gi"))].map((m) => attributes(m[0]));
 
+// Evaluate the applicable crawler groups, not every Disallow in the file.
+// Cloudflare can block training bots while continuing to allow Google Search.
+function searchRules(text) {
+  const groups = [];
+  let current;
+  for (const line of text.split(/\r?\n/)) {
+    const match = line.replace(/#.*/, "").trim().match(/^([^:]+):\s*(.*)$/);
+    if (!match) continue;
+    const key = match[1].toLowerCase();
+    const value = match[2].trim();
+    if (key === "user-agent") {
+      if (!current || current.hasDirectives) {
+        current = { agents: [], rules: [], hasDirectives: false };
+        groups.push(current);
+      }
+      current.agents.push(value.toLowerCase());
+    } else if (current) {
+      current.hasDirectives = true;
+      if (["allow", "disallow"].includes(key) && value) current.rules.push({ allow: key === "allow", path: value });
+    }
+  }
+  const google = groups.filter((g) => g.agents.includes("googlebot"));
+  return (google.length ? google : groups.filter((g) => g.agents.includes("*"))).flatMap((g) => g.rules);
+}
+
+function canCrawl(path, rules) {
+  const matches = rules.filter((rule) => {
+    const anchored = rule.path.endsWith("$");
+    const pattern = (anchored ? rule.path.slice(0, -1) : rule.path).split("*").map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*");
+    return new RegExp(`^${pattern}${anchored ? "$" : ""}`).test(path);
+  }).sort((a, b) => b.path.length - a.path.length || Number(b.allow) - Number(a.allow));
+  return matches[0]?.allow ?? true;
+}
+
+check(canCrawl("/_next/static/test.js", searchRules("User-agent: *\nAllow: /\nUser-agent: GPTBot\nDisallow: /")), "Robots parser separates training bots from search crawlers");
+check(!canCrawl("/_next/static/test.js", searchRules("User-agent: *\nAllow: /\nDisallow: /_next/")), "Robots parser catches blocked rendering resources");
+
 for (const path of paths) {
   const response = await fetch(new URL(path, base));
   const html = await response.text();
@@ -85,7 +122,8 @@ check(gallery.length === 15 && gallery.every((v) => v.src && v.poster && v.prelo
 const robotsResponse = await fetch(new URL("/robots.txt", base));
 const robots = await robotsResponse.text();
 check(robotsResponse.ok && /User-Agent: \*/i.test(robots), "robots.txt available");
-check(/Allow: \/\s/i.test(robots) && !/Disallow: \/(?:_next|media|\s)/i.test(robots), "Rendering resources allowed");
+const rules = searchRules(robots);
+check([...paths, "/_next/static/test.js", "/_next/image", "/media/localfirst-poster.jpg"].every((path) => canCrawl(path, rules)), "Search pages and rendering resources allowed");
 check(robots.includes(`Sitemap: ${origin}/sitemap.xml`), "Sitemap advertised");
 const sitemapResponse = await fetch(new URL("/sitemap.xml", base));
 const sitemap = await sitemapResponse.text();

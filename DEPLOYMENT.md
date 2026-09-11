@@ -19,7 +19,8 @@ npm run seo:check -- http://localhost:3002
 
 - Repository: `nikaveli/LocalFirst`, production branch `main`.
 - Keep the existing Worker/domain connection; do not delete or recreate hosting.
-- Build: `npm run cf:build`; worker: `.open-next/worker.js`; assets: `.open-next/assets`.
+- Build: `npm run cf:build`; entry: `worker.mjs`, wrapping the generated `.open-next/worker.js`; assets: `.open-next/assets`.
+- `worker.mjs` normalizes production HTTP/www page requests to HTTPS apex before Next.js routing. `npm run test:redirect` verifies six canonicalization scenarios. Localhost and workers.dev preview URLs remain usable.
 - Verify Git-connected deployment settings. A successful push is not proof of deployment.
 - Existing daily/manual GitHub workflow preserved, using the repository's `CLOUDFLARE_API_TOKEN` secret. It does not fetch fresh reviews in the rebuild: reviews are static owner-supplied content.
 - Contact opens an email draft to `nick.molina@icloud.com`. The old Resend sending backend is not used by the new design.
@@ -32,8 +33,8 @@ npm run seo:check -- http://localhost:3002
 - [x] Workers runtime smoke test: 219 SEO checks, image/media availability, robots/sitemap, www redirect; home films reach readyState 4.
 - [x] Required public assets are below 25 MiB each; no raw footage or QA captures included.
 - [x] Dependency audit: zero known vulnerabilities; staged-source secret-pattern review found no matches.
-- [ ] Confirm deployment after updating main.
-- [ ] Check public routes, gallery playback, SMS/email draft handlers.
+- [x] Initial replacement deployed successfully through GitHub run `34549143030`, commit `a56f26f`.
+- [x] Public Home/About/Contact/First Impressions render; three home films loaded; gallery playback tested; SMS/email destinations inspected without sending.
 - [ ] Check live metadata, robots/sitemap, DIY 404, www redirect and edge HTTP-to-HTTPS.
 - [ ] Owner verifies reviews, credentials, price and hours.
 - [ ] Search Console rendered inspection and sitemap submission.
