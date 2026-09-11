@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LocalFirst
 
-## Getting Started
+Colorado on-site photography, video, 360 imagery and Google Business Profile optimization. Next.js, TypeScript, GSAP and Scrollcraft.
 
-First, run the development server:
+## Develop
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Pages: `/`, `/about`, `/contact`, `/first-impressions`. DIY routes intentionally return 404.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verify and release
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run build`: Next.js production build.
+- `npm run lint`: source checks.
+- `npm run seo:check -- http://localhost:3002`: regression checks against a running production server.
+- `npm run cf:build`: build for the existing Cloudflare Worker.
+- `npm run cf:preview`: local Workers runtime preview.
 
-## Learn More
+Read `DEPLOYMENT.md`, `SEO-AUDIT.md`, and `QA-AUDIT.md` before release. Keep the existing hosting project and domain connection.
 
-To learn more about Next.js, take a look at the following resources:
+Home Update Now buttons open SMS drafts; Contact opens an email draft. Neither silently sends messages. Reviews are static owner-supplied content. Fonts are Inter and Instrument Serif.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Raw footage, design references and generated animation QA captures are excluded from production source control. The approved hero and brand palette remain intact.

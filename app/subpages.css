@@ -1,0 +1,1096 @@
+.lf-site-nav {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 2.4vw, 2.5rem);
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.lf-site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--lf-concrete);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 18px rgb(44 44 44 / 70%);
+  transition: color 180ms ease;
+  white-space: nowrap;
+}
+
+.lf-site-nav a:hover {
+  color: var(--lf-brick);
+}
+
+.lf-subpage {
+  min-width: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 51% 8%, rgb(128 109 97 / 28%), transparent 28rem),
+    var(--lf-ink);
+  color: var(--lf-white);
+  overflow-x: clip;
+}
+
+.lf-sub-shell {
+  width: min(var(--lf-content-width), calc(100% - 2 * var(--lf-gutter)));
+  margin-inline: auto;
+}
+
+.lf-sub-header {
+  position: sticky;
+  z-index: 80;
+  top: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+  background: rgb(44 44 44 / 88%);
+  backdrop-filter: blur(22px);
+}
+
+.lf-sub-header__inner {
+  display: grid;
+  width: min(var(--lf-content-width), calc(100% - 2 * var(--lf-gutter)));
+  min-height: 4.6rem;
+  margin-inline: auto;
+  grid-template-columns: 10rem minmax(0, 1fr) 10rem;
+  align-items: center;
+}
+
+.lf-sub-logo {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+}
+
+.lf-sub-logo img,
+.lf-sub-footer__brand img {
+  display: block;
+  width: 7.9rem;
+  height: auto;
+}
+
+.lf-sub-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2.1vw, 2.1rem);
+}
+
+.lf-sub-nav a {
+  position: relative;
+  padding-block: 1.75rem;
+  color: var(--lf-concrete);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: color 160ms ease;
+  white-space: nowrap;
+}
+
+.lf-sub-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 1.25rem;
+  left: 0;
+  height: 1px;
+  background: var(--lf-brick);
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.lf-sub-nav a:hover,
+.lf-sub-nav a.is-active {
+  color: var(--lf-white);
+}
+
+.lf-sub-nav a.is-active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.lf-sub-phone {
+  display: inline-flex;
+  min-height: 2.85rem;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  padding: 0.65rem 1.15rem;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 999px;
+  color: var(--lf-white);
+  font-size: 0.86rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.lf-sub-phone:hover {
+  border-color: var(--lf-brick);
+  background: rgb(238 120 40 / 10%);
+}
+
+.lf-sub-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 10vw, 9.5rem) 0 clamp(5rem, 8vw, 7.25rem);
+}
+
+.lf-sub-hero::before,
+.lf-first-hero::before {
+  position: absolute;
+  z-index: 0;
+  inset: -12rem 0 auto 18%;
+  width: 55rem;
+  height: 37rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(128 109 97 / 28%), transparent 68%);
+  content: "";
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.lf-sub-hero__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 47rem;
+}
+
+.lf-sub-eyebrow {
+  margin: 0 0 1.35rem;
+  color: var(--lf-brick);
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.lf-sub-hero h1,
+.lf-about-story h2,
+.lf-about-credentials h2,
+.lf-about-colorado h2,
+.lf-contact-form-wrap h2,
+.lf-sub-cta h2 {
+  margin: 0;
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.lf-sub-hero h1 {
+  font-size: clamp(3.65rem, 6.3vw, 5.7rem);
+}
+
+.lf-sub-hero h1 em,
+.lf-about-story h2 em,
+.lf-contact-form-wrap h2 em,
+.lf-sub-cta h2 em,
+.lf-first-cta h2 em {
+  color: var(--lf-brick);
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-weight: 400;
+}
+
+.lf-sub-hero__copy > p:last-child {
+  max-width: 46rem;
+  margin: 2rem 0 0;
+  color: var(--lf-concrete);
+  font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+  line-height: 1.55;
+}
+
+.lf-sub-section {
+  padding: clamp(5.5rem, 9vw, 8.5rem) 0;
+}
+
+.lf-about-story {
+  border-top: 1px solid rgb(255 255 255 / 5%);
+  background: var(--lf-graphite);
+}
+
+.lf-about-story__grid {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(3.5rem, 7vw, 6.5rem);
+  align-items: start;
+}
+
+.lf-about-portrait {
+  position: sticky;
+  top: 7rem;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1.25rem;
+  background: var(--lf-carbon);
+  aspect-ratio: 0.79;
+  box-shadow: 0 32px 100px rgb(0 0 0 / 48%);
+}
+
+.lf-about-portrait::after {
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: linear-gradient(transparent, rgb(0 0 0 / 70%));
+  content: "";
+  pointer-events: none;
+}
+
+.lf-about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 13%;
+}
+
+.lf-about-portrait figcaption {
+  position: absolute;
+  z-index: 2;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgb(255 255 255 / 27%);
+  border-radius: 999px;
+  background: rgb(0 0 0 / 62%);
+  color: var(--lf-white);
+  font-size: 0.63rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.lf-about-story__copy h2,
+.lf-about-credentials h2,
+.lf-about-colorado h2,
+.lf-contact-form-wrap h2 {
+  font-size: clamp(2.75rem, 4.7vw, 4.65rem);
+}
+
+.lf-about-story__copy > p:not(.lf-sub-eyebrow) {
+  margin: 1.55rem 0 0;
+  color: var(--lf-concrete);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.lf-about-story__copy > .lf-about-story__promise {
+  color: var(--lf-white);
+  font-weight: 700;
+}
+
+.lf-about-story blockquote {
+  margin: 2.6rem 0 0;
+  border-left: 3px solid var(--lf-brick);
+  padding-left: 1.4rem;
+  color: var(--lf-white);
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-size: clamp(1.55rem, 2.6vw, 2.35rem);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.lf-about-story blockquote em {
+  color: var(--lf-brick);
+}
+
+.lf-about-credentials {
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+  background: var(--lf-carbon);
+}
+
+.lf-about-credentials__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(2.5rem, 5vw, 4.25rem);
+}
+
+.lf-about-credentials article {
+  min-height: 14rem;
+  padding: clamp(1.5rem, 3.4vw, 2.35rem);
+  border: 1px solid rgb(44 44 44 / 18%);
+  border-radius: 1.1rem;
+  background: var(--lf-concrete);
+  color: var(--lf-graphite);
+  box-shadow: inset 0 4px 0 var(--lf-brick), 0 20px 60px rgb(0 0 0 / 22%);
+}
+
+.lf-about-credentials article > p {
+  margin: 0;
+  color: var(--lf-graphite);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.lf-about-credentials h3 {
+  margin: 1.15rem 0 0.85rem;
+  color: var(--lf-graphite);
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-size: clamp(2.25rem, 4vw, 3.6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.lf-about-credentials article > span {
+  display: block;
+  max-width: 30rem;
+  color: var(--lf-graphite);
+  font-size: 0.93rem;
+  line-height: 1.62;
+}
+
+.lf-about-colorado {
+  background: var(--lf-ink);
+}
+
+.lf-about-colorado__grid {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: start;
+}
+
+.lf-about-colorado__grid > div:last-child > p {
+  margin: 0 0 1.35rem;
+  color: var(--lf-concrete);
+  font-size: 1.03rem;
+  line-height: 1.75;
+}
+
+.lf-about-colorado__grid > div:last-child > .lf-about-colorado__line {
+  margin-top: 2rem;
+  color: var(--lf-white);
+  font-weight: 700;
+}
+
+.lf-sub-cta {
+  padding: clamp(6rem, 10vw, 9rem) 0;
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  background:
+    radial-gradient(circle at 50% 20%, rgb(128 109 97 / 38%), transparent 28rem),
+    var(--lf-graphite);
+  text-align: center;
+}
+
+.lf-sub-cta h2 {
+  max-width: 14ch;
+  margin-inline: auto;
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-size: clamp(3.2rem, 6.4vw, 6rem);
+  font-weight: 400;
+}
+
+.lf-sub-cta > div > p {
+  max-width: 39rem;
+  margin: 1.6rem auto 0;
+  color: var(--lf-concrete);
+  font-size: 1.04rem;
+  line-height: 1.65;
+}
+
+.lf-sub-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 2.1rem;
+}
+
+.lf-sub-button {
+  display: inline-flex;
+  min-height: 3.45rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.55rem;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 999px;
+  color: var(--lf-white);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.lf-sub-button:hover {
+  border-color: var(--lf-brick);
+  background: rgb(238 120 40 / 10%);
+  transform: translateY(-2px);
+}
+
+.lf-sub-button--primary {
+  border-color: var(--lf-brick);
+  background: var(--lf-brick);
+  color: var(--lf-ink);
+}
+
+.lf-sub-button--primary:hover {
+  background: var(--lf-concrete);
+  color: var(--lf-ink);
+}
+
+.lf-first-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 44rem;
+  padding: clamp(5.6rem, 9vw, 8.4rem) 0 clamp(4.5rem, 7vw, 6rem);
+}
+
+.lf-first-hero > .lf-sub-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.lf-first-hero h1 {
+  margin: 0;
+  font-size: clamp(3.1rem, 5.2vw, 4.7rem);
+  font-weight: 650;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.lf-first-hero h2 {
+  max-width: 60rem;
+  margin: 1.85rem 0 0;
+  color: var(--lf-brick);
+  font-size: clamp(2.35rem, 4.1vw, 4rem);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.lf-first-hero__copy {
+  max-width: 48rem;
+  margin-top: 2.5rem;
+}
+
+.lf-first-hero__copy p {
+  margin: 0 0 1.1rem;
+  color: var(--lf-concrete);
+  font-size: 1rem;
+  line-height: 1.67;
+}
+
+.lf-first-hero__copy strong {
+  color: var(--lf-white);
+  font-weight: 750;
+}
+
+.lf-first-gallery {
+  padding: clamp(4.75rem, 8vw, 7rem) 0 clamp(6rem, 10vw, 9rem);
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  background: var(--lf-graphite);
+}
+
+.lf-first-gallery__label {
+  margin: 0 0 2.4rem;
+  color: var(--lf-brick);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.lf-visit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.lf-visit-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 1.1rem;
+  background: var(--lf-carbon);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%), 0 20px 60px rgb(0 0 0 / 55%);
+  cursor: pointer;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.lf-visit-card:hover,
+.lf-visit-card:focus-within {
+  border-color: rgb(238 120 40 / 68%);
+  outline: 0;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), 0 25px 70px rgb(0 0 0 / 65%);
+}
+
+.lf-visit-card__media {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--lf-line-dark);
+  background: var(--lf-surface-raised);
+  aspect-ratio: 4 / 3;
+}
+
+.lf-visit-card__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lf-visit-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgb(0 0 0 / 46%));
+  pointer-events: none;
+}
+
+.lf-visit-card__play {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid rgb(238 120 40 / 88%);
+  border-radius: 999px;
+  background: rgb(0 0 0 / 66%);
+  color: var(--lf-brick);
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  transition: opacity 160ms ease;
+}
+
+.lf-visit-card__play b {
+  font-size: 0.55rem;
+}
+
+.lf-visit-card__control {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.lf-visit-card__control:focus-visible {
+  outline-offset: -5px !important;
+}
+
+.lf-visit-card__caption {
+  padding: 1.12rem 1.25rem 1.25rem;
+}
+
+.lf-visit-card__caption h3 {
+  margin: 0;
+  color: var(--lf-white);
+  font-size: 1.01rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.lf-visit-card__caption p {
+  margin: 0.35rem 0 0;
+  color: var(--lf-concrete);
+  font-size: 0.76rem;
+}
+
+.lf-first-cta h2 {
+  max-width: 17ch;
+}
+
+.lf-contact-hero {
+  padding-bottom: clamp(4rem, 7vw, 6.3rem);
+}
+
+.lf-contact-main {
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  background: var(--lf-graphite);
+}
+
+.lf-contact-main__grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(3.75rem, 8vw, 8rem);
+  align-items: start;
+}
+
+.lf-contact-details {
+  display: grid;
+  border-top: 1px solid var(--lf-line-dark);
+}
+
+.lf-contact-details > div {
+  padding: 1.7rem 0;
+  border-bottom: 1px solid var(--lf-line-dark);
+}
+
+.lf-contact-details .lf-sub-eyebrow {
+  margin-bottom: 0.85rem;
+}
+
+.lf-contact-details a,
+.lf-contact-details span {
+  display: block;
+}
+
+.lf-contact-details__lead {
+  color: var(--lf-brick);
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-size: clamp(2.15rem, 4vw, 3.45rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.lf-contact-details__email {
+  color: var(--lf-white);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.lf-contact-details a:hover {
+  color: var(--lf-concrete);
+}
+
+.lf-contact-details span {
+  margin-top: 0.6rem;
+  color: var(--lf-concrete);
+  font-size: 0.91rem;
+  line-height: 1.6;
+}
+
+.lf-contact-details blockquote {
+  margin: 2rem 0 0;
+  color: var(--lf-white);
+  font-family: var(--font-localfirst-display), Georgia, serif;
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  line-height: 1.25;
+}
+
+.lf-contact-form-wrap {
+  padding: clamp(1.6rem, 4vw, 3rem);
+  border: 1px solid rgb(44 44 44 / 18%);
+  border-radius: 1.25rem;
+  background: var(--lf-concrete);
+  color: var(--lf-graphite);
+  box-shadow: inset 0 4px 0 var(--lf-brick), 0 26px 90px rgb(0 0 0 / 32%);
+}
+
+.lf-contact-form-wrap h2 {
+  max-width: 10ch;
+  color: var(--lf-graphite);
+  font-size: clamp(2.6rem, 4.8vw, 4.3rem);
+}
+
+.lf-contact-form-wrap h2 em,
+.lf-contact-form-wrap .lf-sub-eyebrow {
+  color: var(--lf-graphite);
+}
+
+.lf-contact-form {
+  display: grid;
+  gap: 1.15rem;
+  margin-top: 2.6rem;
+}
+
+.lf-contact-form label {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.lf-contact-form label > span {
+  color: var(--lf-graphite);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lf-contact-form label > span b {
+  color: var(--lf-graphite);
+}
+
+.lf-contact-form input,
+.lf-contact-form textarea {
+  width: 100%;
+  border: 1px solid rgb(44 44 44 / 22%);
+  border-radius: 0.7rem;
+  background: var(--lf-white);
+  color: var(--lf-graphite);
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.lf-contact-form input {
+  min-height: 3.2rem;
+  padding: 0 0.95rem;
+}
+
+.lf-contact-form textarea {
+  min-height: 9rem;
+  padding: 0.9rem 0.95rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.lf-contact-form input::placeholder,
+.lf-contact-form textarea::placeholder {
+  color: var(--lf-craft);
+}
+
+.lf-contact-form input:focus,
+.lf-contact-form textarea:focus {
+  border-color: var(--lf-graphite);
+  box-shadow: 0 0 0 2px var(--lf-graphite);
+}
+
+.lf-contact-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.lf-contact-form button {
+  min-height: 3.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lf-brick);
+  color: var(--lf-ink);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.lf-contact-form button:hover {
+  background: var(--lf-craft);
+  color: var(--lf-white);
+  transform: translateY(-2px);
+}
+
+.lf-contact-form__note,
+.lf-contact-form__status {
+  margin: 0;
+  color: var(--lf-graphite);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.lf-contact-form__note a {
+  color: var(--lf-graphite);
+  text-decoration: underline;
+}
+
+.lf-contact-form__status {
+  min-height: 1.1rem;
+  color: var(--lf-graphite);
+}
+
+.lf-sub-footer {
+  padding: clamp(4.5rem, 8vw, 7rem) 0 2.5rem;
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  background: var(--lf-graphite);
+}
+
+.lf-sub-footer__grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.75fr 0.95fr;
+  gap: clamp(2.5rem, 7vw, 7rem);
+  align-items: start;
+}
+
+.lf-sub-footer__brand p {
+  margin: 1.35rem 0 0.4rem;
+  color: var(--lf-concrete);
+  font-size: 0.82rem;
+}
+
+.lf-sub-footer__brand span,
+.lf-sub-footer__contact > span {
+  color: var(--lf-concrete);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.lf-sub-footer nav,
+.lf-sub-footer__contact {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+
+.lf-sub-footer__label {
+  margin: 0 0 0.55rem;
+  color: var(--lf-concrete);
+  font-size: 0.61rem;
+  font-weight: 750;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lf-sub-footer nav a,
+.lf-sub-footer__contact a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  overflow-wrap: anywhere;
+  color: var(--lf-concrete);
+  font-size: 0.82rem;
+  transition: color 160ms ease;
+}
+
+.lf-sub-footer nav a:hover,
+.lf-sub-footer__contact a:hover {
+  color: var(--lf-brick);
+}
+
+.lf-sub-footer__contact > span {
+  margin-top: 1.2rem;
+}
+
+.lf-sub-footer__legal {
+  width: min(var(--lf-content-width), calc(100% - 2 * var(--lf-gutter)));
+  margin: 4.5rem auto 0;
+  color: var(--lf-concrete);
+  font-size: 0.67rem;
+  text-align: center;
+}
+
+.lf-subpage a:focus-visible,
+.lf-subpage button:focus-visible,
+.lf-subpage .lf-visit-card:focus-visible {
+  outline: 2px solid var(--lf-white);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px var(--lf-graphite);
+}
+
+.lf-contact-form button:focus-visible {
+  outline-color: var(--lf-graphite);
+  box-shadow: none;
+}
+
+.lf-site a:focus-visible {
+  outline: 2px solid var(--lf-white);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px var(--lf-graphite);
+}
+
+@media (max-width: 980px) {
+  .lf-site-nav,
+  .lf-sub-nav {
+    display: none;
+  }
+
+  .lf-mobile-navigation {
+    position: relative;
+    display: block;
+    flex: 0 0 auto;
+    pointer-events: auto;
+  }
+
+  .lf-site-bar { gap: 0.5rem; }
+  .lf-site-bar .lf-header-cta { margin-left: auto; }
+
+  .lf-sub-header__inner {
+    display: flex;
+    gap: 0.5rem;
+    min-height: 4.6rem;
+  }
+
+  .lf-sub-phone { margin-left: auto; }
+
+  .lf-sub-nav {
+    gap: 1rem;
+  }
+
+  .lf-sub-nav a {
+    font-size: 0.66rem;
+  }
+
+  .lf-about-story__grid,
+  .lf-contact-main__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lf-about-portrait {
+    position: relative;
+    top: auto;
+    width: min(31rem, 100%);
+    aspect-ratio: 0.82;
+  }
+
+  .lf-visit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .lf-sub-shell,
+  .lf-sub-header__inner,
+  .lf-sub-footer__legal {
+    width: min(var(--lf-content-width), calc(100% - 2 * var(--lf-gutter)));
+  }
+
+  .lf-sub-header__inner {
+    display: flex;
+    min-height: 4.2rem;
+    justify-content: space-between;
+  }
+
+  .lf-sub-logo img {
+    width: 7rem;
+  }
+
+  .lf-sub-nav {
+    display: none;
+  }
+
+  .lf-sub-phone {
+    min-height: 2.85rem;
+    padding-inline: 0.85rem;
+    font-size: 0.76rem;
+  }
+
+  .lf-sub-hero {
+    padding: 5.2rem 0 4.75rem;
+  }
+
+  .lf-sub-hero h1 {
+    font-size: clamp(3.25rem, 16vw, 4.7rem);
+  }
+
+  .lf-sub-hero__copy > p:last-child {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .lf-sub-section {
+    padding: 5rem 0;
+  }
+
+  .lf-about-story__grid,
+  .lf-about-colorado__grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .lf-about-credentials__grid,
+  .lf-visit-grid,
+  .lf-contact-form__row,
+  .lf-sub-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lf-about-credentials article {
+    min-height: 0;
+  }
+
+  .lf-first-hero {
+    min-height: 0;
+    padding: 5.2rem 0 4.5rem;
+  }
+
+  .lf-first-hero h1 {
+    font-size: clamp(2.65rem, 13vw, 4rem);
+  }
+
+  .lf-first-hero h2 {
+    margin-top: 1.5rem;
+    font-size: clamp(2.2rem, 10.5vw, 3.2rem);
+  }
+
+  .lf-first-break {
+    display: none;
+  }
+
+  .lf-first-hero__copy {
+    margin-top: 2rem;
+  }
+
+  .lf-first-gallery {
+    padding: 4.5rem 0 5.5rem;
+  }
+
+  .lf-visit-grid {
+    gap: 1rem;
+  }
+
+  .lf-contact-main__grid {
+    gap: 3rem;
+  }
+
+  .lf-contact-form-wrap {
+    padding: 1.35rem;
+  }
+
+  .lf-sub-actions {
+    display: grid;
+  }
+
+  .lf-sub-button {
+    width: 100%;
+  }
+
+  .lf-sub-footer__grid {
+    gap: 3rem;
+  }
+
+  .lf-sub-footer__legal {
+    margin-top: 3.5rem;
+    text-align: left;
+  }
+}
+
+@media (max-width: 380px) {
+  .lf-sub-logo img,
+  .lf-wordmark img { width: 5.75rem; }
+  .lf-sub-phone { padding-inline: 0.65rem; font-size: 0.7rem; }
+  .lf-site-bar .lf-header-cta { padding-inline: 0.75rem; font-size: 0.65rem; gap: 0.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lf-subpage *, .lf-site-bar *, .lf-cta {
+    transition-duration: 0.01ms !important;
+  }
+  .lf-sub-button:hover, .lf-contact-form button:hover,
+  .lf-cta:hover, .lf-header-cta:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-site-nav a,
+  .lf-subpage a,
+  .lf-subpage button,
+  .lf-visit-card {
+    transition-duration: 0.01ms;
+  }
+
+  .lf-sub-button:hover,
+  .lf-visit-card:hover,
+  .lf-visit-card:focus-visible,
+  .lf-contact-form button:hover {
+    transform: none;
+  }
+}

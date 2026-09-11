@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local source footage/design references and generated animation QA captures
+/Assets/*
+!/Assets/localfirst-brand-voice-dna.md
+/scrollcraft/builds/*/lab/
+
+# Cloudflare/OpenNext build output and local state
+/.open-next/
+/.wrangler/
+.dev.vars*
