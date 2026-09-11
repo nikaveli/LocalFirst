@@ -45,6 +45,18 @@ See `SEO-AUDIT.md` for scores and limitations. Mobile speed is a known warning, 
 
 Run `npm run test:motion` and `node scripts/mobile-scroll-check.mjs <preview-url> --assert-stable` in addition to the SEO checks. The deployed `/scrub-media/{localfirst,restaurant,med-spa}-mobile.mp4` endpoints must return **206**, a matching `Content-Range`, and exactly two bytes for `Range: bytes=0-1`. The endpoint is served by the custom Worker before Next.js; the Next route provides local preview parity. It only exposes the three public mobile movies. No Cloudflare Images/Stream/R2 service was provisioned.
 
+### Mobile frame-sequence follow-up
+
+The owner still observed frozen restaurant/spa frames after the native-video fix. Mobile/coarse-pointer homepages now use a canvas sequence for each of the three films. Desktop keeps native video. Existing byte-range endpoints remain for backward compatibility; the new mobile homepage must issue **no MP4 requests**.
+
+- Run `node scripts/mobile-handoff-check.mjs <preview-url> --slow` (installed Playwright WebKit) and again with `--chrome` (installed Google Chrome). The probe starts scrolling without waiting for media, blocks native `play()` forever, delays frame responses, and checks actual painted indices forward and backward in all three scenes.
+- Run `npm run test:motion`: verifies all 722 frame assets, bounded decoding/concurrency, late-response paint (rather than starvation), fast reversal, cleanup, and existing video/range regressions.
+- WebP assets under `/media/frames/v1/` derive from the existing approved mobile footage: 240 hero + 241 restaurant + 241 spa, 1280×720 at 24 fps, 19.09 MiB total. Only a moving window is requested/decoded; max 16 cached bitmaps and four requests per scene. Offscreen scenes retain one bitmap. Reduced motion requests no sequence or scrub video.
+- Generate assets with `node scripts/build-scrub-frames.mjs` (ffmpeg and sharp required). Use a new version directory for future footage changes.
+- Local Turbopack hit a sandbox port-binding error. Supported local packaging fallback: `NEXT_PRIVATE_STANDALONE=true npx next build --webpack && npx opennextjs-cloudflare build --skipNextBuild`. GitHub's existing Linux build command is unchanged.
+- Before publishing, inspect mobile/desktop/reduced contact sheets and verify closing copy after a height-only viewport resize. Emulation does not certify physical iPhone smoothness or Core Web Vitals.
+- Immediate previous production rollback point: `2599b72a4d86fa8740732597fc8b3ae91d662279`. Roll back through a normal revert/redeploy or Cloudflare deployment history if missing media, navigation failures, or persistent 5xx responses appear.
+
 ## Rollback
 
 Pre-rebuild production commit: `be09226c638bde79f95aa0e18189a1c4231e3930`. Preserve it in history. For persistent 5xx errors, broken navigation/contact access or missing media, restore the previous Cloudflare deployment or revert the replacement commit through Git and redeploy. Do not force-push. Recheck crawl settings after rollback: the old version has issues documented in this audit.

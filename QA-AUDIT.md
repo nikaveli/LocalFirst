@@ -102,3 +102,19 @@ Owner reported stuttering on iPhone 17 Pro Max in Chrome. This is a behavioral f
 - `scripts/mobile-scroll-check.mjs` uses installed Chrome with a 440×956 touch viewport. It checks continuous video advancement, height-change zoom stability, runtime errors, overflow, and closing-copy visibility. These are emulated Chrome checks, **not physical iOS validation**; CPU-throttled runs on this host were unstable and are not a field-performance claim.
 
 The owner should reload the deployed site in Chrome on the iPhone and confirm forward/reverse scrubbing, quick swipes, and the hero-to-restaurant handoff. Real-device confirmation and field Core Web Vitals remain open.
+
+## Mobile canvas follow-up — September 10, 2026
+
+The owner reported that the native-video release still freezes after the first scene, then displays one restaurant frame and one spa frame before leaving the hero. Desktop browser video tests did not reproduce the physical-device failure. Following the explicitly requested Scroll World skill's documented persistent-scrub fallback, all three mobile scenes now draw pre-extracted frames from the same original footage. No new AI media, paid service, hero redesign, timing change, or vendor-engine modification was introduced.
+
+- Mobile no longer depends on video autoplay permission, priming promises, seek completion, or native MP4 decoding. Canvas paint drives verification state only after `drawImage` succeeds.
+- Added progressive target-first loading, directional prefetch, a 16-bitmap cache ceiling per scene, four concurrent requests per scene, bounded retries/timeouts, stale-jump cancellation, background/offscreen release, and full cleanup. No full-movie bitmap preloading.
+- The first implementation failed a 120 ms delayed-response test: rejecting frames that arrived behind the target starved the canvas during continuous scrolling. Corrected it to retain and paint useful late frames, with a deterministic regression test that fails on that original implementation.
+- WebKit delayed-response verification then painted 108 hero / 53 restaurant / 44 spa frames going forward, and 123 / 38 / 37 going backward. All scenes reached their ending footage and returned to the beginning. Native `play()` was deliberately left pending forever; no MP4 requests or runtime errors occurred.
+- Chrome delayed-response verification also passed all three forward/reverse checks without native video requests. Host headless Chrome throughput is substantially lower than WebKit; these counts prove advancement, not a physical-device frame-rate guarantee.
+- Motion suite: 13 passing tests, including complete asset inventory. Local production TypeScript/webpack build and OpenNext Worker packaging passed. Lint: zero errors, the same 12 supplied-engine warnings.
+- Local production SEO smoke test: 223 checks passed (four routes, internal links, metadata, schema, assets). Frame-sequence implementation does not change SEO/content or other pages.
+- Temporary mobile sheet `/private/tmp/lf-frame-mobile/sheet.png` inspected: original centered-phone crop, expansion, restaurant/spa transitions, concrete surfaces, and later sections remain. The known screenshot-harness closing-copy limitation still requires the independent viewport/closing check.
+- Independent viewport/closing check passed: 83 painted hero frames, no MP4 requests, no overflow/errors, unchanged hero transform after height-only resize, and all closing headline lines at opacity 1. Desktop contact sheet `/private/tmp/lf-frame-desktop/sheet.png` inspected; its original native hero advanced normally and sampled cue contrast cleared 4.5:1.
+
+Physical iPhone 17 Pro Max Chrome confirmation remains necessary after deployment. No claim of universal smoothness, field Core Web Vitals, or Low Power Mode device validation is made.

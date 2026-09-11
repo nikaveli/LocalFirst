@@ -420,7 +420,8 @@ p { text-wrap: pretty; }
 }
 
 .lf-film-sheet > img,
-.lf-film-sheet > video {
+.lf-film-sheet > video,
+.lf-film-sheet > canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -435,7 +436,8 @@ p { text-wrap: pretty; }
   transition: opacity 220ms ease;
 }
 
-.lf-film-sheet > video {
+.lf-film-sheet > video,
+.lf-film-sheet > canvas {
   z-index: 1;
   opacity: 0;
   transition: opacity 220ms ease;
@@ -445,7 +447,8 @@ p { text-wrap: pretty; }
   opacity: 0;
 }
 
-.lf-film-sheet.is-ready > video {
+.lf-film-sheet.is-ready > video,
+.lf-film-sheet.is-ready > canvas {
   opacity: 1;
 }
 

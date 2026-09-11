@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { useCallback, useEffect, useState } from "react";
 import { createVideoScrubber } from "@/lib/video-scrubber";
+import { createFrameSequence } from "@/lib/frame-sequence";
 
 type ScrollCraftInstance = {
   layout: () => void;
@@ -57,8 +58,12 @@ function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement |
 
   if (!proofAct || !proofStage) return () => undefined;
 
-  const records = videos.map(createVideoScrubber);
-  const heroScrubber = mobileHero ? createVideoScrubber(mobileHero) : null;
+  const mobileFrames = mobile && !reducedMotion;
+  const sequences = mobileFrames
+    ? videos.map((video, index) => createFrameSequence(video, index === 0 ? "restaurant" : "med-spa"))
+    : [];
+  const records = mobileFrames ? sequences : videos.map(createVideoScrubber);
+  const heroScrubber = mobileHero && mobileFrames ? createFrameSequence(mobileHero, "localfirst") : null;
 
   let scrollFrame = 0;
   let destroyed = false;
@@ -66,17 +71,14 @@ function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement |
   const objectUrls: string[] = [];
 
   const loadVideo = (video: HTMLVideoElement) => {
+    if (mobileFrames) {
+      sequences[videos.indexOf(video)]?.warm();
+      return;
+    }
     if (reducedMotion || video.dataset.lfLoaded === "true") return;
     const source = mobile ? video.dataset.lfSrcMobile : video.dataset.lfSrc;
     if (!source) return;
     video.dataset.lfLoaded = "true";
-    // Native range loading lets iOS paint and scrub before the entire movie
-    // downloads. Desktop keeps its already-verified blob-loading path.
-    if (mobile) {
-      video.preload = "auto";
-      video.src = source.replace("/media/", "/scrub-media/");
-      return;
-    }
     fetch(source, { signal: mediaController.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load ${source}`);
@@ -117,10 +119,10 @@ function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement |
     return () => video.removeEventListener("loadeddata", markReady);
   });
 
-  if (mobileHero && !reducedMotion) {
-    mobileHero.preload = "auto";
-    mobileHero.src = (mobileHero.dataset.scSrcMobile || mobileHero.dataset.scSrc || "").replace("/media/", "/scrub-media/");
-  }
+  // Only one small first frame per scene is warmed. Remaining frames are
+  // requested near the current scroll position, not as full-video downloads.
+  sequences.forEach((sequence) => sequence.warm());
+  heroScrubber?.warm();
 
   // Batch geometry reads outside the scroll paint. In particular, don't use
   // innerHeight for mobile zoom: browser toolbar collapse changes it mid-swipe.
@@ -342,11 +344,10 @@ export default function ScrollcraftMount() {
 
     const mobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
     const mobileHero = mobile ? root.querySelector<HTMLVideoElement>(".lf-hero-video") : null;
-    // Keep the vendor engine untouched. On phones only, give this page's
-    // decoder-aware scheduler sole ownership of the hero video playhead.
+    // Keep the vendor engine untouched. Phones use canvas sequences, so the
+    // engine must never start fetching or seeking the hidden native video.
     mobileHero?.removeAttribute("data-sc-scrub");
     const instance = window.ScrollCraft.mount(root);
-    mobileHero?.setAttribute("data-sc-scrub", "");
     const cleanupMotion = setupLocalFirstMotion(root, mobileHero, instance.layout);
     const layoutFrame = window.requestAnimationFrame(() => {
       instance.layout();

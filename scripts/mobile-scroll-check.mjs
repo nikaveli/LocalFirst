@@ -17,20 +17,21 @@ try {
   await page.goto(process.argv[2] || "http://localhost:3002", { waitUntil: "domcontentloaded" });
   await page.waitForSelector("html.sc-ready");
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForFunction(() => document.querySelector(".lf-hero-video").readyState >= 2, null, { timeout: 30000 });
+  await page.waitForFunction(() => document.querySelector('[data-lf-frame-sequence="localfirst"]')?.dataset.renderedFrame !== undefined, null, { timeout: 30000 });
   await page.touchscreen.tap(220, 320);
   await page.waitForTimeout(500);
   await cdp.send("Emulation.setCPUThrottlingRate", { rate: Number(process.env.SCROLL_CPU_RATE) || 1 });
   const before = await cdp.send("Performance.getMetrics");
   const result = await page.evaluate(async () => {
-    const video = document.querySelector(".lf-hero-video");
+    const canvas = document.querySelector('[data-lf-frame-sequence="localfirst"]');
     const hero = document.querySelector("[data-lf-hero-act]");
-    const frames = [], seeks = [], mediaTimes = [];
-    let seekStart = 0, lastFrame = 0;
-    const seeking = () => { seekStart = performance.now(); };
-    const seeked = () => { seeks.push(performance.now() - seekStart); mediaTimes.push(video.currentTime); };
-    video.addEventListener("seeking", seeking);
-    video.addEventListener("seeked", seeked);
+    const frames = [], mediaTimes = [];
+    let lastFrame = 0;
+    const painted = new MutationObserver(() => {
+      const seconds = Number(canvas.dataset.renderedFrame) / 24;
+      if (mediaTimes.at(-1) !== seconds) mediaTimes.push(seconds);
+    });
+    painted.observe(canvas, { attributes: true, attributeFilter: ["data-rendered-frame"] });
     const started = performance.now();
     const distance = hero.offsetHeight * 0.8;
     await new Promise((resolve) => {
@@ -45,11 +46,10 @@ try {
       requestAnimationFrame(step);
     });
     await new Promise((resolve) => setTimeout(resolve, 600));
-    video.removeEventListener("seeking", seeking);
-    video.removeEventListener("seeked", seeked);
+    painted.disconnect();
     const percentile = (list, p) => [...list].sort((a, b) => a - b)[Math.floor((list.length - 1) * p)] ?? 0;
     return {
-      seekCount: seeks.length, seekP95ms: percentile(seeks, 0.95),
+      paintedFrames: mediaTimes.length,
       rafP95ms: percentile(frames, 0.95), framesOver50ms: frames.filter((v) => v > 50).length,
       videoStart: mediaTimes[0], videoEnd: mediaTimes.at(-1),
       mediaRequests: performance.getEntriesByType("resource").filter((r) => r.name.endsWith(".mp4")).map((r) => ({ url: r.name, bytes: r.transferSize })),
