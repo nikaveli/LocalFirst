@@ -57,6 +57,17 @@ The owner still observed frozen restaurant/spa frames after the native-video fix
 - Before publishing, inspect mobile/desktop/reduced contact sheets and verify closing copy after a height-only viewport resize. Emulation does not certify physical iPhone smoothness or Core Web Vitals.
 - Immediate previous production rollback point: `2599b72a4d86fa8740732597fc8b3ae91d662279`. Roll back through a normal revert/redeploy or Cloudflare deployment history if missing media, navigation failures, or persistent 5xx responses appear.
 
+## Full-HD quality upgrade, September 11
+
+- Current mobile sequence version: `/media/frames/v2/`, extracted directly from the supplied 1920×1080 masters at 24 fps and WebP quality 88. Do not derive future frames from the compressed mobile MP4s. The old v1 assets remain for cached clients/rollback.
+- Canvas backing dimensions are now 1920×1080. Cache ceiling reduced from 16 to 8 decoded bitmaps; four concurrent requests and late-frame recovery retained. No change to zoom/crop/transition timing.
+- All three first-frame posters use the same full-HD sequence assets. Desktop uses `/media/hq-v2/*.mp4`, CRF 17 / GOP 8, audio stripped, fast-start, no spatial upscaling. Each file is below Cloudflare's 25 MiB asset limit.
+- Reduced motion loads only those static first-frame posters; it must not create canvas players, load later sequence frames, or fetch scrub MP4s.
+- Generation commands: `node scripts/build-scrub-frames.mjs` and `node scripts/build-hq-videos.mjs`. Master footage is local-only; generated web assets are committed. Mobile sequences total 64.30 MiB if every frame is fetched; progressive loading normally fetches only frames near scroll targets. Desktop films total 49.58 MiB. Higher quality increases bandwidth; test against actual cellular conditions before claiming universal smoothness.
+- Quality verification: `node scripts/hero-quality-check.mjs <url> <temporary-output-directory>` captures DPR-3 phone opening, zoomed hero, restaurant, and spa states. Inspect these in addition to the existing motion and viewport checks.
+- True 4K requires higher-resolution source footage. Enlarging these 1080p masters does not recover detail. No AI upscaling or invented image detail is included.
+- Previous production rollback point for this release: `393768255d1a75af9e36f65a3fdc40dca41642ff`.
+
 ## Rollback
 
 Pre-rebuild production commit: `be09226c638bde79f95aa0e18189a1c4231e3930`. Preserve it in history. For persistent 5xx errors, broken navigation/contact access or missing media, restore the previous Cloudflare deployment or revert the replacement commit through Git and redeploy. Do not force-push. Recheck crawl settings after rollback: the old version has issues documented in this audit.

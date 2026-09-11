@@ -84,10 +84,10 @@ export default function Home() {
         aria-hidden="true"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/media/restaurant-poster.jpg" alt="" />
+        <img src="/media/frames/v2/restaurant/0000.webp" alt="" />
         <video
           data-lf-scrub
-          data-lf-src="/media/restaurant.mp4"
+          data-lf-src="/media/hq-v2/restaurant.mp4"
           data-lf-src-mobile="/media/restaurant-mobile.mp4"
           muted
           playsInline
@@ -112,19 +112,19 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="lf-hero-poster"
-                src="/media/localfirst-poster.jpg"
+                src="/media/frames/v2/localfirst/0000.webp"
                 fetchPriority="high"
                 alt="A phone showing a local business Google profile outside the business"
               />
               <video
                 className="lf-hero-video"
                 data-sc-scrub
-                data-sc-src="/media/localfirst.mp4"
+                data-sc-src="/media/hq-v2/localfirst.mp4"
                 data-sc-src-mobile="/media/localfirst-mobile.mp4"
                 muted
                 playsInline
                 preload="metadata"
-                poster="/media/localfirst-poster.jpg"
+                poster="/media/frames/v2/localfirst/0000.webp"
                 aria-label="LocalFirst photography and video reel"
               />
             </div>
@@ -161,7 +161,7 @@ export default function Home() {
             <article className="lf-film-sheet lf-film-sheet--restaurant-fallback">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/media/restaurant-poster.jpg"
+                src="/media/frames/v2/restaurant/0000.webp"
                 alt="Restaurant exterior and food photography"
               />
               <div className="lf-film-shade lf-film-shade--left" aria-hidden="true" />
@@ -184,12 +184,12 @@ export default function Home() {
             <article className="lf-film-sheet lf-film-sheet--med-spa" data-lf-med-spa-sheet>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/media/med-spa-poster.jpg"
+                src="/media/frames/v2/med-spa/0000.webp"
                 alt="Med spa interior and treatment photography"
               />
               <video
                 data-lf-scrub
-                data-lf-src="/media/med-spa.mp4"
+                data-lf-src="/media/hq-v2/med-spa.mp4"
                 data-lf-src-mobile="/media/med-spa-mobile.mp4"
                 muted
                 playsInline

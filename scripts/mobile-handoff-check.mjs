@@ -66,6 +66,6 @@ try {
     assert.ok(scene.reverseFrames > 12, `${scene.scene} must paint while rewinding`);
     assert.ok(scene.furthest > 180, `${scene.scene} must progress through the footage`);
     assert.ok(scene.lastReverse < 30, `${scene.scene} must return near the beginning`);
-    assert.ok(scene.maxCache <= 16, "Decoded memory remains bounded");
+    assert.ok(scene.maxCache <= 8, "Full-HD decoded memory remains bounded");
   }
 } finally { await browser.close(); }

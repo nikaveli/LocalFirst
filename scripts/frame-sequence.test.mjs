@@ -1,12 +1,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createFrameSequence, FRAME_SEQUENCES } from "../lib/frame-sequence.ts";
+import { createFrameSequence, FRAME_SEQUENCES, FRAME_VERSION, FRAME_WIDTH, FRAME_HEIGHT, FRAME_CACHE_LIMIT } from "../lib/frame-sequence.ts";
 import { readdir } from "node:fs/promises";
+import sharp from "sharp";
 
 test("every mobile sequence has all of its published frames", async () => {
   for (const [name, count] of Object.entries(FRAME_SEQUENCES)) {
-    const files = await readdir(new URL(`../public/media/frames/v1/${name}/`, import.meta.url));
+    const dir = new URL(`../public/media/frames/${FRAME_VERSION}/${name}/`, import.meta.url);
+    const files = await readdir(dir);
     for (let index = 0; index < count; index++) assert.ok(files.includes(`${String(index).padStart(4, "0")}.webp`));
+    for (const index of [0, Math.floor(count / 2), count - 1]) {
+      const metadata = await sharp(new URL(`${String(index).padStart(4, "0")}.webp`, dir).pathname).metadata();
+      assert.equal(metadata.width, FRAME_WIDTH);
+      assert.equal(metadata.height, FRAME_HEIGHT);
+    }
   }
 });
 
@@ -42,6 +49,8 @@ test("frame rendering advances without video APIs, reverses, bounds memory, and 
     }
   };
   try {
+    assert.equal(canvas.width, 1920, "Retain master resolution in the backing store");
+    assert.equal(canvas.height, 1080);
     player.warm(); await flush();
     assert.equal(painted.at(-1), 0);
     holdRequests = true;
@@ -56,7 +65,7 @@ test("frame rendering advances without video APIs, reverses, bounds memory, and 
     for (const progress of [0.2, 0.6, 1, 0.7, 0.1]) {
       player.setTarget(progress, true); await flush();
       assert.equal(painted.at(-1), Math.round(progress * 239));
-      assert.ok(bitmaps.filter((b) => !b.closed).length <= 16);
+      assert.ok(bitmaps.filter((b) => !b.closed).length <= FRAME_CACHE_LIMIT);
     }
     player.setTarget(0.9, true);
     player.setTarget(0, true); await flush();

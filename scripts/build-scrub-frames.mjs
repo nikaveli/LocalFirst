@@ -1,4 +1,4 @@
-// Derive mobile frames from the already-approved footage. No generated imagery.
+// Extract once from full-resolution masters, never from the mobile web encode.
 import { mkdtemp, mkdir, readdir, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -8,16 +8,16 @@ import sharp from "sharp";
 const temp = await mkdtemp(join(tmpdir(), "localfirst-scrub-frames-"));
 for (const name of ["localfirst", "restaurant", "med-spa"]) {
   const intermediate = join(temp, name);
-  const output = join("public/media/frames/v1", name);
+  const output = join("public/media/frames/v2", name);
   await mkdir(intermediate, { recursive: true });
   await mkdir(output, { recursive: true });
-  execFileSync("ffmpeg", ["-hide_banner", "-loglevel", "error", "-i", `public/media/${name}-mobile.mp4`, "-vf", "fps=24", "-start_number", "0", join(intermediate, "%04d.png")]);
+  execFileSync("ffmpeg", ["-hide_banner", "-loglevel", "error", "-i", `Assets/Hero videos/Hero-${name}.mp4`, "-vf", "fps=24", "-start_number", "0", join(intermediate, "%04d.png")]);
   const files = (await readdir(intermediate)).filter((file) => file.endsWith(".png")).sort();
   let bytes = 0;
   for (let i = 0; i < files.length; i += 6) {
     await Promise.all(files.slice(i, i + 6).map(async (file) => {
       const dest = join(output, file.replace(".png", ".webp"));
-      await sharp(join(intermediate, file)).webp({ quality: 68, effort: 4 }).toFile(dest);
+      await sharp(join(intermediate, file)).webp({ quality: 88, effort: 5 }).toFile(dest);
       bytes += (await stat(dest)).size;
     }));
   }

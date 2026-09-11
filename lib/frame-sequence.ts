@@ -6,6 +6,11 @@ export const FRAME_SEQUENCES = {
   restaurant: 241,
   "med-spa": 241,
 } as const;
+export const FRAME_VERSION = "v2";
+export const FRAME_WIDTH = 1920;
+export const FRAME_HEIGHT = 1080;
+// Keep decoded memory close to the old 720p budget, not 2.25x larger.
+export const FRAME_CACHE_LIMIT = 8;
 
 export function createFrameSequence(
   video: HTMLVideoElement,
@@ -13,12 +18,13 @@ export function createFrameSequence(
 ) {
   const count = FRAME_SEQUENCES[name];
   const canvas = document.createElement("canvas");
-  canvas.width = 1280;
-  canvas.height = 720;
+  canvas.width = FRAME_WIDTH;
+  canvas.height = FRAME_HEIGHT;
   canvas.className = video.className;
   canvas.dataset.lfFrameSequence = name;
   canvas.setAttribute("aria-hidden", "true");
   const context = canvas.getContext("2d", { alpha: false });
+  if (context) context.imageSmoothingQuality = "high";
   const previousDisplay = video.style.display;
   video.style.display = "none";
   video.after(canvas);
@@ -34,8 +40,8 @@ export function createFrameSequence(
     if (!active || document.hidden) return [0];
     const indices = [target];
     // The exact target always wins over speculative work, including on rewind.
-    for (let step = 1; step <= 9; step++) indices.push(target + direction * step);
-    indices.push(target - direction, target - direction * 2, 0);
+    for (let step = 1; step <= 3; step++) indices.push(target + direction * step);
+    indices.push(target - direction, 0);
     return [...new Set(indices.filter((index) => index >= 0 && index < count))];
   };
 
@@ -47,7 +53,7 @@ export function createFrameSequence(
     const retained = new Set([...cache.keys()]
       .filter((index) => index === 0 || (active && !document.hidden && Math.abs(index - target) <= 48))
       .sort((a, b) => Number(wanted.has(b)) - Number(wanted.has(a)) || Math.abs(a - target) - Math.abs(b - target))
-      .slice(0, 16));
+      .slice(0, FRAME_CACHE_LIMIT));
     for (const [index, bitmap] of cache) {
       if (!retained.has(index)) {
         bitmap.close();
@@ -89,7 +95,7 @@ export function createFrameSequence(
       let timedOut = false;
       const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, 8000);
       pending.set(index, controller);
-      const path = `/media/frames/v1/${name}/${String(index).padStart(4, "0")}.webp`;
+      const path = `/media/frames/${FRAME_VERSION}/${name}/${String(index).padStart(4, "0")}.webp`;
       void fetch(path, { signal: controller.signal })
         .then((response) => {
           if (!response.ok) throw new Error(`Frame unavailable: ${response.status}`);

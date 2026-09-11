@@ -118,3 +118,16 @@ The owner reported that the native-video release still freezes after the first s
 - Independent viewport/closing check passed: 83 painted hero frames, no MP4 requests, no overflow/errors, unchanged hero transform after height-only resize, and all closing headline lines at opacity 1. Desktop contact sheet `/private/tmp/lf-frame-desktop/sheet.png` inspected; its original native hero advanced normally and sampled cue contrast cleared 4.5:1.
 
 Physical iPhone 17 Pro Max Chrome confirmation remains necessary after deployment. No claim of universal smoothness, field Core Web Vitals, or Low Power Mode device validation is made.
+
+## Hero clarity upgrade — September 11, 2026
+
+Owner reported soft imagery, including on mobile, and asked whether 4K would help. Inspection confirmed all three supplied masters are 1920×1080. The prior mobile pipeline extracted from a compressed 1280×720 MP4, encoded again at WebP quality 68, and drew into a 1280×720 canvas. The portrait-cover zoom made those losses more apparent.
+
+- Rebuilt mobile frames directly from original masters at native 1920×1080, WebP quality 88, without sharpening filters, invented detail, or upscaling. Updated canvas backing resolution and explicit high-quality smoothing. Cache reduced to eight frames to keep decoded memory close to the prior budget.
+- Replaced loading posters with the corresponding new first frames. Re-encoded desktop footage from masters at CRF 17, GOP 8, original resolution/frame rate, muted and fast-start. Versioned asset URLs prevent an old cached low-quality file masquerading as the new release.
+- Opening-frame SSIM against its source: mobile 0.951221 → 0.990817 (old 720p frame resampled to 1080p for comparison); desktop 0.988082 → 0.994653. These are single-frame diagnostic measurements, not whole-film perceptual scores.
+- DPR-3 WebKit snapshots at 440×956 show identical composition with cleaner lettering/edges in the enlarged hero. Evidence: `/private/tmp/lf-quality-before/` and `/private/tmp/lf-quality-after/`; four matched scroll positions each. Runtime reports all three canvases at 1920×1080.
+- Delayed-response WebKit check passed: forward painted-frame changes were 154 hero / 57 restaurant / 60 spa; reverse 151 / 50 / 52. No native-video requests or JS errors; maximum cached frames eight. This is host browser emulation, not physical iPhone timing.
+- Asset/dimension/scheduler/range suite: 13 passing tests. Next production build, TypeScript, and OpenNext packaging pass. Lint retains only the same 12 supplied-engine warnings.
+- Bandwidth tradeoff is explicit: the full mobile sequence set is 64.30 MiB versus 19.09 MiB previously, fetched progressively rather than all at startup. No assertion of unchanged cellular transfer cost is made.
+- Source-limit recommendation: use native 4K masters for a future genuine detail upgrade, especially for portrait crops. Upscaling the existing 1080p masters is not equivalent. Existing source softness and baked-in small text cannot be fully repaired by web encoding.
