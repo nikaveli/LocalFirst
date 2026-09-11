@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useCallback, useEffect, useState } from "react";
+import { createVideoScrubber } from "@/lib/video-scrubber";
 
 type ScrollCraftInstance = {
   layout: () => void;
@@ -28,7 +29,7 @@ const ease = (value: number) => {
 const windowed = (value: number, start: number, end: number) =>
   ease((value - start) / Math.max(end - start, 0.001));
 
-function setupLocalFirstMotion(root: HTMLElement) {
+function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement | null, refreshLayout: () => void) {
   const heroAct = root.querySelector<HTMLElement>("[data-lf-hero-act]");
   const heroStage = root.querySelector<HTMLElement>(
     "[data-lf-hero-act] [data-sc-stage]",
@@ -52,28 +53,30 @@ function setupLocalFirstMotion(root: HTMLElement) {
     root.querySelectorAll<HTMLVideoElement>("video[data-lf-scrub]"),
   );
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
 
   if (!proofAct || !proofStage) return () => undefined;
 
-  const records = videos.map((video) => ({
-    video,
-    current: 0,
-    target: 0,
-    ready: false,
-  }));
+  const records = videos.map(createVideoScrubber);
+  const heroScrubber = mobileHero ? createVideoScrubber(mobileHero) : null;
 
   let scrollFrame = 0;
-  let videoFrame = 0;
   let destroyed = false;
   const mediaController = new AbortController();
   const objectUrls: string[] = [];
 
   const loadVideo = (video: HTMLVideoElement) => {
     if (reducedMotion || video.dataset.lfLoaded === "true") return;
-    const mobile = window.matchMedia("(max-width: 860px)").matches;
     const source = mobile ? video.dataset.lfSrcMobile : video.dataset.lfSrc;
     if (!source) return;
     video.dataset.lfLoaded = "true";
+    // Native range loading lets iOS paint and scrub before the entire movie
+    // downloads. Desktop keeps its already-verified blob-loading path.
+    if (mobile) {
+      video.preload = "auto";
+      video.src = source.replace("/media/", "/scrub-media/");
+      return;
+    }
     fetch(source, { signal: mediaController.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load ${source}`);
@@ -97,39 +100,62 @@ function setupLocalFirstMotion(root: HTMLElement) {
   const observer = new IntersectionObserver(
     (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        videos.forEach(loadVideo);
+        loadVideo(videos[0]);
         observer.disconnect();
       }
     },
-    { rootMargin: "140% 0px" },
+    { rootMargin: "70% 0px" },
   );
 
   if (!reducedMotion) observer.observe(proofAct);
 
-  records.forEach((record) => {
+  const readyListeners = videos.map((video) => {
     const markReady = () => {
-      record.ready = true;
-      record.video.closest<HTMLElement>(".lf-film-sheet")?.classList.add("is-ready");
+      video.closest<HTMLElement>(".lf-film-sheet")?.classList.add("is-ready");
     };
-    record.video.addEventListener("loadeddata", markReady);
-    record.video.addEventListener("seeked", markReady);
+    video.addEventListener("loadeddata", markReady);
+    return () => video.removeEventListener("loadeddata", markReady);
   });
+
+  if (mobileHero && !reducedMotion) {
+    mobileHero.preload = "auto";
+    mobileHero.src = (mobileHero.dataset.scSrcMobile || mobileHero.dataset.scSrc || "").replace("/media/", "/scrub-media/");
+  }
+
+  // Batch geometry reads outside the scroll paint. In particular, don't use
+  // innerHeight for mobile zoom: browser toolbar collapse changes it mid-swipe.
+  let viewportWidth = window.innerWidth;
+  let viewportHeight = heroStage?.clientHeight || window.innerHeight;
+  let heroTop = 0, heroHeight = 1, proofTop = 0, proofHeight = 1;
+  let methodTop = 0, methodHeight = 1;
+  const measure = () => {
+    if (!mobile || viewportWidth !== window.innerWidth) {
+      viewportHeight = heroStage?.clientHeight || window.innerHeight;
+    }
+    viewportWidth = window.innerWidth;
+    heroTop = heroAct?.offsetTop || 0;
+    heroHeight = heroAct?.offsetHeight || 1;
+    proofTop = proofAct.offsetTop;
+    proofHeight = proofAct.offsetHeight;
+    methodTop = methodAct?.offsetTop || 0;
+    methodHeight = methodAct?.offsetHeight || 1;
+  };
+  measure();
 
   const update = () => {
     scrollFrame = 0;
+    const scrollY = window.scrollY;
     const heroProgress = heroAct
       ? clamp(
-          (window.scrollY - heroAct.offsetTop) /
-            Math.max(heroAct.offsetHeight - window.innerHeight, 1),
+          (scrollY - heroTop) / Math.max(heroHeight - viewportHeight, 1),
         )
       : 0;
     const proofProgress = clamp(
-      (window.scrollY - proofAct.offsetTop) /
-        Math.max(proofAct.offsetHeight - window.innerHeight, 1),
+      (scrollY - proofTop) / Math.max(proofHeight - viewportHeight, 1),
     );
     const restaurantHandoff = clamp(
-      (window.scrollY - (proofAct.offsetTop - window.innerHeight * 0.52)) /
-        Math.max(window.innerHeight * 0.52, 1),
+      (scrollY - (proofTop - viewportHeight * 0.52)) /
+        Math.max(viewportHeight * 0.52, 1),
     );
     const restaurantProgress = clamp(proofProgress / 0.46);
     const restaurantReveal = ease(restaurantHandoff);
@@ -147,41 +173,50 @@ function setupLocalFirstMotion(root: HTMLElement) {
       (1 - windowed(proofProgress, 0.8, 0.87));
     const lockupOpacity = windowed(proofProgress, 0.88, 0.95);
 
-    if (records[0]) records[0].target = restaurantProgress;
-    if (records[1]) records[1].target = medSpaProgress;
+    const proofVisible = scrollY < proofTop + proofHeight && scrollY > proofTop - viewportHeight;
+    records[0]?.setTarget(restaurantProgress, !reducedMotion && proofVisible && proofProgress < 0.62);
+    records[1]?.setTarget(medSpaProgress, !reducedMotion && proofVisible && proofProgress > 0.32);
+    if (!reducedMotion && scrollY > proofTop - viewportHeight * 0.15) loadVideo(videos[1]);
+    if (heroScrubber) {
+      // Match the original hero's whole-visible-life mapping and authored dwell.
+      const raw = clamp((scrollY - heroTop) / heroHeight);
+      const dwell = Number(heroAct?.dataset.scDwell) || 0;
+      const progress = (1 - dwell) * raw + dwell * (4 * (raw - 0.5) ** 3 + 0.5);
+      heroScrubber.setTarget(progress, !reducedMotion && scrollY < proofTop);
+    }
 
     if (!reducedMotion) {
       if (heroAct && heroStage) {
         const heroPinEnd =
-          heroAct.offsetTop + heroAct.offsetHeight - window.innerHeight;
+          heroTop + heroHeight - viewportHeight;
         const exitHold = clamp(
-          window.scrollY - heroPinEnd,
+          scrollY - heroPinEnd,
           0,
-          window.innerHeight,
+          viewportHeight,
         );
         heroStage.style.transform = `translate3d(0, ${exitHold.toFixed(2)}px, 0)`;
         heroStage.style.display =
-          window.scrollY >= proofAct.offsetTop ? "none" : "";
+          scrollY >= proofTop ? "none" : "";
       }
       if (heroMedia) {
-        const isMobile = window.matchMedia("(max-width: 720px)").matches;
+        const isMobile = viewportWidth <= 720;
         if (heroScrim) {
           heroScrim.style.opacity = (
             1 - windowed(heroProgress, 0.28, 0.52)
           ).toFixed(3);
         }
         if (isMobile) {
-          const baseWidth = Math.max(window.innerWidth - 32, 1);
+          const baseWidth = Math.max(viewportWidth - 32, 1);
           const baseHeight = baseWidth * (9 / 16);
           const fillScale = Math.max(
-            window.innerWidth / baseWidth,
-            window.innerHeight / baseHeight,
+            viewportWidth / baseWidth,
+            viewportHeight / baseHeight,
           );
           const expansion = windowed(heroProgress, 0.035, 0.58);
           const subjectTrack = 1 - windowed(heroProgress, 0.02, 0.3);
           const scale = 1 + (fillScale - 1) * expansion;
           const baseCenterY = 76 + baseHeight / 2;
-          const translateY = (window.innerHeight / 2 - baseCenterY) * expansion;
+          const translateY = (viewportHeight / 2 - baseCenterY) * expansion;
           heroMedia.style.setProperty(
             "--lf-hero-subject-x",
             `${(subjectTrack * 27.5).toFixed(2)}%`,
@@ -242,8 +277,7 @@ function setupLocalFirstMotion(root: HTMLElement) {
 
     if (methodAct && !reducedMotion) {
       const methodProgress = clamp(
-        (window.scrollY - methodAct.offsetTop) /
-          Math.max(methodAct.offsetHeight - window.innerHeight, 1),
+        (scrollY - methodTop) / Math.max(methodHeight - viewportHeight, 1),
       );
       methodPanels.forEach((panel, index) => {
         if (index === 0) return;
@@ -258,46 +292,37 @@ function setupLocalFirstMotion(root: HTMLElement) {
     if (!scrollFrame) scrollFrame = window.requestAnimationFrame(update);
   };
 
-  const tickVideos = () => {
-    if (destroyed) return;
-    records.forEach((record) => {
-      if (!record.ready || record.video.seeking) return;
-      record.current = record.target;
-      const targetTime = clamp(record.current, 0, 0.999) * (record.video.duration || 1);
-      if (Math.abs(record.video.currentTime - targetTime) > 0.025) {
-        try {
-          record.video.currentTime = targetTime;
-        } catch {
-          // The next frame retries after the browser has enough media buffered.
-        }
-      }
-    });
-    videoFrame = window.requestAnimationFrame(tickVideos);
+  const resize = () => {
+    if (mobile && window.innerWidth === viewportWidth) return;
+    measure();
+    requestUpdate();
   };
-
-  const primeVideos = () => {
-    records.forEach(({ video }) => {
-      if (!video.src) return;
-      const play = video.play();
-      if (play) play.then(() => video.pause()).catch(() => undefined);
-    });
-  };
+  const geometryObserver = new ResizeObserver(() => {
+    // A real page-height change (font/portal layout, rotation) invalidates the
+    // engine's cached act offsets too. A toolbar-only change doesn't resize
+    // this root on iOS, and our hero zoom still uses its stable viewport size.
+    refreshLayout();
+    measure();
+    requestUpdate();
+  });
+  geometryObserver.observe(root);
+  void document.fonts.ready.then(() => { if (!destroyed) { measure(); requestUpdate(); } });
 
   window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate, { passive: true });
-  window.addEventListener("pointerdown", primeVideos, { passive: true, once: true });
+  window.addEventListener("resize", resize, { passive: true });
   update();
-  videoFrame = window.requestAnimationFrame(tickVideos);
 
   return () => {
     destroyed = true;
     mediaController.abort();
     observer.disconnect();
+    geometryObserver.disconnect();
+    records.forEach((record) => record.destroy());
+    heroScrubber?.destroy();
+    readyListeners.forEach((remove) => remove());
     window.removeEventListener("scroll", requestUpdate);
-    window.removeEventListener("resize", requestUpdate);
-    window.removeEventListener("pointerdown", primeVideos);
+    window.removeEventListener("resize", resize);
     if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
-    if (videoFrame) window.cancelAnimationFrame(videoFrame);
     objectUrls.forEach((url) => URL.revokeObjectURL(url));
   };
 }
@@ -315,8 +340,14 @@ export default function ScrollcraftMount() {
       root.querySelector<HTMLElement>("[data-lf-proof-act]")?.setAttribute("data-sc-act", "flow");
     }
 
+    const mobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
+    const mobileHero = mobile ? root.querySelector<HTMLVideoElement>(".lf-hero-video") : null;
+    // Keep the vendor engine untouched. On phones only, give this page's
+    // decoder-aware scheduler sole ownership of the hero video playhead.
+    mobileHero?.removeAttribute("data-sc-scrub");
     const instance = window.ScrollCraft.mount(root);
-    const cleanupMotion = setupLocalFirstMotion(root);
+    mobileHero?.setAttribute("data-sc-scrub", "");
+    const cleanupMotion = setupLocalFirstMotion(root, mobileHero, instance.layout);
     const layoutFrame = window.requestAnimationFrame(() => {
       instance.layout();
       instance.read();

@@ -35,11 +35,15 @@ npm run seo:check -- http://localhost:3002
 - [x] Dependency audit: zero known vulnerabilities; staged-source secret-pattern review found no matches.
 - [x] Initial replacement deployed successfully through GitHub run `34549143030`, commit `a56f26f`.
 - [x] Public Home/About/Contact/First Impressions render; three home films loaded; gallery playback tested; SMS/email destinations inspected without sending.
-- [ ] Check live metadata, robots/sitemap, DIY 404, www redirect and edge HTTP-to-HTTPS.
+- [x] Check live metadata, robots/sitemap, DIY 404, www redirect and edge HTTP-to-HTTPS. Verified after run `34549702444`.
 - [ ] Owner verifies reviews, credentials, price and hours.
 - [ ] Search Console rendered inspection and sitemap submission.
 
 See `SEO-AUDIT.md` for scores and limitations. Mobile speed is a known warning, not a completed Core Web Vitals pass.
+
+### Mobile scrub release checks
+
+Run `npm run test:motion` and `node scripts/mobile-scroll-check.mjs <preview-url> --assert-stable` in addition to the SEO checks. The deployed `/scrub-media/{localfirst,restaurant,med-spa}-mobile.mp4` endpoints must return **206**, a matching `Content-Range`, and exactly two bytes for `Range: bytes=0-1`. The endpoint is served by the custom Worker before Next.js; the Next route provides local preview parity. It only exposes the three public mobile movies. No Cloudflare Images/Stream/R2 service was provisioned.
 
 ## Rollback
 

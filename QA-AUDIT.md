@@ -87,3 +87,18 @@ Manual screenshot review covered desktop and phone layouts on all four pages, th
 - Intro/scroll snapshots can capture a reveal mid-fade. Final-state checks and manual scrolling were used in addition to screenshots; the available tests do not prove every frame is smooth on slower hardware.
 
 The entire four-page site was rechecked after corrections. The remaining real-device and delivery checks prevent calling this universally production-certified.
+
+## Mobile hero follow-up — September 10, 2026
+
+Owner reported stuttering on iPhone 17 Pro Max in Chrome. This is a behavioral fix, not a redesign; original movies, crop/zoom composition, copy, and section handoffs are retained. Scrollcraft's supplied engine remains unmodified.
+
+- Isolated mobile zoom changes caused by using live `innerHeight` while the browser toolbar expands/collapses. The page-local camera now uses stable stage geometry, measured outside the scroll paint.
+- Added a mobile-only hero seek scheduler. Its time-based clock advances independently of asynchronous video decoding, coalesces pending seeks to the latest target, seeks at the footage's 30 fps boundaries, and stops scheduling while idle/offscreen/hidden. Restaurant/spa use the same scheduler.
+- Priming retries after media readiness and on later touches instead of consuming the one available gesture before a video has loaded. Reduced motion still fetches no scrub films.
+- Later films warm progressively instead of all three competing at startup. The hero poster now has high fetch priority. The original mobile files already have dense four-frame GOPs; lower-quality experimental encodes were not shipped.
+- Production `/media/*-mobile.mp4` range probes returned the entire movie with HTTP 200. Added a narrow `/scrub-media/` Worker route for the three mobile movies, with real 206/416 handling and matching local preview behavior. It uses existing assets and no new external service. Each allowlisted movie is under 7 MB.
+- Real document-size changes now refresh the engine's cached act positions as well as page-local geometry, preventing stale closing-section offsets after resizing.
+- `npm run test:motion`: 11 deterministic scheduler/range regression tests. Also checked production builds, types/lint, 221 SEO checks, byte-range responses for all three movies, and Scrollcraft desktop/mobile/reduced contact sheets.
+- `scripts/mobile-scroll-check.mjs` uses installed Chrome with a 440×956 touch viewport. It checks continuous video advancement, height-change zoom stability, runtime errors, overflow, and closing-copy visibility. These are emulated Chrome checks, **not physical iOS validation**; CPU-throttled runs on this host were unstable and are not a field-performance claim.
+
+The owner should reload the deployed site in Chrome on the iPhone and confirm forward/reverse scrubbing, quick swipes, and the hero-to-restaurant handoff. Real-device confirmation and field Core Web Vitals remain open.

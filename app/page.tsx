@@ -113,6 +113,7 @@ export default function Home() {
               <img
                 className="lf-hero-poster"
                 src="/media/localfirst-poster.jpg"
+                fetchPriority="high"
                 alt="A phone showing a local business Google profile outside the business"
               />
               <video

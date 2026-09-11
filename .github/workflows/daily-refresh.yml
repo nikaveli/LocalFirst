@@ -28,6 +28,8 @@ jobs:
           cache: 'npm'
       - name: Install
         run: npm ci
+      - name: Regression checks
+        run: npm run test:redirect && npm run test:motion
       - name: Build & deploy
         run: npm run cf:deploy
         env:
