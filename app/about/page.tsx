@@ -16,7 +16,7 @@ const credentials = [
   {
     eyebrow: "BBB Accreditation",
     title: "A+ Rated",
-    copy: "Better Business Bureau accredited with an A+ rating. Receipts, not claims.",
+    copy: "Better Business Bureau accredited with an A+ rating. A local business you can contact directly.",
   },
   {
     eyebrow: "Service Area",
@@ -26,7 +26,7 @@ const credentials = [
   {
     eyebrow: "Approach",
     title: "On-site, Always",
-    copy: "Your photography and video start with a visit to your business. Profile updates are grounded in what I see there. No stock. No filler.",
+    copy: "I visit your business to create current photos and video that show customers what you offer and what to expect.",
   },
 ];
 
@@ -41,9 +41,9 @@ export default function AboutPage() {
             <p className="lf-sub-eyebrow">About</p>
             <h1>Hi, I&apos;m <em>Nicholas.</em></h1>
             <p>
-              I started LocalFirst with one mission: no business left behind. I show up in
-              person, camera in hand and boots on the sidewalk, to keep Colorado&apos;s small
-              businesses visible in the AI search era.
+              I help Colorado businesses improve what customers see when they find them
+              on Google. People are already looking for what you sell. I help you give
+              them a reason to take the next step.
             </p>
           </div>
         </section>
@@ -66,20 +66,19 @@ export default function AboutPage() {
               <p className="lf-sub-eyebrow">The story</p>
               <h2>Why I started <em>LocalFirst.</em></h2>
               <p>
-                I watched good local businesses close, not because they were bad at what they
-                do, but because they were invisible online. A bakery I&apos;d been going to for years.
-                A barber who knew everyone&apos;s name. A mechanic who saved my truck more than once.
-                Gone, one after another.
+                A good local business can offer exactly what someone needs and still leave
+                them unsure online. Old photos or missing details can hide the business
+                that is there today. That is the gap LocalFirst helps close.
               </p>
               <p>
-                They were great at their craft. They were terrible at fighting the algorithm.
-                And nobody was helping them.
+                Owners are busy running their businesses. My job is to help the Google
+                profile reflect the work they are already doing.
               </p>
-              <p className="lf-about-story__promise">That&apos;s not going to happen on my watch.</p>
+              <p className="lf-about-story__promise">Show customers the business that exists today.</p>
               <p>
-                LocalFirst is the company I wish those businesses had access to. I show up in
-                person. I take real photos. I shoot real video. I answer the questions AI is asking
-                about your business, on the ground, with my own two feet.
+                I come directly to your business and create fresh professional photos and
+                video. I show your products, services, space, and the details people want
+                to see before they call, visit, book, or buy.
               </p>
               <p>
                 I&apos;m a Level 7 Google Local Guide. Contributing photos, reviews, and local
@@ -87,10 +86,10 @@ export default function AboutPage() {
                 firsthand perspective shapes the work I do for your business.
               </p>
               <p>
-                I only work with Colorado businesses. I only work on-site. And I only take on what
-                I can actually handle, one business at a time.
+                I work with Colorado businesses, on-site and one business at a time.
+                That personal visit is how I help your online first impression match real life.
               </p>
-              <blockquote>No stock. No filler. No hype. <em>The brand is earned, not announced.</em></blockquote>
+              <blockquote>Help customers find your business. Trust your business. <em>Take the next step.</em></blockquote>
             </div>
           </div>
         </section>
@@ -99,7 +98,7 @@ export default function AboutPage() {
           <div className="lf-sub-shell" data-motion-scene="up">
             <div>
               <p className="lf-sub-eyebrow">Credentials</p>
-              <h2>The receipts.</h2>
+              <h2>A local person you can reach.</h2>
             </div>
             <div className="lf-about-credentials__grid">
               {credentials.map((credential) => (
@@ -121,25 +120,26 @@ export default function AboutPage() {
             </div>
             <div>
               <p>
-                Local means local. If I can&apos;t drive to you, I can&apos;t help you the way I want to.
-                So I keep it tight: Denver, Aurora, and the Front Range.
+                I come to your business in the Denver and Aurora area.
+                Front Range visits are available by arrangement.
               </p>
               <p>
-                That means I know the neighborhoods. I know the cross-streets. I know which block
-                of Colfax is busy at 9am and which one is dead. That context shows up in your photos,
-                your videos, and the way I answer questions about your business on Google.
+                An on-site visit lets me see what a first-time customer would see: your
+                storefront, your space, and the work you do. That context helps me show
+                your business clearly in photos, video, and profile information.
               </p>
-              <p className="lf-about-colorado__line">Tight service area. Real visits. Real proof. That&apos;s the deal.</p>
+              <p className="lf-about-colorado__line">One visit. Fresh content. A stronger first impression.</p>
             </div>
           </div>
         </section>
 
         <section className="lf-sub-cta">
           <div className="lf-sub-shell" data-motion-scene="up">
-            <h2>Want to work <em>together?</em></h2>
+            <h2>Ready to refresh <em>what customers see?</em></h2>
             <p>
-              Best way is the simplest way: call me. We&apos;ll talk about your business for ten
-              minutes. If it&apos;s a fit, great. If not, I&apos;ll tell you that too.
+              Call or text me about your business. The $349 Google Business Profile
+              Visual Refresh is a clear place to start with professional photos, video,
+              and a profile information check.
             </p>
             <div className="lf-sub-actions">
               <a className="lf-sub-button lf-sub-button--primary" href="tel:+13035240591">Call Nicholas</a>

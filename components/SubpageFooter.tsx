@@ -11,7 +11,7 @@ export default function SubpageFooter() {
         <div className="lf-sub-footer__brand">
           <Link href="/" aria-label="LocalFirst home">
             <Image
-              src="/media/localfirst-logo-primary.png"
+              src="/media/localfirst-logo-web.webp"
               alt="LocalFirst"
               width={2172}
               height={724}
@@ -25,6 +25,7 @@ export default function SubpageFooter() {
         <nav aria-label="Footer navigation">
           <p className="lf-sub-footer__label">Sitemap</p>
           <Link href="/">Home</Link>
+          <Link href="/google-business-profile-visual-refresh">Visual Refresh · $349</Link>
           <Link href="/first-impressions">First Impressions</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>

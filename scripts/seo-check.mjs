@@ -6,7 +6,7 @@ import https from "node:https";
 // This is a regression check, not a substitute for Google's rendered inspection.
 const base = process.argv[2] || "http://localhost:3000";
 const origin = "https://localfirstonline.com";
-const paths = ["/", "/about", "/contact", "/first-impressions"];
+const paths = ["/", "/about", "/contact", "/first-impressions", "/google-business-profile-visual-refresh"];
 const titles = new Set();
 const descriptions = new Set();
 const assets = new Set();
@@ -91,6 +91,12 @@ for (const path of paths) {
   check(entities.some((e) => ["WebPage", "AboutPage", "ContactPage", "CollectionPage"].includes(e["@type"]) && e.url === expected), `${path}: page schema`);
   check(entities.filter((e) => e["@type"] === "Service").length === 4, `${path}: four service entities`);
   check(!JSON.stringify(schemas).includes("AggregateRating"), `${path}: no self-serving star markup`);
+  if (path === "/google-business-profile-visual-refresh") {
+    const servicePage = entities.find((e) => e.url === expected && e.mainEntity);
+    check(servicePage?.mainEntity?.offers?.price === "349" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $349 offer schema");
+    check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
+    check(tags(html, "a").some((a) => a.href === "sms:+13035240591?body=FIRST"), "Refresh: direct text contact");
+  }
   for (const tag of ["img", "script", "video", "link"]) {
     for (const attrs of tags(html, tag)) {
       const src = attrs.src || attrs.poster || (["stylesheet", "preload"].includes(attrs.rel) ? attrs.href : undefined);
@@ -129,7 +135,7 @@ const sitemapResponse = await fetch(new URL("/sitemap.xml", base));
 const sitemap = await sitemapResponse.text();
 check(sitemapResponse.ok, "Sitemap available");
 const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-check(locations.length === paths.length && paths.every((p) => locations.includes(`${origin}${p === "/" ? "" : p}`)), "Sitemap contains exactly four canonical pages");
+check(locations.length === paths.length && paths.every((p) => locations.includes(`${origin}${p === "/" ? "" : p}`)), "Sitemap contains all canonical pages");
 
 for (const path of ["/diy", "/diy-google-profile", "/seo-check-missing-page"]) {
   const response = await fetch(new URL(path, base));

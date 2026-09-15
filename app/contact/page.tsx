@@ -15,11 +15,16 @@ export default function ContactPage() {
         <section className="lf-sub-hero lf-contact-hero">
           <div className="lf-sub-shell lf-sub-hero__copy" data-motion-intro>
             <p className="lf-sub-eyebrow">Contact</p>
-            <h1>Let&apos;s <em>talk.</em></h1>
+            <h1>Let&apos;s refresh <em>what customers see.</em></h1>
             <p>
-              Easiest way to reach me is the phone. I answer it myself. If you prefer to
-              write, the form below opens a ready-to-send email to my inbox.
+              Call or text Nicholas about the $349 Google Business Profile Visual Refresh.
+              Tell me what your business offers and what you want customers to see.
+              Prefer email? The form below opens a draft you can review and send.
             </p>
+            <div className="lf-sub-actions">
+              <a className="lf-sub-button lf-sub-button--primary" href="sms:+13035240591?body=FIRST">Text Nicholas</a>
+              <a className="lf-sub-button" href="tel:+13035240591">Call 303-524-0591</a>
+            </div>
           </div>
         </section>
 
@@ -29,7 +34,7 @@ export default function ContactPage() {
               <div>
                 <p className="lf-sub-eyebrow">Phone</p>
                 <a className="lf-contact-details__lead" href="tel:+13035240591">303-524-0591</a>
-                <span>Tap to call. I answer it myself.</span>
+                <span>Call or text Nicholas directly.</span>
               </div>
               <div>
                 <p className="lf-sub-eyebrow">Email</p>
@@ -43,7 +48,7 @@ export default function ContactPage() {
                 <p className="lf-sub-eyebrow">Hours</p>
                 <span>Monday – Saturday<br />8 AM – 7 PM Mountain Time</span>
               </div>
-              <blockquote>No pressure. If it&apos;s not a fit, I&apos;ll tell you.</blockquote>
+              <blockquote>One visit. Fresh content. A stronger first impression.</blockquote>
             </aside>
 
             <div className="lf-contact-form-wrap" data-motion-from-right>

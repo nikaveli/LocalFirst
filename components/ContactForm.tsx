@@ -66,11 +66,11 @@ export default function ContactForm() {
         </label>
       </div>
       <label>
-        <span>What&apos;s going on? <b>*</b></span>
+        <span>What would you like customers to see? <b>*</b></span>
         <textarea
           name="message"
           rows={5}
-          placeholder="A sentence or two about your business and what you’re hoping for."
+          placeholder="Tell me what your business offers and what you would like to refresh on your Google profile."
           required
         />
       </label>

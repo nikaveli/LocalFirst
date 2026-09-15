@@ -32,11 +32,11 @@ export default function LocalFirstPortal({ updateHref }: { updateHref: string })
         <div className="lf-audit-intro">
           <p className="lf-kicker lf-kicker--dark">What customers see</p>
           <h2 id="audit-title">
-            Someone hears about you. They look you up. Then they decide.
+            What do they see when they find your business?
           </h2>
           <p>
-            Your profile is already speaking. The only question is whether it says
-            current, credible, and worth the drive.
+            Before they call, visit, book, or buy, customers look at your photos,
+            reviews, hours, and services. Does what they see give them a reason to choose you?
           </p>
         </div>
 
@@ -44,43 +44,43 @@ export default function LocalFirstPortal({ updateHref }: { updateHref: string })
           <li>
             <span>01</span>
             <div>
-              <strong>They open Google Maps.</strong>
-              <p>Your listing becomes the front door before the front door.</p>
+              <strong>They search for what you sell.</strong>
+              <p>Your profile helps them find your business and understand what you offer.</p>
             </div>
           </li>
           <li>
             <span>02</span>
             <div>
-              <strong>They scan your photos.</strong>
-              <p>Old images quietly become evidence, even when they are no longer true.</p>
+              <strong>They look at your business.</strong>
+              <p>Current photos show your products, your services, and the space they will visit.</p>
             </div>
           </li>
           <li>
             <span>03</span>
             <div>
-              <strong>They check for life.</strong>
-              <p>Recent posts and answered questions show that someone is paying attention.</p>
+              <strong>They decide whether to trust it.</strong>
+              <p>Reviews, accurate information, and recent activity help them know what to expect.</p>
             </div>
           </li>
           <li>
             <span>04</span>
             <div>
-              <strong>They read how you respond.</strong>
-              <p>Every thoughtful reply is another reason to trust the business behind the pin.</p>
+              <strong>They take the next step.</strong>
+              <p>Help them feel confident calling, visiting, booking, or buying.</p>
             </div>
           </li>
         </ol>
 
         <aside className="lf-audit-reveal">
           <div className="lf-audit-reveal__inner">
-            <span>Not a ranking report</span>
-            <h3>What are customers seeing today?</h3>
+            <span>An outdated first impression</span>
+            <h3>Show them your business today.</h3>
             <p>
-              Text me to update your Google Business Profile. We&apos;ll look at what
-              customers see today and choose the clearest place to start.
+              Old photos and missing details can leave a customer unsure. They may
+              move on before you ever know they were interested. Let&apos;s improve what they see.
             </p>
             <a className="lf-cta lf-cta--ink" href={updateHref}>
-              Update Now <ArrowUpRight aria-hidden="true" />
+              Text Nicholas <ArrowUpRight aria-hidden="true" />
             </a>
           </div>
         </aside>

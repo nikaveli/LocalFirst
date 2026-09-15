@@ -59,7 +59,7 @@ export default function Home() {
       <header className="lf-site-bar">
         <Link className="lf-wordmark" href="/" aria-label="LocalFirst home">
           <Image
-            src="/media/localfirst-logo-primary.png"
+            src="/media/localfirst-logo-web.webp"
             alt="LocalFirst"
             width={2172}
             height={724}
@@ -73,7 +73,7 @@ export default function Home() {
           <Link href="/contact">Contact</Link>
         </nav>
         <a className="lf-header-cta" href={updateHref}>
-          Update Now <ArrowUpRight aria-hidden="true" />
+          Text Nicholas <ArrowUpRight aria-hidden="true" />
         </a>
         <MobileNavigation />
       </header>
@@ -133,16 +133,16 @@ export default function Home() {
               className="sc-copy sc-copy--lead lf-hero-copy"
               data-sc-cue="0 0.48 0 0.2"
             >
-              <p className="lf-kicker">Colorado&apos;s on-site visibility partner</p>
+              <p className="lf-kicker">Google Business Profile visual refresh</p>
               <h1 id="hero-title">
-                Your next customer decides{" "}
-                <span>before they walk in.</span>
+                People are already searching{" "}
+                <span>for what you sell.</span>
               </h1>
               <p className="lf-hero-lede">
-                I make your Google profile look like the business you actually run.
+                What do they see when they find your business?
               </p>
               <a className="lf-cta" href={updateHref} data-sc-magnet="0.2">
-                Update Now <ArrowUpRight aria-hidden="true" />
+                Text Nicholas <ArrowUpRight aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -167,8 +167,8 @@ export default function Home() {
               <div className="lf-film-shade lf-film-shade--left" aria-hidden="true" />
               <div className="lf-film-copy lf-film-copy--left">
                 <p className="lf-kicker">Restaurants</p>
-                <h2>Make them hungry before they arrive.</h2>
-                <p>Fresh photography turns one search into a reason to choose your table.</p>
+                <h2>Give them a reason to choose your table.</h2>
+                <p>Show your food, your space, and what a visit feels like before they arrive.</p>
               </div>
             </article>
 
@@ -177,8 +177,8 @@ export default function Home() {
               data-lf-restaurant-copy
             >
               <p className="lf-kicker">Restaurants</p>
-              <h2>Make them hungry before they arrive.</h2>
-              <p>Fresh photography turns one search into a reason to choose your table.</p>
+              <h2>Give them a reason to choose your table.</h2>
+              <p>Show your food, your space, and what a visit feels like before they arrive.</p>
             </div>
 
             <article className="lf-film-sheet lf-film-sheet--med-spa" data-lf-med-spa-sheet>
@@ -199,8 +199,8 @@ export default function Home() {
               <div className="lf-film-shade lf-film-shade--right" aria-hidden="true" />
               <div className="lf-film-copy lf-film-copy--right" data-lf-med-spa-copy>
                 <p className="lf-kicker">Med spas</p>
-                <h2>Make trust visible.</h2>
-                <p>Precise, polished visuals let the quality of your care show up first.</p>
+                <h2>Help them feel confident.</h2>
+                <p>Show your space and services so people know what to expect.</p>
               </div>
             </article>
 
@@ -210,9 +210,9 @@ export default function Home() {
             </div>
 
             <div className="lf-proof-lockup" data-lf-proof-lockup>
-              <p>Shot here.</p>
-              <h2>Built to be chosen.</h2>
-              <span>Real businesses. Real visits. No stock. No filler.</span>
+              <p>Show what you offer.</p>
+              <h2>Make it easy to choose.</h2>
+              <span>Help customers see the business that exists today.</span>
             </div>
           </div>
         </section>
@@ -270,16 +270,16 @@ export default function Home() {
           data-lf-method-act
           aria-labelledby="method-title"
         >
-          <div className="sc-stage lf-method-stage" data-sc-stage>
+          <div className="sc-stage lf-method-stage" tabIndex={0} role="region" aria-label="How LocalFirst helps" data-sc-stage>
             <div className="lf-method-rail" data-sc-pan="0.04">
               <article className="lf-method-panel lf-method-panel--lead" data-lf-method-panel>
                 <div>
-                  <p className="lf-kicker">The Local First Method</p>
-                  <h2 id="method-title">Good visibility starts with ground truth.</h2>
+                  <p className="lf-kicker">How LocalFirst helps</p>
+                  <h2 id="method-title">Find your business. Trust it. Take the next step.</h2>
                 </div>
                 <p className="lf-method-lede">
-                  I show up, see the business for myself, and build your profile from what
-                  customers can actually experience.
+                  Your Google Business Profile helps people who already want what you sell
+                  find your business, trust it, and feel confident taking the next step.
                 </p>
               </article>
 
@@ -287,35 +287,35 @@ export default function Home() {
                 <div className="lf-method-icon" aria-hidden="true"><Camera /></div>
                 <div>
                   <p className="lf-kicker">Capture</p>
-                  <h3>Make the real place look unmistakably worth visiting.</h3>
+                  <h3>Show customers the business that exists today.</h3>
                 </div>
                 <p>
-                  On-site photography, short-form video, and 360 imagery made for Google,
-                  not pulled from a stock library.
+                  Professional photos and short-form video show your products, services,
+                  space, and the details customers want to see.
                 </p>
               </article>
 
               <article className="lf-method-panel lf-method-panel--brick" data-lf-method-panel>
                 <div className="lf-method-icon" aria-hidden="true"><MapPinned /></div>
                 <div>
-                  <p className="lf-kicker lf-kicker--dark">Build</p>
-                  <h3>Turn what I learn on site into useful answers.</h3>
+                  <p className="lf-kicker lf-kicker--dark">Update</p>
+                  <h3>Make what you offer clear at a glance.</h3>
                 </div>
                 <p>
-                  Services, attributes, descriptions, and customer questions are shaped by
-                  the business in front of me.
+                  Fresh visuals and a profile information check help customers understand
+                  what you offer and know what to expect.
                 </p>
               </article>
 
               <article className="lf-method-panel" data-lf-method-panel>
                 <div className="lf-method-icon" aria-hidden="true"><RefreshCw /></div>
                 <div>
-                  <p className="lf-kicker">Maintain</p>
-                  <h3>Keep the profile active after the photo day ends.</h3>
+                  <p className="lf-kicker">Review</p>
+                  <h3>Know what could make your profile stronger.</h3>
                 </div>
                 <p>
-                  New posts, current visuals, and human review replies keep your first
-                  impression from drifting back into neglect.
+                  I review what customers see and recommend practical improvements
+                  that make your profile clearer and more useful.
                 </p>
               </article>
 
@@ -323,10 +323,10 @@ export default function Home() {
                 <ShieldCheck aria-hidden="true" />
                 <div>
                   <p className="lf-kicker">On-site. Firsthand. Colorado only.</p>
-                  <h3>Your business is not content. It is a place people depend on.</h3>
+                  <h3>Your business deserves to look as good on Google as it does in person.</h3>
                 </div>
                 <p>
-                  That is why the work starts with a visit and stays grounded in what is true.
+                  Whether customers search or ask AI, give them a clear, current picture of what you offer.
                 </p>
               </article>
             </div>
@@ -356,12 +356,11 @@ export default function Home() {
             <div className="lf-founder-story" data-motion-group>
               <p className="lf-kicker lf-kicker--gold">Why I started LocalFirst</p>
               <h2 id="founder-title">
-                “I started LocalFirst because I watched good local businesses close. Not
-                because they were bad at what they do, but because they were invisible
-                online.”
+                “People are already looking for what you sell. I help make sure they see
+                a business they can trust and feel confident choosing.”
               </h2>
-              <p className="lf-founder-promise">That&apos;s not going to happen on my watch.</p>
-              <p className="lf-founder-mission">No business left behind.</p>
+              <p className="lf-founder-promise">Show customers the business that exists today.</p>
+              <p className="lf-founder-mission">No Business Left Behind.</p>
               <p className="lf-founder-signature">
                 Nicholas Molina <span>Founder · LocalFirst · Colorado</span>
               </p>
@@ -386,35 +385,35 @@ export default function Home() {
           <div className="lf-section-shell lf-offer-grid">
             <div className="lf-offer-intro" data-motion-group>
               <p className="lf-kicker">One clear place to start</p>
-              <h2>Start where customers decide.</h2>
+              <h2>Help turn people searching into customers.</h2>
               <p>
-                I come to your business, capture what is true today, and turn it into a
-                Google profile people can trust before they arrive.
+                I come directly to your business and create fresh professional photos
+                and video for your Google Business Profile.
               </p>
               <p className="lf-proof-note">On-site. Firsthand. Colorado only.</p>
             </div>
 
             <article className="lf-offer-plate" data-motion-from-right>
               <div className="lf-offer-heading">
-                <p className="lf-kicker lf-kicker--dark">Start with the Visual Update</p>
-                <h2 id="offer-title">Give your profile a first impression that matches the work.</h2>
+                <p className="lf-kicker lf-kicker--dark">Google Business Profile Visual Refresh</p>
+                <h2 id="offer-title">One visit. Fresh content. A stronger first impression.</h2>
                 <div className="lf-price">
-                  <span>$</span><strong>497</strong><small>one time</small>
+                  <span>$</span><strong>349</strong><small>one time</small>
                 </div>
               </div>
               <ul>
-                <li><Check aria-hidden="true" /> Full Google Business Profile update</li>
-                <li><Camera aria-hidden="true" /> Professional on-site photography</li>
-                <li><Video aria-hidden="true" /> Google-ready short video</li>
-                <li><Sparkles aria-hidden="true" /> 360 virtual tour imagery</li>
-                <li><RefreshCw aria-hidden="true" /> Fresh profile posts</li>
-                <li><MessageCircleReply aria-hidden="true" /> Replies to recent reviews</li>
+                <li><Check aria-hidden="true" /> Professional photos of your business</li>
+                <li><Camera aria-hidden="true" /> Photos of your products, services, or work</li>
+                <li><Video aria-hidden="true" /> Short-form video content</li>
+                <li><Sparkles aria-hidden="true" /> Google Business Profile visual update</li>
+                <li><RefreshCw aria-hidden="true" /> Profile information check</li>
+                <li><MessageCircleReply aria-hidden="true" /> Recommendations for improving your profile</li>
               </ul>
               <a className="lf-cta lf-cta--ink lf-offer-cta" href={updateHref}>
-                Update Now <ArrowUpRight aria-hidden="true" />
+                Text Nicholas <ArrowUpRight aria-hidden="true" />
               </a>
               <p className="lf-offer-fineprint">
-                No lock-in. No agency maze. Just the clearest place to start.
+                <Link href="/google-business-profile-visual-refresh">Explore the $349 package and common questions →</Link>
               </p>
             </article>
           </div>
@@ -432,10 +431,10 @@ export default function Home() {
             <div className="lf-close-inner">
               <p className="lf-kicker">No Business Left Behind</p>
               <h2 id="close-title" data-sc-cue="0.04 1 0 0" data-sc-kinetic="lines">
-                The next person searching should see your best first impression.
+                Give them a reason to choose you.
               </h2>
               <p data-sc-cue="0.1 1 0.08 0">
-                Text me to get started with photography, video, or a Google Business Profile update.
+                Call or text Nicholas. Help the next person searching feel confident saying, “This is the place.”
               </p>
               <a
                 className="lf-cta"
@@ -443,7 +442,7 @@ export default function Home() {
                 data-sc-magnet="0.24"
                 data-sc-cue="0.12 1 0.08 0"
               >
-                Update Now <ArrowUpRight aria-hidden="true" />
+                Text Nicholas <ArrowUpRight aria-hidden="true" />
               </a>
             </div>
             <footer className="lf-footer">

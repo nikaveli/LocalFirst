@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "./SiteLink";
 import MobileNavigation from "./MobileNavigation";
 
-type ActivePage = "about" | "contact" | "first-impressions";
+type ActivePage = "about" | "contact" | "first-impressions" | "visual-refresh";
 
 export default function SubpageHeader({ activePage }: { activePage?: ActivePage }) {
   const navItems: Array<{ href: string; label: string; key: ActivePage | "home" }> = [
     { href: "/", label: "Home", key: "home" },
+    { href: "/google-business-profile-visual-refresh", label: "Visual Refresh", key: "visual-refresh" },
     { href: "/first-impressions", label: "First Impressions", key: "first-impressions" },
     { href: "/about", label: "About", key: "about" },
     { href: "/contact", label: "Contact", key: "contact" },
@@ -17,7 +18,7 @@ export default function SubpageHeader({ activePage }: { activePage?: ActivePage 
       <div className="lf-sub-header__inner">
         <Link href="/" className="lf-sub-logo" aria-label="LocalFirst home">
           <Image
-            src="/media/localfirst-logo-primary.png"
+            src="/media/localfirst-logo-web.webp"
             alt="LocalFirst"
             width={2172}
             height={724}

@@ -21,9 +21,9 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "LocalFirst | On-Site Google Profile Photography",
+  title: "LocalFirst | Google Business Profile Visual Refresh",
   description:
-    "On-site photography, video, and Google Business Profile optimization for Colorado brick-and-mortar businesses.",
+    "Help people who are already searching find your business, trust it, and take the next step. On-site photos, video, and Google profile visual refreshes.",
   authors: [{ name: "Nicholas Molina" }],
 };
 

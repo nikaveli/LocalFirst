@@ -200,7 +200,8 @@
   font-weight: 400;
 }
 
-.lf-sub-hero__copy > p:last-child {
+.lf-sub-hero__copy > p:last-child,
+.lf-contact-hero .lf-sub-hero__copy > p:not(.lf-sub-eyebrow) {
   max-width: 46rem;
   margin: 2rem 0 0;
   color: var(--lf-concrete);
@@ -981,7 +982,8 @@
     font-size: clamp(3.25rem, 16vw, 4.7rem);
   }
 
-  .lf-sub-hero__copy > p:last-child {
+  .lf-sub-hero__copy > p:last-child,
+.lf-contact-hero .lf-sub-hero__copy > p:not(.lf-sub-eyebrow) {
     margin-top: 1.5rem;
     font-size: 1rem;
   }
@@ -1094,3 +1096,6 @@
     transform: none;
   }
 }
+
+/* Keep small orange labels readable on the raised About surface. */
+.lf-about-credentials .lf-sub-eyebrow { color: #ff9547; }

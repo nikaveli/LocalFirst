@@ -1759,3 +1759,6 @@ p { text-wrap: pretty; }
     transform: none !important;
   }
 }
+
+/* Small text on the craft panels needs the same contrast as body copy. */
+.lf-method-panel:not(.lf-method-panel--lead):not(.lf-method-panel--brick):not(.lf-method-panel--finish) .lf-kicker { color: var(--lf-white); }
