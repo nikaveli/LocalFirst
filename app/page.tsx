@@ -68,6 +68,9 @@ export default function Home() {
           />
         </Link>
         <nav className="lf-site-nav" aria-label="Main navigation">
+          <Link href="/google-business-profile-visual-refresh#pricing">Pricing</Link>
+          <Link href="/google-business-profile-visual-refresh">Visual Refresh</Link>
+          <Link href="/google-business-profile-resources">GBP Guides</Link>
           <Link href="/first-impressions">First Impressions</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>

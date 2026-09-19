@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "./SiteLink";
 import MobileNavigation from "./MobileNavigation";
 
-type ActivePage = "about" | "contact" | "first-impressions" | "visual-refresh";
+type ActivePage = "about" | "contact" | "first-impressions" | "pricing" | "resources" | "visual-refresh";
 
 export default function SubpageHeader({ activePage }: { activePage?: ActivePage }) {
   const navItems: Array<{ href: string; label: string; key: ActivePage | "home" }> = [
     { href: "/", label: "Home", key: "home" },
+    { href: "/google-business-profile-visual-refresh#pricing", label: "Pricing", key: "pricing" },
     { href: "/google-business-profile-visual-refresh", label: "Visual Refresh", key: "visual-refresh" },
+    { href: "/google-business-profile-resources", label: "GBP Guides", key: "resources" },
     { href: "/first-impressions", label: "First Impressions", key: "first-impressions" },
     { href: "/about", label: "About", key: "about" },
     { href: "/contact", label: "Contact", key: "contact" },

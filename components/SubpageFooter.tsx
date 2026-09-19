@@ -25,7 +25,9 @@ export default function SubpageFooter() {
         <nav aria-label="Footer navigation">
           <p className="lf-sub-footer__label">Sitemap</p>
           <Link href="/">Home</Link>
+          <Link href="/google-business-profile-visual-refresh#pricing">Pricing</Link>
           <Link href="/google-business-profile-visual-refresh">Visual Refresh · $349</Link>
+          <Link href="/google-business-profile-resources">Google Business Profile Guides</Link>
           <Link href="/first-impressions">First Impressions</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>

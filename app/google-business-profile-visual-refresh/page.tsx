@@ -3,10 +3,15 @@ import JsonLd from "@/components/JsonLd";
 import SubpageHeader from "@/components/SubpageHeader";
 import SubpageFooter from "@/components/SubpageFooter";
 import { pageMetadata, pageSchema } from "@/lib/seo";
+import { Check } from "lucide-react";
 import "./refresh.css";
 
 const path = "/google-business-profile-visual-refresh";
 export const metadata = pageMetadata(path);
+
+const visualRefreshHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24349%20Visual%20Refresh";
+const completeUpdateHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24497%20Complete%20Profile%20Update";
+const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24250%20Product%20or%20Menu%20Photo%20Shoot";
 
 const includes = [
   ["Professional photos of your business", "Show customers your space, inside and out, with current professional photos."],
@@ -42,6 +47,69 @@ export default function VisualRefreshPage() {
               <a className="lf-sub-button lf-sub-button--primary" href="sms:+13035240591?body=FIRST">Text Nicholas to get started</a>
               <a className="lf-sub-button" href="tel:+13035240591">Call 303-524-0591</a>
             </div>
+          </div>
+        </section>
+        <section id="pricing" className="lf-refresh-pricing" aria-labelledby="pricing-title">
+          <div className="lf-sub-shell">
+            <div className="lf-refresh-pricing__intro">
+              <div>
+                <p className="lf-sub-eyebrow">Simple pricing · No contracts</p>
+                <h2 id="pricing-title">Choose the right level of support.</h2>
+              </div>
+              <p>Start with fresh visual content, update your complete Google Business Profile, or add a dedicated product and menu shoot when you need more detailed coverage.</p>
+            </div>
+
+            <div className="lf-refresh-pricing__grid">
+              <article className="lf-refresh-price-card">
+                <div>
+                  <p className="lf-refresh-price-card__label">Visual Refresh</p>
+                  <h3>Fresh content for a stronger first impression.</h3>
+                  <p className="lf-refresh-price-card__price"><span>$</span><strong>349</strong><small>one time</small></p>
+                </div>
+                <ul>
+                  <li><Check aria-hidden="true" /> Professional photos of your business</li>
+                  <li><Check aria-hidden="true" /> Photos of your products, services, or work</li>
+                  <li><Check aria-hidden="true" /> Short-form video content</li>
+                  <li><Check aria-hidden="true" /> Google Business Profile visual update</li>
+                  <li><Check aria-hidden="true" /> Profile information check</li>
+                  <li><Check aria-hidden="true" /> Recommendations for improving your profile</li>
+                </ul>
+                <a className="lf-refresh-price-card__button" href={visualRefreshHref}>Ask about the Visual Refresh</a>
+              </article>
+
+              <article className="lf-refresh-price-card lf-refresh-price-card--featured">
+                <div>
+                  <p className="lf-refresh-price-card__label">Complete Profile Update</p>
+                  <h3>The full Google Business Profile update.</h3>
+                  <p className="lf-refresh-price-card__price"><span>$</span><strong>497</strong><small>one time</small></p>
+                </div>
+                <ul>
+                  <li><Check aria-hidden="true" /> Professional photos and short-form video</li>
+                  <li><Check aria-hidden="true" /> Services, hours, categories, and description updated</li>
+                  <li><Check aria-hidden="true" /> Google Business Profile posts for 90 days</li>
+                  <li><Check aria-hidden="true" /> 360° virtual tour</li>
+                  <li><Check aria-hidden="true" /> Replies to unanswered reviews from the previous 14 days</li>
+                </ul>
+                <a className="lf-refresh-price-card__button" href={completeUpdateHref}>Ask about the Complete Update</a>
+              </article>
+
+              <article className="lf-refresh-price-card lf-refresh-price-card--addon">
+                <div>
+                  <p className="lf-refresh-price-card__label">Add-on service</p>
+                  <h3>Product &amp; Menu Item Photo Shoot.</h3>
+                  <p className="lf-refresh-price-card__price"><span>$</span><strong>250</strong><small>separate shoot</small></p>
+                </div>
+                <ul>
+                  <li><Check aria-hidden="true" /> A dedicated on-site photo shoot</li>
+                  <li><Check aria-hidden="true" /> Menu-item or product photography</li>
+                  <li><Check aria-hidden="true" /> A consistent set of current images</li>
+                  <li><Check aria-hidden="true" /> Deeper coverage beyond the main profile shoot</li>
+                  <li><Check aria-hidden="true" /> Available with either profile package</li>
+                </ul>
+                <a className="lf-refresh-price-card__button" href={photoShootHref}>Add a product or menu shoot</a>
+              </article>
+            </div>
+            <p className="lf-refresh-pricing__note">The $250 product and menu item photo shoot is an additional service for businesses that need detailed images beyond the main profile visit.</p>
           </div>
         </section>
         <section className="lf-refresh-section">

@@ -4,9 +4,9 @@ export const siteUrl = "https://localfirstonline.com";
 
 export const seoPages = {
   "/google-business-profile-visual-refresh": {
-    title: "Google Business Profile Photos in Denver | $349 Refresh",
+    title: "Google Business Profile Services & Pricing | LocalFirst",
     description:
-      "Refresh your Google Business Profile with on-site photos, short video, and an information check. Serving Denver and Aurora. Call or text Nicholas. Just $349.",
+      "Compare LocalFirst Google Business Profile services in Denver and Aurora: a $349 Visual Refresh, $497 Complete Update, and $250 menu or product photo add-on.",
     type: "WebPage",
   },
   "/": {
@@ -31,6 +31,12 @@ export const seoPages = {
     title: "First Impressions | Denver & Aurora Videos by LocalFirst",
     description:
       "See what local businesses offer through LocalFirst video visits in Denver and Aurora. Help customers feel confident taking the next step. Contact Nicholas.",
+    type: "CollectionPage",
+  },
+  "/google-business-profile-resources": {
+    title: "Google Business Profile Guides by Industry | LocalFirst",
+    description:
+      "Open Google's 2026 Business Profile playbooks for restaurants, hotels, tours, attractions, and service businesses, with practical takeaways for each industry.",
     type: "CollectionPage",
   },
 } as const;
