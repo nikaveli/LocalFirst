@@ -6,7 +6,14 @@ import https from "node:https";
 // This is a regression check, not a substitute for Google's rendered inspection.
 const base = process.argv[2] || "http://localhost:3000";
 const origin = "https://localfirstonline.com";
-const paths = ["/", "/about", "/contact", "/first-impressions", "/google-business-profile-visual-refresh"];
+const paths = [
+  "/",
+  "/about",
+  "/contact",
+  "/first-impressions",
+  "/google-business-profile-resources",
+  "/google-business-profile-visual-refresh",
+];
 const titles = new Set();
 const descriptions = new Set();
 const assets = new Set();
@@ -85,7 +92,7 @@ for (const path of paths) {
   check(tags(html, "img").every((img) => Object.hasOwn(img, "alt")), `${path}: every image has an alt attribute`);
 
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
-  check(schemas.length === 2, `${path}: valid JSON-LD documents`);
+  check(schemas.length === (path === "/google-business-profile-resources" ? 3 : 2), `${path}: valid JSON-LD documents`);
   const entities = schemas.flatMap((s) => s["@graph"] || [s]);
   check(entities.some((e) => e["@type"] === "Organization" && e.telephone === "+1-303-524-0591" && e.email === "nick.molina@icloud.com"), `${path}: accurate business entity`);
   check(entities.some((e) => ["WebPage", "AboutPage", "ContactPage", "CollectionPage"].includes(e["@type"]) && e.url === expected), `${path}: page schema`);
@@ -96,6 +103,15 @@ for (const path of paths) {
     check(servicePage?.mainEntity?.offers?.price === "349" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $349 offer schema");
     check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
     check(tags(html, "a").some((a) => a.href === "sms:+13035240591?body=FIRST"), "Refresh: direct text contact");
+    check(html.includes('id="pricing"'), "Refresh: pricing anchor");
+    check(["349", "497", "250"].every((price) => html.includes(`<strong>${price}</strong>`)), "Refresh: all three prices visible");
+    check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Refresh: complete update scope visible");
+  }
+  if (path === "/google-business-profile-resources") {
+    const itemList = entities.find((e) => e["@type"] === "ItemList");
+    const externalGuides = tags(html, "a").filter((a) => /(?:services\.google\.com|uploads\.brandlive\.com)/.test(a.href || ""));
+    check(itemList?.numberOfItems === 4 && itemList.itemListElement?.length === 4, "Resources: four-guide ItemList schema");
+    check(externalGuides.length === 4 && externalGuides.every((a) => a.target === "_blank" && /noopener/.test(a.rel || "")), "Resources: four safe outbound playbook links");
   }
   for (const tag of ["img", "script", "video", "link"]) {
     for (const attrs of tags(html, tag)) {

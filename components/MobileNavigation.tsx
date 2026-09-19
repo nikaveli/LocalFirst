@@ -6,7 +6,9 @@ import SiteLink from "./SiteLink";
 
 const links = [
   ["/", "Home"],
+  ["/google-business-profile-visual-refresh#pricing", "Pricing"],
   ["/google-business-profile-visual-refresh", "Visual Refresh · $349"],
+  ["/google-business-profile-resources", "Google Business Profile Guides"],
   ["/first-impressions", "First Impressions"],
   ["/about", "About"],
   ["/contact", "Contact"],
