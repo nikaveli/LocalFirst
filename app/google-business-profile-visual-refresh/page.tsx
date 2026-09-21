@@ -11,7 +11,7 @@ export const metadata = pageMetadata(path);
 
 const visualRefreshHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24349%20Visual%20Refresh";
 const completeUpdateHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24497%20Complete%20Profile%20Update";
-const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24250%20Product%20or%20Menu%20Photo%20Shoot";
+const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24750%20Product%20or%20Menu%20Photo%20Shoot";
 
 const includes = [
   ["Professional photos of your business", "Show customers your space, inside and out, with current professional photos."],
@@ -97,7 +97,7 @@ export default function VisualRefreshPage() {
                 <div>
                   <p className="lf-refresh-price-card__label">Add-on service</p>
                   <h3>Product &amp; Menu Item Photo Shoot.</h3>
-                  <p className="lf-refresh-price-card__price"><span>$</span><strong>250</strong><small>separate shoot</small></p>
+                  <p className="lf-refresh-price-card__price"><span>$</span><strong>750</strong><small>separate shoot</small></p>
                 </div>
                 <ul>
                   <li><Check aria-hidden="true" /> A dedicated on-site photo shoot</li>
@@ -109,7 +109,7 @@ export default function VisualRefreshPage() {
                 <a className="lf-refresh-price-card__button" href={photoShootHref}>Add a product or menu shoot</a>
               </article>
             </div>
-            <p className="lf-refresh-pricing__note">The $250 product and menu item photo shoot is an additional service for businesses that need detailed images beyond the main profile visit.</p>
+            <p className="lf-refresh-pricing__note">The $750 product and menu item photo shoot is an additional service for businesses that need detailed images beyond the main profile visit.</p>
           </div>
         </section>
         <section className="lf-refresh-section">

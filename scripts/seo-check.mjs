@@ -104,7 +104,7 @@ for (const path of paths) {
     check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
     check(tags(html, "a").some((a) => a.href === "sms:+13035240591?body=FIRST"), "Refresh: direct text contact");
     check(html.includes('id="pricing"'), "Refresh: pricing anchor");
-    check(["349", "497", "250"].every((price) => html.includes(`<strong>${price}</strong>`)), "Refresh: all three prices visible");
+    check(["349", "497", "750"].every((price) => html.includes(`<strong>${price}</strong>`)), "Refresh: all three prices visible");
     check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Refresh: complete update scope visible");
   }
   if (path === "/google-business-profile-resources") {
