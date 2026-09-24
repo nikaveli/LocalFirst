@@ -121,8 +121,8 @@ export default function GlyphPortal({
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d", { willReadFrequently: true });
-    let disposed = false, raf = 0, dirty = true, active = true, ready = false;
-    const mountedAt = performance.now();
+    let disposed = false, raf = 0, dirty = true, active = false, ready = false;
+    let firstFrameRequestedAt = 0;
     let browserFrameSeen = false, stalled = false;
     let W = 1, H = 1, travel = 1, startScale = 1, endScale = 1;
     let center = { x: 0, y: 0 }, target: Ink | null = null;
@@ -167,7 +167,8 @@ export default function GlyphPortal({
         letters.push({ index: offset, x: advances[offset] - m.actualBoundingBoxLeft,
           y: -m.actualBoundingBoxAscent, width: m.actualBoundingBoxLeft + m.actualBoundingBoxRight,
           height: m.actualBoundingBoxAscent + m.actualBoundingBoxDescent });
-        const found = interior(context, char, scanFont);
+        const found = interactive || requested < 0 || offset === requested
+          ? interior(context, char, scanFont) : null;
         if (found) candidates.push({ ...found, x: found.x + advances[offset], index: offset });
         offset += char.length;
       }
@@ -272,13 +273,18 @@ export default function GlyphPortal({
       raf = 0;
       if (disposed) return;
       if (time !== undefined && !browserFrameSeen) {
-        browserFrameSeen = true; stalled ||= performance.now() - mountedAt > 2500; dirty = true;
+        browserFrameSeen = true; stalled ||= performance.now() - firstFrameRequestedAt > 2500; dirty = true;
       }
       if (dirty) { dirty = false; layout(); }
       if (ready) paint(position());
     };
-    const schedule = () => { if (!raf && active) raf = requestAnimationFrame(frame); };
-    const resize = () => { cancelAnimationFrame(raf); dirty = true; frame(); };
+    const schedule = () => {
+      if (!raf && active) {
+        if (!browserFrameSeen) firstFrameRequestedAt = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    };
+    const resize = () => { dirty = true; schedule(); };
     const scroll = () => schedule();
     const choose = (event: Event) => {
       if (!choosing || position() >= .04) return;
@@ -318,10 +324,8 @@ export default function GlyphPortal({
     window.addEventListener("resize", resize);
     window.visualViewport?.addEventListener("resize", resize);
     motion.addEventListener("change", resize);
-    frame();
-    // WebKit can withhold frames, timers and scroll events behind an initial hung font.
-    // Begin in reading flow. Enable motion only when the browser starts rendering promptly.
-    schedule();
+    // Pixel analysis and SVG layout wait until this section is near the viewport.
+    // They must not compete with the opening hero's decode and first paint.
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
@@ -376,6 +380,7 @@ export default function GlyphPortal({
         ${q}[data-gp-motion=on] [data-gp-pin]{position:sticky;top:0;}
         ${q}[data-gp-motion=off] [data-gp-hint]{display:none;}
         ${q}[data-gp-motion=on] [data-gp-content]{margin-top:calc((var(--gp-length) - 1) * var(--gp-height));background:transparent;opacity:var(--gp-reveal,0);pointer-events:none;}
+        @media(prefers-reduced-motion:no-preference){${q}:not([data-gp-motion]) [data-gp-content]{margin-top:calc((var(--gp-length) - 1) * var(--gp-height,100svh));}}
         ${q}[data-gp-motion=on][data-gp-entered=true] [data-gp-content]{pointer-events:auto;}
         ${q}[data-gp-motion=on]:has([data-gp-content]:focus-within) [data-gp-field]{clip-path:none!important;}
         ${q}[data-gp-motion=on] [data-gp-content]:focus-within{opacity:1;pointer-events:auto;}

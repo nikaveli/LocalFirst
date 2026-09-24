@@ -6,17 +6,19 @@ export const FRAME_SEQUENCES = {
   restaurant: 241,
   "med-spa": 241,
 } as const;
-export const FRAME_VERSION = "v2";
+export const FRAME_VERSION = "v3";
 export const FRAME_WIDTH = 1920;
 export const FRAME_HEIGHT = 1080;
-// Keep decoded memory close to the old 720p budget, not 2.25x larger.
-export const FRAME_CACHE_LIMIT = 8;
+// Full-HD pixels stay sharp, but only a small moving window stays decoded.
+export const FRAME_CACHE_LIMIT = 4;
+export const FRAME_REQUEST_LIMIT = 2;
 
 export function createFrameSequence(
   video: HTMLVideoElement,
   name: keyof typeof FRAME_SEQUENCES,
 ) {
   const count = FRAME_SEQUENCES[name];
+  const poster = video.parentElement?.querySelector<HTMLImageElement>("img");
   const canvas = document.createElement("canvas");
   canvas.width = FRAME_WIDTH;
   canvas.height = FRAME_HEIGHT;
@@ -40,8 +42,7 @@ export function createFrameSequence(
     if (!active || document.hidden) return [0];
     const indices = [target];
     // The exact target always wins over speculative work, including on rewind.
-    for (let step = 1; step <= 3; step++) indices.push(target + direction * step);
-    indices.push(target - direction, 0);
+    indices.push(target + direction, 0);
     return [...new Set(indices.filter((index) => index >= 0 && index < count))];
   };
 
@@ -88,20 +89,32 @@ export function createFrameSequence(
 
   const pump = () => {
     if (destroyed || !warmed || document.hidden) return;
+    // A transformed, incoming sheet may still be outside native lazy-load
+    // geometry. Warming it explicitly starts its poster before decode().
+    if (poster?.loading === "lazy") poster.loading = "eager";
     for (const index of wantedFrames()) {
-      if (pending.size >= 4) break;
+      if (pending.size >= FRAME_REQUEST_LIMIT) break;
       if (cache.has(index) || pending.has(index) || (failures.get(index) || 0) >= 2) continue;
       const controller = new AbortController();
       let timedOut = false;
       const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, 8000);
       pending.set(index, controller);
       const path = `/media/frames/${FRAME_VERSION}/${name}/${String(index).padStart(4, "0")}.webp`;
-      void fetch(path, { signal: controller.signal })
+      const fetchBitmap = () => fetch(path, { signal: controller.signal })
         .then((response) => {
           if (!response.ok) throw new Error(`Frame unavailable: ${response.status}`);
           return response.blob();
         })
-        .then((blob) => createImageBitmap(blob))
+        .then((blob) => createImageBitmap(blob));
+      // The DOM poster already downloaded frame zero. Decode those same pixels
+      // instead of issuing a second request (especially costly on first visits).
+      const bitmapPromise = index === 0 && poster
+        ? poster.decode().then(() => createImageBitmap(poster)).catch(() => {
+            if (destroyed || controller.signal.aborted) throw new Error("Frame cancelled");
+            return fetchBitmap();
+          })
+        : fetchBitmap();
+      void bitmapPromise
         .then((bitmap) => {
           if (destroyed || controller.signal.aborted || (index !== 0 && (!active || Math.abs(index - target) > 48))) {
             bitmap.close();
@@ -123,8 +136,17 @@ export function createFrameSequence(
   };
 
   const refresh = () => {
+    const wanted = new Set(wantedFrames());
+    let keepLateResponse = true;
     for (const [index, controller] of pending) {
-      if (document.hidden || (!active && index !== 0) || (index !== 0 && Math.abs(index - target) > 48)) controller.abort();
+      if (document.hidden || (!active && index !== 0) || (index !== 0 && Math.abs(index - target) > 48)) {
+        controller.abort();
+      } else if (!wanted.has(index)) {
+        // Let ONE late frame finish so continuous scrolling cannot starve the
+        // screen. Reclaim the speculative slot for the latest target.
+        if (keepLateResponse && !controller.signal.aborted) keepLateResponse = false;
+        else controller.abort();
+      }
     }
     trim();
     requestPaint();

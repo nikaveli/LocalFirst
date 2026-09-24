@@ -11,6 +11,7 @@ export default function SiteLink(props: ComponentProps<typeof Link>) {
   return (
     <Link
       {...props}
+      prefetch={false}
       onNavigate={(event) => {
         props.onNavigate?.(event);
         if (typeof props.href === "string" && (pathname === "/" || props.href === "/")) {

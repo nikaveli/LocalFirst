@@ -59,10 +59,11 @@ export default function Home() {
       <header className="lf-site-bar">
         <Link className="lf-wordmark" href="/" aria-label="LocalFirst home">
           <Image
-            src="/media/localfirst-logo-web.webp"
+            src="/media/localfirst-logo-v3.webp"
             alt="LocalFirst"
-            width={2172}
-            height={724}
+            width={480}
+            height={160}
+            unoptimized
             sizes="(max-width: 380px) 92px, 154px"
             priority
           />
@@ -87,10 +88,10 @@ export default function Home() {
         aria-hidden="true"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/media/frames/v2/restaurant/0000.webp" alt="" />
+        <img src="/media/frames/v3/restaurant/0000.webp" decoding="async" fetchPriority="low" alt="" />
         <video
           data-lf-scrub
-          data-lf-src="/media/hq-v2/restaurant.mp4"
+          data-lf-src="/media/hq-v3/restaurant.mp4"
           data-lf-src-mobile="/media/restaurant-mobile.mp4"
           muted
           playsInline
@@ -115,19 +116,19 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="lf-hero-poster"
-                src="/media/frames/v2/localfirst/0000.webp"
+                src="/media/frames/v3/localfirst/0000.webp"
                 fetchPriority="high"
                 alt="A phone showing a local business Google profile outside the business"
               />
               <video
                 className="lf-hero-video"
                 data-sc-scrub
-                data-sc-src="/media/hq-v2/localfirst.mp4"
+                data-sc-src="/media/hq-v3/localfirst.mp4"
                 data-sc-src-mobile="/media/localfirst-mobile.mp4"
                 muted
                 playsInline
                 preload="metadata"
-                poster="/media/frames/v2/localfirst/0000.webp"
+                poster="/media/frames/v3/localfirst/0000.webp"
                 aria-label="LocalFirst photography and video reel"
               />
             </div>
@@ -164,7 +165,9 @@ export default function Home() {
             <article className="lf-film-sheet lf-film-sheet--restaurant-fallback">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/media/frames/v2/restaurant/0000.webp"
+                src="/media/frames/v3/restaurant/0000.webp"
+                loading="lazy"
+                decoding="async"
                 alt="Restaurant exterior and food photography"
               />
               <div className="lf-film-shade lf-film-shade--left" aria-hidden="true" />
@@ -187,12 +190,14 @@ export default function Home() {
             <article className="lf-film-sheet lf-film-sheet--med-spa" data-lf-med-spa-sheet>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/media/frames/v2/med-spa/0000.webp"
+                src="/media/frames/v3/med-spa/0000.webp"
+                loading="lazy"
+                decoding="async"
                 alt="Med spa interior and treatment photography"
               />
               <video
                 data-lf-scrub
-                data-lf-src="/media/hq-v2/med-spa.mp4"
+                data-lf-src="/media/hq-v3/med-spa.mp4"
                 data-lf-src-mobile="/media/med-spa-mobile.mp4"
                 muted
                 playsInline

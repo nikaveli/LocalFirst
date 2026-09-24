@@ -119,9 +119,8 @@ function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement |
     return () => video.removeEventListener("loadeddata", markReady);
   });
 
-  // Only one small first frame per scene is warmed. Remaining frames are
-  // requested near the current scroll position, not as full-video downloads.
-  sequences.forEach((sequence) => sequence.warm());
+  // Warm the opening scene only. Upcoming scenes join the queue near their
+  // entrance, and reuse their existing poster rather than downloading it twice.
   heroScrubber?.warm();
 
   // Batch geometry reads outside the scroll paint. In particular, don't use
@@ -178,7 +177,7 @@ function setupLocalFirstMotion(root: HTMLElement, mobileHero: HTMLVideoElement |
     const proofVisible = scrollY < proofTop + proofHeight && scrollY > proofTop - viewportHeight;
     records[0]?.setTarget(restaurantProgress, !reducedMotion && proofVisible && proofProgress < 0.62);
     records[1]?.setTarget(medSpaProgress, !reducedMotion && proofVisible && proofProgress > 0.32);
-    if (!reducedMotion && scrollY > proofTop - viewportHeight * 0.15) loadVideo(videos[1]);
+    if (!reducedMotion && proofVisible && proofProgress > 0.2) loadVideo(videos[1]);
     if (heroScrubber) {
       // Match the original hero's whole-visible-life mapping and authored dwell.
       const raw = clamp((scrollY - heroTop) / heroHeight);
@@ -344,8 +343,8 @@ export default function ScrollcraftMount() {
 
     const mobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
     const mobileHero = mobile ? root.querySelector<HTMLVideoElement>(".lf-hero-video") : null;
-    // Keep the vendor engine untouched. Phones use canvas sequences, so the
-    // engine must never start fetching or seeking the hidden native video.
+    // Phones use canvas sequences, so the engine must never start fetching or
+    // seeking the hidden native video.
     mobileHero?.removeAttribute("data-sc-scrub");
     const instance = window.ScrollCraft.mount(root);
     const cleanupMotion = setupLocalFirstMotion(root, mobileHero, instance.layout);

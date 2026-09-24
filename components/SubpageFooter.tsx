@@ -11,10 +11,11 @@ export default function SubpageFooter() {
         <div className="lf-sub-footer__brand">
           <Link href="/" aria-label="LocalFirst home">
             <Image
-              src="/media/localfirst-logo-web.webp"
+              src="/media/localfirst-logo-v3.webp"
               alt="LocalFirst"
-              width={2172}
-              height={724}
+              width={480}
+              height={160}
+              unoptimized
               sizes="128px"
             />
           </Link>

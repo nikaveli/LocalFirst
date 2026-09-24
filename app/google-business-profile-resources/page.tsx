@@ -131,7 +131,7 @@ export default function GoogleBusinessProfileResourcesPage() {
 
             <figure className="lf-resources-hero__visual" data-motion-media>
               <Image
-                src="/media/frames/v2/localfirst/0000.webp"
+                src="/media/frames/v3/localfirst/0000.webp"
                 alt="A phone showing a local business profile on Google"
                 width={1280}
                 height={720}

@@ -276,6 +276,15 @@ p { text-wrap: pretty; }
   color: var(--lf-brick);
 }
 
+/* Reserve the authored scroll travel before hydration, avoiding a large
+   section-offset jump when the animation engine attaches on slower phones. */
+@media (prefers-reduced-motion: no-preference) {
+  .lf-hero { height: 235vh; }
+  .lf-proof-act { height: 280vh; }
+  .lf-method { height: 235vh; }
+  .lf-close { height: 110vh; }
+}
+
 .lf-hero-stage {
   background: var(--lf-ink);
   overflow: hidden;

@@ -1,6 +1,6 @@
 import JsonLd from "@/components/JsonLd";
 import { pageMetadata, pageSchema } from "@/lib/seo";
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 import FirstImpressionsGrid, { type Visit } from "@/components/FirstImpressionsGrid";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";

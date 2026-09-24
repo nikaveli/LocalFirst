@@ -20,10 +20,11 @@ export default function SubpageHeader({ activePage }: { activePage?: ActivePage 
       <div className="lf-sub-header__inner">
         <Link href="/" className="lf-sub-logo" aria-label="LocalFirst home">
           <Image
-            src="/media/localfirst-logo-web.webp"
+            src="/media/localfirst-logo-v3.webp"
             alt="LocalFirst"
-            width={2172}
-            height={724}
+            width={480}
+            height={160}
+            unoptimized
             sizes="128px"
             priority
           />

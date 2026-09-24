@@ -29,7 +29,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Regression checks
-        run: npm run test:redirect && npm run test:motion
+        run: npm run test:redirect && npm run test:motion && npm run test:hosting
       - name: Build & deploy
         run: npm run cf:deploy
         env:

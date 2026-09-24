@@ -1,7 +1,7 @@
 import JsonLd from "@/components/JsonLd";
 import { pageMetadata, pageSchema } from "@/lib/seo";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
 

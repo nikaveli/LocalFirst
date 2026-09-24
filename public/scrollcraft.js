@@ -981,6 +981,10 @@
         spots.push(el);
       });
       if (!tilts.length && !magnets.length && !spots.length) return;
+      var pointerFrame = 0;
+      function queuePointer() {
+        if (!pointerFrame && !document.hidden) pointerFrame = requestAnimationFrame(pointerTick);
+      }
 
       addEventListener('pointermove', function (e) {
         if (e.pointerType !== 'mouse') return;
@@ -1006,15 +1010,19 @@
           spots[s].style.setProperty('--sc-mx', clamp01((e.clientX - sr.left) / sr.width).toFixed(3));
           spots[s].style.setProperty('--sc-my', clamp01((e.clientY - sr.top) / sr.height).toFixed(3));
         }
+        queuePointer();
       }, { passive: true });
 
-      (function pointerTick() {
+      function pointerTick() {
+        pointerFrame = 0;
+        var moving = false;
         // Interpolate toward the target rather than tracking the pointer
         // directly. Direct tracking reads as artificial because it carries no
         // momentum; the lerp gives it weight.
         for (var i = 0; i < tilts.length; i++) {
           var T = tilts[i];
           T.x += (T.tx - T.x) * 0.09; T.y += (T.ty - T.y) * 0.09;
+          if (Math.abs(T.tx - T.x) > 0.001 || Math.abs(T.ty - T.y) > 0.001) moving = true;
           if (Math.abs(T.x) > 0.001 || Math.abs(T.y) > 0.001) {
             T.el.style.transform = 'perspective(1100px) rotateX(' + T.x.toFixed(3) + 'deg) rotateY(' + T.y.toFixed(3) + 'deg)';
           }
@@ -1022,10 +1030,11 @@
         for (var m = 0; m < magnets.length; m++) {
           var M = magnets[m];
           M.x += (M.tx - M.x) * 0.12; M.y += (M.ty - M.y) * 0.12;
+          if (Math.abs(M.tx - M.x) > 0.001 || Math.abs(M.ty - M.y) > 0.001) moving = true;
           M.el.style.transform = 'translate3d(' + M.x.toFixed(2) + 'px,' + M.y.toFixed(2) + 'px,0)';
         }
-        requestAnimationFrame(pointerTick);
-      })();
+        if (moving) queuePointer();
+      }
     }
 
     // ---- wiring -----------------------------------------------------------
@@ -1072,7 +1081,9 @@
 
     layout();
     initPointer();
-    requestAnimationFrame(tick);
+    // Mobile canvas sequences have their own event-driven painter. An empty
+    // native-video loop otherwise wakes the browser every frame for no work.
+    if (playheads.length && !reduce) requestAnimationFrame(tick);
     document.documentElement.classList.add('sc-ready');
 
     var api = { layout: layout, read: read, acts: acts, worlds: worlds, clips: playheads, lerp: LERP };
