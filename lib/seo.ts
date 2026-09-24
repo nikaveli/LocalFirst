@@ -6,7 +6,7 @@ export const seoPages = {
   "/google-business-profile-visual-refresh": {
     title: "Google Business Profile Services & Pricing | LocalFirst",
     description:
-      "Compare LocalFirst Google Business Profile services in Denver and Aurora: a $349 Visual Refresh, $497 Complete Update, and $750 menu or product photo add-on.",
+      "Compare LocalFirst Denver and Aurora profile services: $349 Visual Refresh, $497 Complete Update, plus photo shoots at $750 add-on or $1,200 standalone.",
     type: "WebPage",
   },
   "/": {

@@ -11,7 +11,7 @@ export const metadata = pageMetadata(path);
 
 const visualRefreshHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24349%20Visual%20Refresh";
 const completeUpdateHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24497%20Complete%20Profile%20Update";
-const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24750%20Product%20or%20Menu%20Photo%20Shoot";
+const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24750%20add-on%20Product%20or%20Menu%20Photo%20Shoot";
 
 const includes = [
   ["Professional photos of your business", "Show customers your space, inside and out, with current professional photos."],
@@ -56,7 +56,7 @@ export default function VisualRefreshPage() {
                 <p className="lf-sub-eyebrow">Simple pricing · No contracts</p>
                 <h2 id="pricing-title">Choose the right level of support.</h2>
               </div>
-              <p>Start with fresh visual content, update your complete Google Business Profile, or add a dedicated product and menu shoot when you need more detailed coverage.</p>
+              <p>Start with fresh visual content, update your complete Google Business Profile, or add a dedicated product and menu shoot to either service when you need more detailed coverage.</p>
             </div>
 
             <div className="lf-refresh-pricing__grid">
@@ -95,21 +95,21 @@ export default function VisualRefreshPage() {
 
               <article className="lf-refresh-price-card lf-refresh-price-card--addon">
                 <div>
-                  <p className="lf-refresh-price-card__label">Add-on service</p>
+                  <p className="lf-refresh-price-card__label">Add-on with either profile service</p>
                   <h3>Product &amp; Menu Item Photo Shoot.</h3>
-                  <p className="lf-refresh-price-card__price"><span>$</span><strong>750</strong><small>separate shoot</small></p>
+                  <p className="lf-refresh-price-card__price"><span>$</span><strong>750</strong><small>with either profile service</small></p>
                 </div>
                 <ul>
                   <li><Check aria-hidden="true" /> A dedicated on-site photo shoot</li>
                   <li><Check aria-hidden="true" /> Menu-item or product photography</li>
                   <li><Check aria-hidden="true" /> A consistent set of current images</li>
                   <li><Check aria-hidden="true" /> Deeper coverage beyond the main profile shoot</li>
-                  <li><Check aria-hidden="true" /> Available with either profile package</li>
+                  <li><Check aria-hidden="true" /> Add to the $349 or $497 profile service</li>
                 </ul>
                 <a className="lf-refresh-price-card__button" href={photoShootHref}>Add a product or menu shoot</a>
               </article>
             </div>
-            <p className="lf-refresh-pricing__note">The $750 product and menu item photo shoot is an additional service for businesses that need detailed images beyond the main profile visit.</p>
+            <p className="lf-refresh-pricing__note">The $750 price applies when the product and menu item photo shoot is added to either profile service above. Booked on its own, the regular price is $1,200.</p>
           </div>
         </section>
         <section className="lf-refresh-section">
