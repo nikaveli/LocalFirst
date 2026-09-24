@@ -106,6 +106,7 @@ for (const path of paths) {
     check(html.includes('id="pricing"'), "Refresh: pricing anchor");
     check(["349", "497", "750"].every((price) => html.includes(`<strong>${price}</strong>`)), "Refresh: all three prices visible");
     check(html.includes("added to either profile service") && html.includes("regular price is $1,200"), "Refresh: add-on and standalone photo-shoot pricing is explicit");
+    check(html.includes('class="lf-refresh-price-card__standalone"') && html.includes("<strong>$1,200</strong>"), "Refresh: standalone price is prominent inside the photo-shoot card");
     check(tags(html, "a").some((a) => a.href.includes("%24750%20add-on%20Product%20or%20Menu%20Photo%20Shoot")), "Refresh: photo-shoot inquiry identifies the add-on price");
     check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Refresh: complete update scope visible");
   }

@@ -19,6 +19,9 @@
 .lf-refresh-price-card__price > span { align-self: flex-start; margin: .4rem .2rem 0 0; font-size: 1.1rem; font-weight: 850; }
 .lf-refresh-price-card__price strong { font-family: var(--font-localfirst-display), Georgia, serif; font-size: clamp(4.5rem, 5.8vw, 6rem); font-weight: 400; letter-spacing: -.07em; line-height: .78; }
 .lf-refresh-price-card__price small { margin: 0 0 .35rem .7rem; color: currentColor; font-size: .61rem; font-weight: 850; letter-spacing: .11em; opacity: .76; text-transform: uppercase; }
+.lf-refresh-price-card__standalone { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: -.15rem 0 1rem; padding: .8rem .9rem; border: 1px solid rgb(255 255 255 / 18%); background: rgb(255 255 255 / 6%); }
+.lf-refresh-price-card__standalone span { font-size: .65rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.lf-refresh-price-card__standalone strong { color: var(--lf-brick); font-family: var(--font-localfirst-display), Georgia, serif; font-size: 1.65rem; font-weight: 400; letter-spacing: -.02em; }
 .lf-refresh-price-card ul { display: grid; flex: 1; gap: 0; margin: 0; padding: 0; list-style: none; }
 .lf-refresh-price-card li { display: flex; align-items: flex-start; gap: .65rem; padding: .74rem 0; border-bottom: 1px solid rgb(44 44 44 / 16%); font-size: .86rem; font-weight: 650; line-height: 1.45; }
 .lf-refresh-price-card--addon li { border-bottom-color: rgb(255 255 255 / 14%); }

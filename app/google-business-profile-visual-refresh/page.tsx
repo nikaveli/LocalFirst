@@ -98,6 +98,10 @@ export default function VisualRefreshPage() {
                   <p className="lf-refresh-price-card__label">Add-on with either profile service</p>
                   <h3>Product &amp; Menu Item Photo Shoot.</h3>
                   <p className="lf-refresh-price-card__price"><span>$</span><strong>750</strong><small>with either profile service</small></p>
+                  <div className="lf-refresh-price-card__standalone">
+                    <span>Standalone price</span>
+                    <strong>$1,200</strong>
+                  </div>
                 </div>
                 <ul>
                   <li><Check aria-hidden="true" /> A dedicated on-site photo shoot</li>
