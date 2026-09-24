@@ -1,6 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../worker.mjs";
+import { access } from "node:fs/promises";
+
+test("Wrangler cannot auto-delegate this static site to the old OpenNext deployment", async () => {
+  await assert.rejects(access(new URL("../open-next.config.ts", import.meta.url)), { code: "ENOENT" });
+  await assert.rejects(access(new URL("../open-next.config.js", import.meta.url)), { code: "ENOENT" });
+});
 
 test("canonical pages delegate directly to prebuilt assets without a Next server", async () => {
   for (const path of ["/", "/about", "/contact", "/first-impressions", "/google-business-profile-resources", "/google-business-profile-visual-refresh", "/robots.txt", "/sitemap.xml"]) {

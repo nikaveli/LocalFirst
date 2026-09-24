@@ -24,7 +24,7 @@ npm run seo:check -- http://localhost:3002
 - Verify Git-connected deployment settings. A successful push is not proof of deployment.
 - Existing daily/manual GitHub workflow preserved, using the repository's `CLOUDFLARE_API_TOKEN` secret. It does not fetch fresh reviews in the rebuild: reviews are static owner-supplied content.
 - Contact opens an email draft to `nick.molina@icloud.com`. The old Resend sending backend is not used by the new design.
-- Images are optimized at build/authoring time and served directly. No paid Images, Stream or R2 binding is required. The old OpenNext package/config is not part of the active deployment path.
+- Images are optimized at build/authoring time and served directly. No paid Images, Stream or R2 binding is required. The obsolete `open-next.config.ts` is removed: its presence makes Wrangler auto-delegate to the old deployment adapter. The old package is not part of the active deployment path.
 - Do not commit environment files, tokens, `.dev.vars`, `.wrangler`, `.open-next`, raw footage or animation QA captures.
 
 ## Release gates
@@ -49,7 +49,7 @@ See `SEO-AUDIT.md` for scores and limitations. Mobile speed is a known warning, 
 - Desktop films use `/media/hq-v3/`, original resolution, CRF 21 / GOP 12 with fast-start: 30.62 MB versus 51.99 MB (41% smaller). Old versioned files remain available for cached clients and rollback. New versioned assets use immutable caching.
 - Header/footer logo is a pre-sized 480×160 WebP (15,552 bytes). All images are served directly, not through an unconfigured runtime image optimizer. Automatic route prefetch is disabled so pricing/about/contact do not download homepage media in the background.
 - Portal pixel analysis is deferred until near the viewport and only scans the selected letter when noninteractive. Idle pointer effects stop requesting animation frames. Phones do not run the empty vendor native-video RAF loop. Authored section heights are reserved before hydration.
-- Release checks: `npm run test:motion` (14), `npm run test:hosting` (4), `npm run test:redirect` (6), lint, production export, `npm run seo:check -- http://localhost:3002`, and browser checks at phone and desktop sizes. Browser viewport testing is not physical-iPhone or field Core Web Vitals certification.
+- Release checks: `npm run test:motion` (14), `npm run test:hosting` (5), `npm run test:redirect` (6), lint, production export, `npm run seo:check -- http://localhost:3002`, and browser checks at phone and desktop sizes. Browser viewport testing is not physical-iPhone or field Core Web Vitals certification.
 - Keep `npm run cf:deploy` in the existing daily/manual workflow. It now runs `next build` then `wrangler deploy`; no new hosting project or paid binding is needed. Rollback point before this release: `c20a7df` (normal revert/redeploy or Cloudflare deployment history; never force-push).
 
 ### Historical mobile scrub release checks
