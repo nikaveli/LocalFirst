@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "locomotive-scroll/locomotive-scroll.css";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -177,4 +176,3 @@ export default function RestaurantMotionEngine() {
   }, [pathname]);
   return <span ref={anchor} hidden data-site-motion="" />;
 }
-

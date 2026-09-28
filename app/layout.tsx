@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
 import { businessSchema, siteUrl } from "@/lib/seo";
+import "locomotive-scroll/locomotive-scroll.css";
 import "./base.css";
 import "./globals.css";
 import "./subpages.css";
