@@ -3,18 +3,9 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import SiteLink from "./SiteLink";
+import { siteNavigation } from "@/lib/navigation";
 
-const links = [
-  ["/", "Home"],
-  ["/google-business-profile-visual-refresh#pricing", "Pricing"],
-  ["/google-business-profile-visual-refresh", "Visual Refresh · $349"],
-  ["/google-business-profile-resources", "Google Business Profile Guides"],
-  ["/first-impressions", "First Impressions"],
-  ["/about", "About"],
-  ["/contact", "Contact"],
-] as const;
-
-export default function MobileNavigation({ items = links }: { items?: readonly (readonly [string, string])[] }) {
+export default function MobileNavigation({ items = siteNavigation }: { items?: readonly (readonly [string, string])[] }) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const pathname = usePathname();

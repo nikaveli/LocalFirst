@@ -1,0 +1,73 @@
+/* The homepage's material, typography, spacing, and interaction system, shared. */
+:root { --rh-paper: #c5baaa; --rh-ink: #2c2c2c; --rh-orange: #ee7828; --rh-craft: #806d61; }
+.rh-header a, .rh-footer a { text-decoration: none; }
+.rh-header a[aria-current="page"] { color: var(--rh-orange); }
+.rh-footer p { line-height: 1.65; }
+.rh-footer-contact a { overflow-wrap: anywhere; }
+.rh-footer-top > * { min-width: 0; }
+.lf-subpage { background: var(--rh-ink); color: var(--rh-paper); }
+.lf-subpage .lf-sub-shell { width: min(100% - 7vw, 1320px); }
+.lf-subpage .lf-sub-hero, .lf-subpage .lf-first-hero, .lf-subpage .lf-resources-hero { padding-block: clamp(5rem, 9vw, 9rem); min-height: 0; background: var(--rh-ink); }
+.lf-subpage .lf-sub-hero::before, .lf-subpage .lf-resources-hero::before { display: none; }
+.lf-subpage .lf-sub-hero__copy { max-width: 1320px; }
+.lf-subpage h1, .lf-subpage .lf-first-hero h1 { max-width: 1000px; font-family: var(--font-localfirst-display), Georgia, serif; font-size: clamp(4.4rem, 6.8vw, 7rem); font-weight: 400; line-height: .98; letter-spacing: -.045em; text-transform: none; text-wrap: balance; color: white; }
+.lf-subpage h1 em { color: var(--rh-paper); font-weight: 400; }
+.lf-subpage .lf-first-hero h2 { font-family: var(--font-localfirst-display), Georgia, serif; font-weight: 400; }
+.lf-subpage .lf-sub-eyebrow { font-size: .67rem; font-weight: 650; letter-spacing: .17em; line-height: 1.6; }
+.lf-subpage .lf-sub-hero__copy > p:not(.lf-sub-eyebrow), .lf-subpage .lf-resources-hero__copy > p:not(.lf-sub-eyebrow) { max-width: 650px; font-size: 1.08rem; line-height: 1.65; }
+.lf-subpage .lf-sub-section, .lf-subpage .lf-refresh-section, .lf-subpage .lf-first-gallery, .lf-subpage .lf-resource-guide { padding-block: clamp(5rem, 9vw, 9rem); }
+.lf-subpage .lf-about-story, .lf-subpage .lf-about-colorado, .lf-subpage .lf-contact-main, .lf-subpage .lf-refresh-section { background: var(--rh-ink); }
+.lf-subpage .lf-about-credentials, .lf-subpage .lf-first-gallery { background: var(--rh-paper); color: var(--rh-ink); }
+.lf-subpage .lf-about-credentials .lf-sub-eyebrow, .lf-subpage .lf-first-gallery__label { color: var(--rh-ink); }
+.lf-subpage .lf-about-credentials article, .lf-subpage .lf-contact-form-wrap, .lf-subpage .lf-resource-guide__body, .lf-subpage .lf-visit-card, .lf-subpage .lf-about-portrait, .lf-subpage .lf-resources-hero__visual { border-radius: 0; box-shadow: none; }
+.lf-subpage .lf-about-credentials article { border-color: #2c2c2c50; }
+.lf-subpage .lf-about-portrait { position: relative; top: auto; }
+.lf-about-portrait__image { position: absolute; inset: -8% 0; }
+.lf-subpage .lf-about-portrait img { object-position: 50% 52%; }
+.lf-subpage .lf-resources-hero__visual { transform: none; overflow: hidden; }
+.lf-subpage .lf-resources-hero__visual::before, .lf-subpage .lf-resources-hero__visual::after { display: none; }
+.lf-subpage .lf-resources-hero__visual img { border-radius: 0; }
+.lf-subpage .lf-resource-jump { top: 0; }
+.lf-subpage .lf-resource-guide__identity { top: 7rem; }
+.lf-subpage .lf-resource-checklist { background: var(--rh-ink); }
+.lf-subpage .lf-visit-card { background: var(--rh-ink); border-color: #2c2c2c50; }
+.lf-subpage .lf-visit-card__caption h3 { color: var(--rh-paper); }
+.lf-subpage .lf-contact-form input, .lf-subpage .lf-contact-form textarea { border-radius: 0; background: #ffffff35; }
+.lf-subpage .lf-sub-cta { padding-block: clamp(5rem, 9vw, 9rem); background: var(--rh-orange); color: var(--rh-ink); border: 0; }
+.lf-subpage .lf-sub-cta h2 { max-width: 18ch; font-size: clamp(3.4rem, 7vw, 7rem); }
+.lf-subpage .lf-sub-cta h2 em, .lf-subpage .lf-sub-cta p { color: var(--rh-ink); }
+.lf-subpage .lf-sub-button { font-size: .77rem; font-weight: 650; letter-spacing: 0; text-transform: none; border-color: #c5baaa70; }
+.lf-subpage .lf-sub-cta .lf-sub-button { color: var(--rh-ink); border-color: #2c2c2c70; }
+.lf-subpage .lf-sub-cta .lf-sub-button--primary { background: var(--rh-ink); color: white; }
+.lf-subpage .lf-sub-cta .btn-bubble-arrow__content, .lf-subpage .lf-sub-cta .btn-bubble-arrow__arrow { background: var(--rh-ink); color: white; }
+.lf-subpage .lf-sub-cta .btn-bubble-arrow__arrow.is--duplicate { background: white; color: var(--rh-ink); }
+.lf-subpage .lf-sub-actions { align-items: center; }
+.lf-subpage .lf-sub-hero .lf-sub-actions { justify-content: flex-start; }
+.lf-subpage .lf-pricing-directory { background: var(--rh-paper); color: var(--rh-ink); }
+.lf-subpage .lf-pricing-directory p, .lf-subpage .lf-pricing-directory .lf-sub-eyebrow { color: var(--rh-ink); }
+.lf-subpage .lf-pricing-directory .lf-sub-actions { justify-content: flex-start; }
+.lf-subpage .lf-pricing-directory .btn-bubble-arrow__content { color: white; background: var(--rh-ink); }
+.lf-subpage .lf-pricing-directory .lf-sub-button { color: var(--rh-ink); border-color: #2c2c2c70; }
+.lf-subpage .lf-refresh-copy { max-width: 900px; }
+.lf-subpage .rh-zoom { color: var(--rh-ink); }
+.lf-subpage .rh-zoom h2, .lf-subpage .rh-zoom h3 { margin: 0; font-family: var(--font-localfirst-display), Georgia, serif; font-size: clamp(3.4rem, 6.4vw, 6.4rem); font-weight: 400; line-height: .98; letter-spacing: -.045em; text-wrap: balance; }
+.lf-subpage .rh-zoom h2 em { font-weight: 400; }
+.lf-subpage .rh-zoom .rh-eyebrow { font-size: .67rem; font-weight: 650; letter-spacing: .17em; text-transform: uppercase; margin: 0 0 1.7rem; }
+.lf-subpage .rh-zoom-story p { max-width: 420px; font-size: .9rem; margin-top: 2rem; line-height: 1.65; }
+.lf-subpage .lf-refresh-includes article { border-top: 1px solid #c5baaa50; padding-top: 1.5rem; }
+.lf-subpage .lf-refresh-includes h3 { font-family: var(--font-localfirst-display), Georgia, serif; font-size: 2rem; font-weight: 400; line-height: 1.1; }
+.lf-subpage a:focus-visible, .lf-subpage button:focus-visible { outline: 2px solid var(--rh-orange); outline-offset: 4px; }
+@media (max-width: 767px) {
+  .lf-subpage .lf-sub-shell { width: calc(100% - 2.5rem); }
+  .lf-subpage .lf-sub-hero, .lf-subpage .lf-first-hero, .lf-subpage .lf-resources-hero, .lf-subpage .lf-sub-section, .lf-subpage .lf-refresh-section, .lf-subpage .lf-first-gallery, .lf-subpage .lf-resource-guide, .lf-subpage .lf-sub-cta { padding-block: 4.5rem; }
+  .lf-subpage h1, .lf-subpage .lf-first-hero h1, .lf-subpage .lf-refresh-page h1 { font-size: clamp(3.1rem, 12.1vw, 5.6rem); line-height: 1.02; }
+  .lf-subpage .lf-sub-hero__copy > p:not(.lf-sub-eyebrow), .lf-subpage .lf-resources-hero__copy > p:not(.lf-sub-eyebrow) { font-size: .96rem; }
+  .lf-subpage .lf-sub-actions { display: flex; align-items: flex-start; flex-direction: column; }
+  .lf-subpage .lf-sub-cta .lf-sub-actions { align-items: center; }
+  .lf-subpage .lf-sub-button { width: auto; }
+  .lf-subpage .rh-zoom h2, .lf-subpage .rh-zoom h3 { font-size: clamp(2.8rem, 12vw, 4.6rem); }
+  .lf-subpage .lf-resource-guide__identity { position: static; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lf-subpage *, .lf-subpage *::before, .lf-subpage *::after { scroll-behavior: auto !important; transition: none !important; }
+}

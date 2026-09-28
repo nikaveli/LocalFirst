@@ -13,6 +13,7 @@ try {
     page.on('pageerror', error => { errors.push(error.message); console.error(error.message); });
     page.on('request', request => requests.push(request.url()));
     await page.goto(base, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => document.querySelector('[data-restaurant-home]')?.dataset.motionReady === 'true');
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(800);
     assert.equal(await page.locator('h1').count(), 1, 'One H1');
@@ -55,7 +56,7 @@ try {
       await page.waitForTimeout(250);
       await page.screenshot({ path: `${shots}/${name}-${id}-story.png` });
     }
-    for (const selector of ['.rh-gallery', '#how-it-works', '#pricing', '#about', '.rh-close']) {
+    for (const selector of ['.rh-gallery', '#how-it-works', '#pricing', '#monthly', '#about', '.rh-close']) {
       await page.locator(selector).scrollIntoViewIfNeeded();
       await page.waitForTimeout(950);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `No overflow at ${selector}`);
@@ -64,6 +65,17 @@ try {
     assert.equal(await video.evaluate(el => el.paused), true, 'Offscreen hero pauses');
     const priceText = await page.locator('#pricing').innerText();
     for (const price of ['$349', '$497', '$750', '$1,200']) assert.ok(priceText.includes(price), `${price} visible`);
+    const monthly = page.locator('#monthly .rh-price-card');
+    assert.equal(await monthly.count(), 2, 'Two monthly plans');
+    for (const [index, price] of ['299', '497'].entries()) {
+      const card = monthly.nth(index);
+      const copy = await card.innerText();
+      for (const text of [`$${price}`, 'per month', '8–10 new photos every month', '1 short video clip every month']) assert.ok(copy.includes(text), `Monthly ${price}: ${text}`);
+      const sms = new URL(await card.locator('.rh-price-link').getAttribute('href'));
+      assert.equal(sms.pathname, '+13035240591');
+      assert.ok(sms.searchParams.get('body').includes(`$${price}/month`), 'SMS identifies monthly plan');
+    }
+    assert.ok((await monthly.nth(1).innerText()).includes('Ongoing Google Business Profile updates'));
     assert.equal(await page.locator('main').evaluate(el => [...el.querySelectorAll('*')].filter(n => n.children.length === 0 && n.textContent.includes('$') && !n.closest('#pricing')).length), 0, 'Prices only in pricing');
     const contact = new URL(await page.locator('.rh-close .btn-bubble-arrow').getAttribute('href'));
     assert.equal(contact.pathname, '+13035240591');

@@ -4,8 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
 
-// Scrollcraft owns document-level listeners and has no destroy API. Cross its
-// boundary with a document navigation so an old timeline cannot survive a route.
+// Cross the homepage boundary with a document navigation, including anchored URLs.
 export default function SiteLink(props: ComponentProps<typeof Link>) {
   const pathname = usePathname();
   return (
@@ -14,7 +13,8 @@ export default function SiteLink(props: ComponentProps<typeof Link>) {
       prefetch={false}
       onNavigate={(event) => {
         props.onNavigate?.(event);
-        if (typeof props.href === "string" && (pathname === "/" || props.href === "/")) {
+        const targetPath = typeof props.href === "string" ? props.href.split("#")[0] : undefined;
+        if (typeof props.href === "string" && (pathname === "/" || targetPath === "/")) {
           event.preventDefault();
           window.location.assign(props.href);
         }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,10 +10,18 @@ import "locomotive-scroll/locomotive-scroll.css";
 gsap.registerPlugin(ScrollTrigger, Flip);
 
 export default function RestaurantMotion() {
+  const pathname = usePathname();
+  const anchor = useRef<HTMLSpanElement>(null);
   useLayoutEffect(() => {
-    const root = document.querySelector<HTMLElement>("[data-restaurant-home]");
+    // Mount with the page, not its streaming layout; the page DOM must exist first.
+    const root = anchor.current?.closest<HTMLElement>("[data-restaurant-home], .lf-subpage");
     if (!root) return;
+    root.dataset.motionReady = "true";
     const media = gsap.matchMedia();
+    let interacted = false;
+    const markInteraction = () => { interacted = true; };
+    const interactionEvents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+    interactionEvents.forEach(event => window.addEventListener(event, markInteraction, { passive: true }));
 
     // Locomotive manages wheel smoothing only. Touch keeps its native momentum.
     media.add("(min-width: 992px) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
@@ -47,7 +56,7 @@ export default function RestaurantMotion() {
       let width = window.innerWidth;
       let height = window.innerHeight;
 
-      const build = () => {
+      const build = (alignInitialHash = false) => {
         animation?.revert();
         animation = gsap.context(() => {
           // Osmo Global Parallax: retain its attribute API and directional tweens.
@@ -92,13 +101,25 @@ export default function RestaurantMotion() {
             if (image) timeline.fromTo(image, { scale: 1, yPercent: 0 }, { scale: 1.25, yPercent: -10, duration: afterRange }, zoomRange);
           });
 
-          root.querySelectorAll<HTMLElement>("[data-rh-reveal]").forEach(element => {
+          const revealSelector = "[data-rh-reveal], [data-motion-scene], [data-motion-reveal], [data-motion-from-left], [data-motion-from-right], [data-motion-media], [data-motion-card], [data-motion-group] > *";
+          root.querySelectorAll<HTMLElement>(revealSelector).forEach(element => {
+            // One reveal per content group; don't stack transforms on nested cards.
+            if (element.parentElement?.closest("[data-motion-scene], [data-rh-reveal]")) return;
             // Above-the-fold and already-passed copy must never disappear on resize.
             if (element.getBoundingClientRect().top < window.innerHeight * .9) return;
             gsap.fromTo(element, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .8, ease: "power2.out", clearProps: "transform,opacity", scrollTrigger: { trigger: element, start: "top 92%", once: true } });
           });
         }, root);
         ScrollTrigger.refresh();
+        // Zoom enhancement changes document height. Re-align a cross-page anchor
+        // after layout settles, but never pull someone back after they interact.
+        if (alignInitialHash && !interacted && window.location.hash) {
+          try {
+            const destination = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+            destination?.scrollIntoView({ behavior: "instant", block: "start" });
+            ScrollTrigger.update();
+          } catch { /* A malformed fragment should not prevent scrolling. */ }
+        }
       };
       const resize = () => {
         // iOS address-bar height changes are not layout changes. Avoid rebuilding mid-swipe.
@@ -109,8 +130,8 @@ export default function RestaurantMotion() {
         clearTimeout(timer);
         timer = setTimeout(build, 180);
       };
-      build();
-      void document.fonts.ready.then(() => { if (active) build(); });
+      build(true);
+      void document.fonts.ready.then(() => { if (active) build(true); });
       window.addEventListener("resize", resize);
       return () => {
         active = false;
@@ -121,7 +142,11 @@ export default function RestaurantMotion() {
       };
     }, root);
 
-    return () => media.revert();
-  }, []);
-  return null;
+    return () => {
+      media.revert();
+      interactionEvents.forEach(event => window.removeEventListener(event, markInteraction));
+      delete root.dataset.motionReady;
+    };
+  }, [pathname]);
+  return <span ref={anchor} hidden data-site-motion="" />;
 }

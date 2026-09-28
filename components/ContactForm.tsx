@@ -40,7 +40,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form className="lf-contact-form" onSubmit={sendEmail} onInput={(event) => {
+    <form className="lf-contact-form" data-motion-group onSubmit={sendEmail} onInput={(event) => {
       const input = event.target;
       if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
         input.setCustomValidity("");

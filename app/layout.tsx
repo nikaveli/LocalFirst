@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
-import SiteChoreography from "@/components/SiteChoreography";
 import JsonLd from "@/components/JsonLd";
 import { businessSchema, siteUrl } from "@/lib/seo";
 import "./scrollcraft.css";
 import "./globals.css";
 import "./subpages.css";
+import "./restaurant-home.css";
+import "./site-uniform.css";
 
 const inter = Inter({
   variable: "--font-localfirst-sans",
@@ -42,7 +43,6 @@ export default function RootLayout({
         <JsonLd data={businessSchema} />
         <a className="lf-skip-link" href="#main-content">Skip to content</a>
         {children}
-        <SiteChoreography />
       </body>
     </html>
   );

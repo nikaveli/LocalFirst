@@ -14,6 +14,7 @@ import JsonLd from "@/components/JsonLd";
 import Link from "@/components/SiteLink";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
+import { BubbleButton } from "@/components/RestaurantVisuals";
 import { pageMetadata, pageSchema, siteUrl } from "@/lib/seo";
 import "./resources.css";
 
@@ -227,7 +228,7 @@ export default function GoogleBusinessProfileResourcesPage() {
               video, review key profile information, and help customers see what you offer.
             </p>
             <div className="lf-sub-actions">
-              <Link className="lf-sub-button lf-sub-button--primary" href="/google-business-profile-visual-refresh">Explore the $349 Visual Refresh</Link>
+              <BubbleButton href="/#pricing">Explore the pricing</BubbleButton>
               <Link className="lf-sub-button" href="/contact">Contact Nicholas →</Link>
             </div>
           </div>

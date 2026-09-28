@@ -102,13 +102,17 @@ for (const path of paths) {
     const servicePage = entities.find((e) => e.url === expected && e.mainEntity);
     check(servicePage?.mainEntity?.offers?.price === "349" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $349 offer schema");
     check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
-    check(tags(html, "a").some((a) => a.href === "sms:+13035240591?body=FIRST"), "Refresh: direct text contact");
+    check(tags(html, "a").some((a) => a.href.startsWith("sms:+13035240591?") && new URL(a.href.replaceAll("&amp;", "&")).searchParams.get("body") === "FIRST"), "Refresh: direct text contact");
     check(html.includes('id="pricing"'), "Refresh: pricing anchor");
-    check(["349", "497", "750"].every((price) => html.includes(`<strong>${price}</strong>`)), "Refresh: all three prices visible");
-    check(html.includes("added to either profile service") && html.includes("regular price is $1,200"), "Refresh: add-on and standalone photo-shoot pricing is explicit");
-    check(html.includes('class="lf-refresh-price-card__standalone"') && html.includes("<strong>$1,200</strong>"), "Refresh: standalone price is prominent inside the photo-shoot card");
-    check(tags(html, "a").some((a) => a.href.includes("%24750%20add-on%20Product%20or%20Menu%20Photo%20Shoot")), "Refresh: photo-shoot inquiry identifies the add-on price");
-    check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Refresh: complete update scope visible");
+    check(html.includes('href="/#pricing"') && html.includes('href="/#monthly"'), "Refresh: one-time and monthly offers link to canonical homepage pricing");
+    check(!html.includes('class="lf-refresh-pricing__grid"'), "Refresh: no duplicate pricing grid");
+  }
+  check(tags(html, "a").filter((a) => /#pricing$/.test(a.href || "")).every((a) => a.href === "/#pricing"), `${path}: all pricing links use homepage`);
+  if (path === "/") {
+    check(html.includes('class="rh-standalone"') && html.includes("<strong>$1,200</strong>"), "Home: prominent standalone photo-shoot price");
+    check(html.includes("The $750 menu and product shoot is an add-on to the $349 Visual Refresh or $497 Complete Profile Update"), "Home: add-on eligibility explicit");
+    check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Home: complete update scope visible");
+    check(html.includes('id="monthly"') && html.includes("8–10 new photos every month") && html.includes("Ongoing Google Business Profile updates"), "Home: monthly content and profile plans visible");
   }
   if (path === "/google-business-profile-resources") {
     const itemList = entities.find((e) => e["@type"] === "ItemList");

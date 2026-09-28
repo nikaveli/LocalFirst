@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "@/components/SiteLink";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
+import { BubbleButton } from "@/components/RestaurantVisuals";
 
 export const metadata = pageMetadata("/about");
 
@@ -50,15 +51,17 @@ export default function AboutPage() {
 
         <section className="lf-about-story lf-sub-section">
           <div className="lf-sub-shell lf-about-story__grid">
-            <figure className="lf-about-portrait" data-motion-media>
+            <figure className="lf-about-portrait" data-parallax="trigger" data-parallax-start="3" data-parallax-end="-3" data-parallax-disable="mobileLandscape">
+              <div className="lf-about-portrait__image" data-parallax="target">
               <Image
-                src="/media/nicholas.png"
+                src="/media/restaurant-home/nick.webp"
                 alt="Nicholas, founder of LocalFirst"
-                width={1024}
-                height={1536}
+                width={900}
+                height={1350}
                 sizes="(max-width: 760px) 100vw, 42vw"
                 priority
               />
+              </div>
               <figcaption>Founder · LocalFirst</figcaption>
             </figure>
 
@@ -137,13 +140,12 @@ export default function AboutPage() {
           <div className="lf-sub-shell" data-motion-scene="up">
             <h2>Ready to refresh <em>what customers see?</em></h2>
             <p>
-              Call or text me about your business. The $349 Google Business Profile
-              Visual Refresh is a clear place to start with professional photos, video,
-              and a profile information check.
+              Tell me what’s happening at your business. We’ll find the right fit:
+              a one-time shoot, a profile refresh, or fresh content every month.
             </p>
             <div className="lf-sub-actions">
-              <a className="lf-sub-button lf-sub-button--primary" href="tel:+13035240591">Call Nicholas</a>
-              <Link className="lf-sub-button" href="/contact">Send a message →</Link>
+              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
+              <Link className="lf-sub-button" href="/#pricing">See pricing →</Link>
             </div>
           </div>
         </section>

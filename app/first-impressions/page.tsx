@@ -4,6 +4,7 @@ import Link from "@/components/SiteLink";
 import FirstImpressionsGrid, { type Visit } from "@/components/FirstImpressionsGrid";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
+import { BubbleButton } from "@/components/RestaurantVisuals";
 
 export const metadata = pageMetadata("/first-impressions");
 
@@ -51,7 +52,7 @@ export default function FirstImpressionsPage() {
           </div>
         </section>
 
-        <section className="lf-first-gallery" data-motion-scene="up">
+        <section className="lf-first-gallery">
           <div className="lf-sub-shell">
             <h2 className="lf-first-gallery__label" data-motion-reveal>15 local visits · real business videos</h2>
             <FirstImpressionsGrid visits={visits} />
@@ -62,13 +63,12 @@ export default function FirstImpressionsPage() {
           <div className="lf-sub-shell" data-motion-scene="right">
             <h2>Give customers a reason to <em>choose you.</em></h2>
             <p>
-              The $349 Google Business Profile Visual Refresh includes an on-site visit,
-              professional photos, short-form video, and a clearer first impression.
-              Call or text Nicholas to talk about your business.
+              Let’s show people what your business is like today, with on-site photos,
+              short-form video, and a Google profile that reflects it.
             </p>
             <div className="lf-sub-actions">
-              <a className="lf-sub-button lf-sub-button--primary" href="tel:+13035240591">Call Nicholas</a>
-              <Link className="lf-sub-button" href="/contact">Send a message →</Link>
+              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
+              <Link className="lf-sub-button" href="/#pricing">See pricing →</Link>
             </div>
           </div>
         </section>

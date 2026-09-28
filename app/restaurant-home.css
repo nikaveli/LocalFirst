@@ -1,6 +1,6 @@
 /* Restaurant homepage only. Existing subpage styling remains untouched. */
 .restaurant-home { --rh-paper: #c5baaa; --rh-ink: #2c2c2c; --rh-orange: #ee7828; --rh-craft: #806d61; background: var(--rh-paper); color: var(--rh-ink); overflow: clip; }
-.restaurant-home h1, .restaurant-home h2, .restaurant-home h3, .restaurant-home p, .restaurant-home figure, .restaurant-home blockquote { margin: 0; }
+.restaurant-home h1, .restaurant-home h2, .restaurant-home h3, .restaurant-home h4, .restaurant-home p, .restaurant-home figure, .restaurant-home blockquote { margin: 0; }
 .restaurant-home h1, .restaurant-home h2, .restaurant-home h3 { font-family: var(--font-localfirst-display), Georgia, serif; font-weight: 400; text-wrap: balance; }
 .restaurant-home h2 { font-size: clamp(3.4rem, 6.4vw, 6.4rem); letter-spacing: -.045em; line-height: .98; }
 .restaurant-home h2 em, .restaurant-home h1 em { font-weight: 400; }
@@ -33,29 +33,29 @@
 .rh-mobile-break { display: none; }
 
 /* Osmo Bubble Arrow: CSS transition and structure retained; brand colors scoped. */
-.restaurant-home .btn-bubble-arrow { border-radius: 10em; justify-content: center; align-items: center; font-size: .81rem; text-decoration: none; display: inline-flex; position: relative; }
-.restaurant-home .btn-bubble-arrow__arrow { color: var(--rh-ink); background: var(--rh-orange); border-radius: 10em; justify-content: center; align-items: center; width: 3.75em; height: 3.75em; flex-shrink: 0; display: flex; position: relative; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: scale(0) rotate(.001deg); transform-origin: left; }
-.restaurant-home .btn-bubble-arrow__arrow.is--duplicate { z-index: 2; background: var(--rh-paper); position: absolute; right: 0; transform: scale(1) rotate(.001deg); transform-origin: right; }
-.restaurant-home .btn-bubble-arrow__arrow-svg { width: 40%; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: rotate(.001deg); }
-.restaurant-home .btn-bubble-arrow__content { color: var(--rh-ink); background: var(--rh-orange); border-radius: 10em; justify-content: center; align-items: center; height: 3.75em; padding-inline: 1.6em; display: flex; position: relative; font-weight: 650; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: translateX(-3.75em) rotate(.001deg); }
-.restaurant-home .btn-bubble-arrow__content-text { line-height: 1; }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow { border-radius: 10em; justify-content: center; align-items: center; font-size: .81rem; text-decoration: none; display: inline-flex; position: relative; }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow__arrow { color: var(--rh-ink); background: var(--rh-orange); border-radius: 10em; justify-content: center; align-items: center; width: 3.75em; height: 3.75em; flex-shrink: 0; display: flex; position: relative; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: scale(0) rotate(.001deg); transform-origin: left; }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow__arrow.is--duplicate { z-index: 2; background: var(--rh-paper); position: absolute; right: 0; transform: scale(1) rotate(.001deg); transform-origin: right; }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow__arrow-svg { width: 40%; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: rotate(.001deg); }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow__content { color: var(--rh-ink); background: var(--rh-orange); border-radius: 10em; justify-content: center; align-items: center; height: 3.75em; padding-inline: 1.6em; display: flex; position: relative; font-weight: 650; transition: transform .735s cubic-bezier(.625,.05,0,1); transform: translateX(-3.75em) rotate(.001deg); }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow__content-text { line-height: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .restaurant-home .btn-bubble-arrow:hover .btn-bubble-arrow__content { transform: translateX(0) rotate(.001deg); }
-  .restaurant-home .btn-bubble-arrow:hover .btn-bubble-arrow__arrow-svg { transform: rotate(-45deg); }
-  .restaurant-home .btn-bubble-arrow:hover .btn-bubble-arrow__arrow { transform: scale(1) rotate(.001deg); }
-  .restaurant-home .btn-bubble-arrow:hover .btn-bubble-arrow__arrow.is--duplicate { transform: scale(0) rotate(.001deg); }
+  :is(.restaurant-home, .lf-subpage) .btn-bubble-arrow:hover .btn-bubble-arrow__content { transform: translateX(0) rotate(.001deg); }
+  :is(.restaurant-home, .lf-subpage) .btn-bubble-arrow:hover .btn-bubble-arrow__arrow-svg { transform: rotate(-45deg); }
+  :is(.restaurant-home, .lf-subpage) .btn-bubble-arrow:hover .btn-bubble-arrow__arrow { transform: scale(1) rotate(.001deg); }
+  :is(.restaurant-home, .lf-subpage) .btn-bubble-arrow:hover .btn-bubble-arrow__arrow.is--duplicate { transform: scale(0) rotate(.001deg); }
 }
-.restaurant-home .btn-bubble-arrow:focus-visible .btn-bubble-arrow__arrow-svg { transform: rotate(-45deg); }
+:is(.restaurant-home, .lf-subpage) .btn-bubble-arrow:focus-visible .btn-bubble-arrow__arrow-svg { transform: rotate(-45deg); }
 /* Osmo Underline Link: preserve the data-attribute API. */
-.restaurant-home [data-underline-link] { text-decoration: none; position: relative; width: fit-content; }
-.restaurant-home [data-underline-link]::before, .restaurant-home [data-underline-link="alt"]::after { content: ""; position: absolute; bottom: -.0625em; left: 0; width: 100%; height: .0625em; background: currentColor; transition: transform .735s cubic-bezier(.625,.05,0,1); transform-origin: right; transform: scaleX(0) rotate(.001deg); }
-.restaurant-home [data-underline-link="alt"]::before { transform-origin: left; transform: scaleX(1) rotate(.001deg); transition-delay: .3s; }
-.restaurant-home [data-underline-link="alt"]::after { transition-delay: 0s; }
-.restaurant-home [data-underline-link]:focus-visible::before { transform: scaleX(1); }
+:is(.restaurant-home, .lf-subpage) [data-underline-link] { text-decoration: none; position: relative; width: fit-content; }
+:is(.restaurant-home, .lf-subpage) [data-underline-link]::before, :is(.restaurant-home, .lf-subpage) [data-underline-link="alt"]::after { content: ""; position: absolute; bottom: -.0625em; left: 0; width: 100%; height: .0625em; background: currentColor; transition: transform .735s cubic-bezier(.625,.05,0,1); transform-origin: right; transform: scaleX(0) rotate(.001deg); }
+:is(.restaurant-home, .lf-subpage) [data-underline-link="alt"]::before { transform-origin: left; transform: scaleX(1) rotate(.001deg); transition-delay: .3s; }
+:is(.restaurant-home, .lf-subpage) [data-underline-link="alt"]::after { transition-delay: 0s; }
+:is(.restaurant-home, .lf-subpage) [data-underline-link]:focus-visible::before { transform: scaleX(1); }
 @media (hover: hover) and (pointer: fine) {
-  .restaurant-home [data-hover]:hover [data-underline-link]::before, .restaurant-home [data-underline-link]:hover::before { transform-origin: left; transform: scaleX(1) rotate(.001deg); }
-  .restaurant-home [data-underline-link="alt"]:hover::before { transform-origin: right; transform: scaleX(0) rotate(.001deg); transition-delay: 0s; }
-  .restaurant-home [data-underline-link="alt"]:hover::after { transform-origin: left; transform: scaleX(1) rotate(.001deg); transition-delay: .3s; }
+  :is(.restaurant-home, .lf-subpage) [data-hover]:hover [data-underline-link]::before, :is(.restaurant-home, .lf-subpage) [data-underline-link]:hover::before { transform-origin: left; transform: scaleX(1) rotate(.001deg); }
+  :is(.restaurant-home, .lf-subpage) [data-underline-link="alt"]:hover::before { transform-origin: right; transform: scaleX(0) rotate(.001deg); transition-delay: 0s; }
+  :is(.restaurant-home, .lf-subpage) [data-underline-link="alt"]:hover::after { transform-origin: left; transform: scaleX(1) rotate(.001deg); transition-delay: .3s; }
 }
 
 .rh-reviews { border-bottom: 1px solid #2c2c2c30; }
@@ -108,11 +108,17 @@
 .rh-steps p { max-width: 340px; font-size: .86rem; }
 
 .rh-pricing { background: var(--rh-paper); }
+.restaurant-home .rh-pricing-group-title { font-size: clamp(2.4rem, 4vw, 3.8rem); line-height: 1.1; margin-bottom: 1.6rem; }
+.rh-monthly { margin-top: clamp(3.5rem, 7vw, 6rem); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid #2c2c2c50; scroll-margin-top: 6rem; }
+.rh-monthly-heading { max-width: 620px; margin-bottom: 2rem; }
+.rh-monthly-heading > p { font-size: .93rem; }
 .rh-pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: stretch; }
+.rh-pricing-grid--monthly { grid-template-columns: repeat(2, 1fr); }
 .rh-price-card { padding: clamp(1.5rem, 2.4vw, 2.7rem); border: 1px solid #2c2c2c50; display: flex; flex-direction: column; }
 .rh-price-card--featured { background: var(--rh-ink); color: var(--rh-paper); }
 .restaurant-home .rh-price-card .rh-eyebrow { min-height: 2.2rem; font-size: .62rem; margin-bottom: 1.2rem; }
-.restaurant-home .rh-price-card h3 { font-size: clamp(2rem, 2.6vw, 2.7rem); line-height: 1.07; min-height: 3.4em; text-wrap: pretty; }
+.restaurant-home .rh-price-card h4 { font-family: var(--font-localfirst-display), Georgia, serif; font-weight: 400; letter-spacing: -.045em; font-size: clamp(2rem, 2.6vw, 2.7rem); line-height: 1.07; min-height: 3.4em; text-wrap: pretty; }
+.restaurant-home .rh-monthly .rh-price-card h4 { min-height: 2.2em; max-width: 420px; }
 .restaurant-home .rh-price { font-family: var(--font-localfirst-display), Georgia, serif; font-size: 5rem; line-height: 1; letter-spacing: -.04em; margin-top: 2rem; }
 .rh-price > span { font-size: 2rem; vertical-align: top; padding-right: .15rem; }
 .restaurant-home .rh-price-term { font-size: .68rem; margin-top: .7rem; }
@@ -207,7 +213,7 @@
   .rh-steps p { max-width: 440px; }
   .rh-pricing-grid { grid-template-columns: 1fr; gap: 1rem; }
   .rh-price-card { padding: 1.75rem; }
-  .restaurant-home .rh-price-card h3 { min-height: 0; max-width: 340px; font-size: 2.6rem; }
+  .restaurant-home .rh-price-card h4, .restaurant-home .rh-monthly .rh-price-card h4 { min-height: 0; max-width: 340px; font-size: 2.6rem; }
   .restaurant-home .rh-price-card .rh-eyebrow { min-height: 0; }
   .rh-founder-grid { grid-template-columns: 1fr; gap: 3rem; }
   .rh-founder-photo { max-width: 450px; width: 100%; }

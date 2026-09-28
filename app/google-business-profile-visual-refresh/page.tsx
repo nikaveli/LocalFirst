@@ -3,15 +3,11 @@ import JsonLd from "@/components/JsonLd";
 import SubpageHeader from "@/components/SubpageHeader";
 import SubpageFooter from "@/components/SubpageFooter";
 import { pageMetadata, pageSchema } from "@/lib/seo";
-import { Check } from "lucide-react";
+import { BubbleButton, ImageZoom } from "@/components/RestaurantVisuals";
 import "./refresh.css";
 
 const path = "/google-business-profile-visual-refresh";
 export const metadata = pageMetadata(path);
-
-const visualRefreshHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24349%20Visual%20Refresh";
-const completeUpdateHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24497%20Complete%20Profile%20Update";
-const photoShootHref = "sms:+13035240591?body=I%27m%20interested%20in%20the%20%24750%20add-on%20Product%20or%20Menu%20Photo%20Shoot";
 
 const includes = [
   ["Professional photos of your business", "Show customers your space, inside and out, with current professional photos."],
@@ -22,10 +18,10 @@ const includes = [
   ["Recommendations for improving your profile", "Understand practical next steps for giving customers a clearer picture of your business."],
 ];
 const questions = [
-  ["What does the $349 Visual Refresh include?", "The one-time package includes an on-site visit, professional business and product or service photos, short-form video, a Google Business Profile visual update, an information check, and recommendations for improving your profile."],
+  ["What does the Visual Refresh include?", "The one-time package includes an on-site visit, professional business and product or service photos, short-form video, a Google Business Profile visual update, an information check, and recommendations for improving your profile."],
   ["Do you come to my business?", "Yes. I come directly to your business to create fresh photos and video of the products, services, space, and details customers want to see."],
   ["Where do you work?", "LocalFirst serves the Denver and Aurora metro area. Other Front Range visits are available by arrangement. Contact Nicholas with your location to confirm availability."],
-  ["Is this a monthly service?", "This Visual Refresh is a one-time $349 package. Contact Nicholas if you need additional work beyond the refresh."],
+  ["Is this a monthly service?", "The Visual Refresh is a one-time service. Monthly content and content-plus-profile-update plans are also available. See the homepage pricing section to compare all options."],
   ["Is this only for restaurants and med spas?", "The refresh is for local businesses that want customers to see what they offer. Restaurants, med spas, salons, shops, and service businesses can all benefit from a current, useful first impression. Tell Nicholas about your business so you can discuss what to capture."],
   ["Will this guarantee higher rankings or more customers?", "No ranking or customer outcome is guaranteed. The goal is to help people who find your business understand what you offer and feel more confident taking the next step."],
   ["How do I get started?", "Call or text Nicholas at 303-524-0591. Share your business name, location, and what you would like to refresh. You can discuss availability, timing, and the details of your visit before booking."],
@@ -42,82 +38,22 @@ export default function VisualRefreshPage() {
             <p className="lf-sub-eyebrow">On-site photography &amp; video · Denver &amp; Aurora</p>
             <h1>Google Business Profile <em>Visual Refresh.</em></h1>
             <p>Your business deserves to look as good on Google as it does in person. I come directly to your business and create fresh professional photos and video that help customers see what you offer.</p>
-            <div className="lf-refresh-price"><strong>$349</strong><span>One visit. One-time package.</span></div>
             <div className="lf-sub-actions">
-              <a className="lf-sub-button lf-sub-button--primary" href="sms:+13035240591?body=FIRST">Text Nicholas to get started</a>
+              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
               <a className="lf-sub-button" href="tel:+13035240591">Call 303-524-0591</a>
             </div>
           </div>
         </section>
-        <section id="pricing" className="lf-refresh-pricing" aria-labelledby="pricing-title">
-          <div className="lf-sub-shell">
-            <div className="lf-refresh-pricing__intro">
-              <div>
-                <p className="lf-sub-eyebrow">Simple pricing · No contracts</p>
-                <h2 id="pricing-title">Choose the right level of support.</h2>
-              </div>
-              <p>Start with fresh visual content, update your complete Google Business Profile, or add a dedicated product and menu shoot to either service when you need more detailed coverage.</p>
-            </div>
-
-            <div className="lf-refresh-pricing__grid">
-              <article className="lf-refresh-price-card">
-                <div>
-                  <p className="lf-refresh-price-card__label">Visual Refresh</p>
-                  <h3>Fresh content for a stronger first impression.</h3>
-                  <p className="lf-refresh-price-card__price"><span>$</span><strong>349</strong><small>one time</small></p>
-                </div>
-                <ul>
-                  <li><Check aria-hidden="true" /> Professional photos of your business</li>
-                  <li><Check aria-hidden="true" /> Photos of your products, services, or work</li>
-                  <li><Check aria-hidden="true" /> Short-form video content</li>
-                  <li><Check aria-hidden="true" /> Google Business Profile visual update</li>
-                  <li><Check aria-hidden="true" /> Profile information check</li>
-                  <li><Check aria-hidden="true" /> Recommendations for improving your profile</li>
-                </ul>
-                <a className="lf-refresh-price-card__button" href={visualRefreshHref}>Ask about the Visual Refresh</a>
-              </article>
-
-              <article className="lf-refresh-price-card lf-refresh-price-card--featured">
-                <div>
-                  <p className="lf-refresh-price-card__label">Complete Profile Update</p>
-                  <h3>The full Google Business Profile update.</h3>
-                  <p className="lf-refresh-price-card__price"><span>$</span><strong>497</strong><small>one time</small></p>
-                </div>
-                <ul>
-                  <li><Check aria-hidden="true" /> Professional photos and short-form video</li>
-                  <li><Check aria-hidden="true" /> Services, hours, categories, and description updated</li>
-                  <li><Check aria-hidden="true" /> Google Business Profile posts for 90 days</li>
-                  <li><Check aria-hidden="true" /> 360° virtual tour</li>
-                  <li><Check aria-hidden="true" /> Replies to unanswered reviews from the previous 14 days</li>
-                </ul>
-                <a className="lf-refresh-price-card__button" href={completeUpdateHref}>Ask about the Complete Update</a>
-              </article>
-
-              <article className="lf-refresh-price-card lf-refresh-price-card--addon">
-                <div>
-                  <p className="lf-refresh-price-card__label">Add-on with either profile service</p>
-                  <h3>Product &amp; Menu Item Photo Shoot.</h3>
-                  <p className="lf-refresh-price-card__price"><span>$</span><strong>750</strong><small>with either profile service</small></p>
-                  <div className="lf-refresh-price-card__standalone">
-                    <span>Standalone price</span>
-                    <strong>$1,200</strong>
-                  </div>
-                </div>
-                <ul>
-                  <li><Check aria-hidden="true" /> A dedicated on-site photo shoot</li>
-                  <li><Check aria-hidden="true" /> Menu-item or product photography</li>
-                  <li><Check aria-hidden="true" /> A consistent set of current images</li>
-                  <li><Check aria-hidden="true" /> Deeper coverage beyond the main profile shoot</li>
-                  <li><Check aria-hidden="true" /> Add to the $349 or $497 profile service</li>
-                </ul>
-                <a className="lf-refresh-price-card__button" href={photoShootHref}>Add a product or menu shoot</a>
-              </article>
-            </div>
-            <p className="lf-refresh-pricing__note">The $750 price applies when the product and menu item photo shoot is added to either profile service above. Booked on its own, the regular price is $1,200.</p>
+        <section id="pricing" className="lf-refresh-section lf-pricing-directory" aria-labelledby="pricing-title">
+          <div className="lf-sub-shell lf-refresh-copy" data-rh-reveal>
+            <p className="lf-sub-eyebrow">One-time visits &amp; monthly content</p>
+            <h2 id="pricing-title">All your options. One place.</h2>
+            <p>Compare the Visual Refresh, Complete Profile Update, dedicated menu shoot, and monthly content plans in our homepage pricing section.</p>
+            <div className="lf-sub-actions"><BubbleButton href="/#pricing">See all pricing</BubbleButton><Link href="/#monthly" className="lf-sub-button">Explore monthly plans →</Link></div>
           </div>
         </section>
-        <section className="lf-refresh-section">
-          <div className="lf-sub-shell">
+        <section id="includes" className="lf-refresh-section">
+          <div className="lf-sub-shell" data-rh-reveal>
             <p className="lf-sub-eyebrow">What’s included</p>
             <h2>Fresh content. A stronger first impression.</h2>
             <div className="lf-refresh-includes">
@@ -127,8 +63,9 @@ export default function VisualRefreshPage() {
             </div>
           </div>
         </section>
+        <ImageZoom id="on-location" name="burger" alt="A freshly made burger and onion rings photographed on-site by LocalFirst" eyebrow="On location. On your profile." title={<>Show what makes<br /><em>you worth the visit.</em></>} after={<>A real look.<br />Before they arrive.</>} copy="Your food, your space, your business. Photos and video made on-site, ready for the places customers find you." />
         <section className="lf-refresh-section">
-          <div className="lf-sub-shell lf-refresh-copy">
+          <div className="lf-sub-shell lf-refresh-copy" data-rh-reveal>
             <p className="lf-sub-eyebrow">Local businesses. In person.</p>
             <h2>Show customers the business that exists today.</h2>
             <p>Before someone calls, visits, books, or buys, they look at your photos, reviews, hours, and services. Current photos can help them picture the meal, explore your space, or understand the work you do.</p>
@@ -140,7 +77,7 @@ export default function VisualRefreshPage() {
           </div>
         </section>
         <section className="lf-refresh-section">
-          <div className="lf-sub-shell lf-refresh-copy">
+          <div className="lf-sub-shell lf-refresh-copy" data-rh-reveal>
             <p className="lf-sub-eyebrow">Before your visit</p>
             <h2>Questions about the refresh.</h2>
             <div className="lf-refresh-faq">
@@ -149,12 +86,12 @@ export default function VisualRefreshPage() {
           </div>
         </section>
         <section className="lf-sub-cta">
-          <div className="lf-sub-shell">
+          <div className="lf-sub-shell" data-rh-reveal>
             <h2>Give them a reason to <em>choose you.</em></h2>
-            <p>Tell me what your business offers and what you want customers to see. We’ll talk through your $349 Visual Refresh.</p>
+            <p>Tell me what your business offers and what you want customers to see. We’ll talk through the right visit or monthly plan for you.</p>
             <div className="lf-sub-actions">
-              <a className="lf-sub-button lf-sub-button--primary" href="sms:+13035240591?body=FIRST">Text Nicholas</a>
-              <Link className="lf-sub-button" href="/contact">Contact details &amp; email →</Link>
+              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
+              <Link className="lf-sub-button" href="/#pricing">See pricing →</Link>
             </div>
           </div>
         </section>

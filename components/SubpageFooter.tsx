@@ -1,49 +1,24 @@
 import Image from "next/image";
 import Link from "./SiteLink";
+import { pricingHref } from "@/lib/navigation";
+import RestaurantMotion from "./RestaurantMotion";
 
 export default function SubpageFooter() {
-  return (
-    <footer className="lf-sub-footer">
-      <div
-        className="lf-sub-shell lf-sub-footer__grid"
-        data-motion-scene="up"
-      >
-        <div className="lf-sub-footer__brand">
-          <Link href="/" aria-label="LocalFirst home">
-            <Image
-              src="/media/localfirst-logo-v3.webp"
-              alt="LocalFirst"
-              width={480}
-              height={160}
-              unoptimized
-              sizes="128px"
-            />
-          </Link>
-          <p>No Business Left Behind</p>
-          <span>Colorado · Denver / Aurora Metro</span>
-        </div>
-
-        <nav aria-label="Footer navigation">
-          <p className="lf-sub-footer__label">Sitemap</p>
-          <Link href="/">Home</Link>
-          <Link href="/google-business-profile-visual-refresh#pricing">Pricing</Link>
-          <Link href="/google-business-profile-visual-refresh">Visual Refresh · $349</Link>
-          <Link href="/google-business-profile-resources">Google Business Profile Guides</Link>
-          <Link href="/first-impressions">First Impressions</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
-
-        <div className="lf-sub-footer__contact">
-          <p className="lf-sub-footer__label">Contact</p>
-          <a href="tel:+13035240591">303-524-0591</a>
-          <a href="mailto:nick.molina@icloud.com">nick.molina@icloud.com</a>
-          <span>Google Local Guide · Level 7<br />BBB A+ Accredited</span>
-        </div>
-      </div>
-      <p className="lf-sub-footer__legal" data-motion-reveal>
-        © {new Date().getFullYear()} LocalFirst · All rights reserved · Colorado, USA
-      </p>
-    </footer>
-  );
+  return <footer className="rh-footer">
+    <div className="rh-shell rh-footer-top">
+      <div><Link href="/" className="rh-logo" aria-label="LocalFirst home"><Image src="/media/localfirst-logo-v3.webp" alt="LocalFirst" width={480} height={160} sizes="(max-width: 767px) 118px, 152px" /></Link><p>No business left behind.</p></div>
+      <nav aria-label="Footer navigation">
+        <Link href={pricingHref} data-underline-link="">Pricing</Link>
+        <Link href="/#monthly" data-underline-link="">Monthly plans</Link>
+        <Link href="/google-business-profile-visual-refresh" data-underline-link="">Visual Refresh</Link>
+        <Link href="/first-impressions" data-underline-link="">First Impressions</Link>
+        <Link href="/google-business-profile-resources" data-underline-link="">Google Profile Guides</Link>
+        <Link href="/about" data-underline-link="">About Nick</Link>
+        <Link href="/contact" data-underline-link="">Contact</Link>
+      </nav>
+      <div className="rh-footer-contact"><a href="tel:+13035240591" data-underline-link="">303-524-0591</a><a href="mailto:nick.molina@icloud.com" data-underline-link="">nick.molina@icloud.com</a><span>Denver / Aurora · Colorado</span></div>
+    </div>
+    <div className="rh-shell rh-footer-bottom"><span>© {new Date().getFullYear()} LocalFirst</span><span>Restaurant photography · Video · Google Business Profiles</span></div>
+    <RestaurantMotion />
+  </footer>;
 }

@@ -3,6 +3,7 @@ import { pageMetadata, pageSchema } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
+import { BubbleButton } from "@/components/RestaurantVisuals";
 
 export const metadata = pageMetadata("/contact");
 
@@ -17,19 +18,19 @@ export default function ContactPage() {
             <p className="lf-sub-eyebrow">Contact</p>
             <h1>Let&apos;s refresh <em>what customers see.</em></h1>
             <p>
-              Call or text Nicholas about the $349 Google Business Profile Visual Refresh.
+              Call or text Nick about a shoot, a profile refresh, or monthly content.
               Tell me what your business offers and what you want customers to see.
               Prefer email? The form below opens a draft you can review and send.
             </p>
             <div className="lf-sub-actions">
-              <a className="lf-sub-button lf-sub-button--primary" href="sms:+13035240591?body=FIRST">Text Nicholas</a>
+              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
               <a className="lf-sub-button" href="tel:+13035240591">Call 303-524-0591</a>
             </div>
           </div>
         </section>
 
         <section className="lf-contact-main lf-sub-section">
-          <div className="lf-sub-shell lf-contact-main__grid" data-motion-scene="up">
+          <div className="lf-sub-shell lf-contact-main__grid">
             <aside className="lf-contact-details" data-motion-group>
               <div>
                 <p className="lf-sub-eyebrow">Phone</p>
@@ -51,7 +52,7 @@ export default function ContactPage() {
               <blockquote>One visit. Fresh content. A stronger first impression.</blockquote>
             </aside>
 
-            <div className="lf-contact-form-wrap" data-motion-from-right>
+            <div className="lf-contact-form-wrap">
               <p className="lf-sub-eyebrow">Send a message</p>
               <h2>Tell me about <em>your business.</em></h2>
               <ContactForm />
