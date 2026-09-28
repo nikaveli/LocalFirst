@@ -30,7 +30,7 @@ try {
       const selector = path === '/contact' ? '.lf-contact-form > label:last-of-type' : path === '/about' ? '.lf-about-credentials .lf-sub-shell' : path === '/first-impressions' ? '.lf-visit-card:nth-child(7)' : path === '/google-business-profile-resources' ? '#restaurants-cafes .lf-sub-shell' : '#includes .lf-sub-shell';
       const reveal = page.locator(selector);
       const before = await reveal.evaluate(el => ({ opacity: getComputedStyle(el).opacity, top: el.getBoundingClientRect().top, viewport: innerHeight }));
-      if (before.top > before.viewport) assert.ok(Number(before.opacity) < 1, `${path}: below-fold scroll motion prepared`);
+      assert.equal(Number(before.opacity), 1, `${path}: text retains full contrast throughout motion`);
       await reveal.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1100);
       assert.equal(await reveal.evaluate(el => getComputedStyle(el).opacity), '1', `${path}: reveal completed`);
@@ -39,9 +39,9 @@ try {
       for (const viewportFraction of [.82, .35, .82]) {
         await page.evaluate(({ top, fraction }) => scrollTo({ top: top - innerHeight * fraction, behavior: 'instant' }), { top: naturalTop, fraction: viewportFraction });
         await page.waitForTimeout(500);
-        samples.push(await reveal.evaluate(el => Number(getComputedStyle(el).opacity)));
+        samples.push(await reveal.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42));
       }
-      assert.ok(samples[0] < .95 && samples[1] > .98 && samples[2] < .95, `${path}: reversible scroll progression (${samples})`);
+      assert.ok(samples[0] > 5 && samples[1] < 1 && samples[2] > 5, `${path}: reversible scroll progression (${samples})`);
       await reveal.scrollIntoViewIfNeeded();
       await page.waitForTimeout(500);
       await page.screenshot({ path: `${shots}/${mobile ? 'mobile' : 'desktop'}-${path.slice(1)}-content.png` });

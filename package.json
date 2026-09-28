@@ -13,6 +13,7 @@
     "test:motion": "node --test scripts/video-scrubber.test.mjs scripts/scrub-media.test.mjs scripts/frame-sequence.test.mjs",
     "test:restaurant": "node scripts/restaurant-home-check.mjs",
     "test:uniform": "node scripts/site-uniform-check.mjs",
+    "test:media": "node scripts/site-media-check.mjs",
     "media:restaurant": "node scripts/build-restaurant-media.mjs",
     "cf:build": "next build",
     "cf:preview": "npm run cf:build && wrangler dev --local",

@@ -147,7 +147,9 @@ for (const asset of assets) {
 console.log(`PASS ${links.length} internal links/fragments and ${assets.size} assets`);
 
 const gallery = tags(pages.get("/first-impressions"), "video");
-check(gallery.length === 15 && gallery.every((v) => v.src && v.poster && v.preload === "none"), "Gallery: all 15 videos discoverable, playback deferred");
+check(gallery.length === 15 && gallery.every((v) => v.src && v.preload === "none"), "Gallery: all 15 videos discoverable, playback deferred");
+const galleryPosters = tags(pages.get("/first-impressions"), "img").filter(img => img.class === "lf-visit-card__poster");
+check(galleryPosters.length === 15 && galleryPosters.every(img => img.loading === "lazy" && img.src.includes('/posters-v1/') && (img.srcSet || img.srcset)), "Gallery: responsive modern posters load lazily");
 const robotsResponse = await fetch(new URL("/robots.txt", base));
 const robots = await robotsResponse.text();
 check(robotsResponse.ok && /User-Agent: \*/i.test(robots), "robots.txt available");

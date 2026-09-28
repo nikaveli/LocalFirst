@@ -70,7 +70,6 @@ function VisitCard({ visit }: { visit: Visit }) {
         <video
           ref={videoRef}
           src={`/media/first-impressions/${visit.slug}.mp4`}
-          poster={`/media/first-impressions/${visit.slug}.jpg`}
           muted
           loop
           playsInline
@@ -79,9 +78,16 @@ function VisitCard({ visit }: { visit: Visit }) {
           onPause={() => setPlaying(false)}
           aria-label={`${visit.business}, on-site visit by Nicholas`}
         />
+        {/* Native lazy images avoid downloading all fifteen video posters on entry. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="lf-visit-card__poster" hidden={playing}
+          src={`/media/first-impressions/posters-v1/${visit.slug}-640.webp`}
+          srcSet={`/media/first-impressions/posters-v1/${visit.slug}-640.webp 640w, /media/first-impressions/posters-v1/${visit.slug}-960.webp 960w`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw"
+          alt="" width={640} height={1138} loading="lazy" decoding="async" />
         <div className="lf-visit-card__shade" aria-hidden="true" />
         <button type="button" className="lf-visit-card__control" onClick={toggle}
-          aria-label={`${playing ? "Pause" : "Play"} ${visit.business} video`} aria-pressed={playing}>
+          aria-label={`${playing ? "Pause video" : "Play video"}: ${visit.business}`} aria-pressed={playing}>
           <span className="lf-visit-card__play"><b aria-hidden="true">{playing ? "Ⅱ" : "▶"}</b> {playing ? "Pause video" : "Play video"}</span>
         </button>
       </div>

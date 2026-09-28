@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
 import { businessSchema, siteUrl } from "@/lib/seo";
-import "./scrollcraft.css";
+import "./base.css";
 import "./globals.css";
 import "./subpages.css";
 import "./restaurant-home.css";
@@ -40,6 +40,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body>
+        <noscript><style>{`.rh-zoom .rh-zoom-end{display:none}.rh-zoom .rh-zoom-story{min-height:0;padding:5rem 1.5rem;margin-top:3rem}`}</style></noscript>
         <JsonLd data={businessSchema} />
         <a className="lf-skip-link" href="#main-content">Skip to content</a>
         {children}

@@ -4,6 +4,8 @@
 .rh-header a[aria-current="page"] { color: var(--rh-orange); }
 .rh-desktop-nav { gap: clamp(1rem, 1.6vw, 1.65rem); white-space: nowrap; }
 .rh-footer p { line-height: 1.65; }
+.lf-visit-card__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.lf-visit-card__poster[hidden] { display: none; }
 .rh-footer-contact a { overflow-wrap: anywhere; }
 .rh-footer-top > * { min-width: 0; }
 .lf-subpage { background: var(--rh-ink); color: var(--rh-paper); }
@@ -30,6 +32,9 @@
 .lf-subpage .lf-resources-hero__visual img { border-radius: 0; }
 .lf-subpage .lf-resource-jump { top: 0; }
 .lf-subpage .lf-resource-guide__identity { top: 7rem; }
+.lf-subpage .lf-resource-guide__identity > .lf-sub-eyebrow,
+.lf-subpage .lf-resources-hero__visual figcaption > span { color: var(--rh-paper); }
+.lf-subpage .lf-resource-guide__body small { color: var(--rh-ink); }
 .lf-subpage .lf-resource-checklist { background: var(--rh-ink); }
 .lf-subpage .lf-visit-card { background: var(--rh-ink); border-color: #2c2c2c50; }
 .lf-subpage .lf-visit-card__caption h3 { color: var(--rh-paper); }

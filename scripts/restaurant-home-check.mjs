@@ -22,15 +22,15 @@ try {
     const video = page.locator('.rh-hero video');
     await page.screenshot({ path: `${shots}/${name}-initial.png` });
     await page.waitForFunction(() => document.querySelector('.rh-hero video')?.getAttribute('src'), null, { timeout: 15000 });
-    assert.ok((await video.getAttribute('src')).includes(mobile ? 'hero-mobile.mp4' : 'hero-desktop.mp4'), 'Correct responsive video');
+    assert.ok((await video.getAttribute('src')).includes(mobile ? 'hero-mobile-v2.mp4' : 'hero-desktop-v2.mp4'), 'Correct responsive video');
     await page.waitForFunction(() => document.querySelector('.rh-hero video')?.currentTime > 0, null, { timeout: 30000 });
     const before = await video.evaluate(el => el.currentTime);
     await page.waitForTimeout(500);
     assert.ok(await video.evaluate((el, t) => el.currentTime > t, before), 'Video advances independently');
     await page.screenshot({ path: `${shots}/${name}-hero.png` });
-    await page.getByRole('button', { name: 'Pause background video' }).click();
+    await page.getByRole('button', { name: 'Pause film' }).click();
     assert.equal(await video.evaluate(el => el.paused), true, 'Pause control works');
-    await page.getByRole('button', { name: 'Play background video' }).click();
+    await page.getByRole('button', { name: 'Play film' }).click();
     await page.waitForTimeout(300);
     assert.equal(await video.evaluate(el => el.paused), false, 'Play control works');
 

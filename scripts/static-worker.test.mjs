@@ -53,7 +53,7 @@ test("legacy video range URLs still work after removing the Next server", async 
 });
 
 test("restaurant hero videos support the initial iOS byte-range probe", async () => {
-  for (const file of ["hero-desktop.mp4", "hero-mobile.mp4"]) {
+  for (const file of ["hero-desktop.mp4", "hero-mobile.mp4", "hero-desktop-v2.mp4", "hero-mobile-v2.mp4"]) {
     const path = `/media/restaurant-home/${file}`;
     const response = await worker.fetch(new Request(`https://localfirstonline.com${path}`, { headers: { Range: "bytes=0-1" } }), {
       ASSETS: { fetch(request) {

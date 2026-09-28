@@ -83,6 +83,14 @@
 .rh-zoom--dark { background: var(--rh-ink); color: var(--rh-paper); }
 .rh-zoom.rh-zoom-enhanced .rh-zoom-end { display: block; }
 .rh-zoom.rh-zoom-enhanced .rh-zoom-story { min-height: 75svh; padding-bottom: 12svh; margin-top: 0; background: transparent; }
+/* Reserve the enhanced layout before JS so deferred photos stay below the fold. */
+@media (prefers-reduced-motion: no-preference) {
+  .rh-zoom-end { display: block; }
+  .rh-zoom-story { min-height: 75svh; padding-bottom: 12svh; margin-top: 0; }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .rh-zoom-story { min-height: 65svh; padding-bottom: 7svh; }
+}
 
 .rh-gallery { background: var(--rh-paper); }
 .rh-section-heading { display: grid; grid-template-columns: 1.3fr .7fr; align-items: end; gap: 10vw; margin-bottom: 4rem; }

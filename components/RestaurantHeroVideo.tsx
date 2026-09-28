@@ -18,16 +18,17 @@ export default function RestaurantHeroVideo() {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     let inView = true;
     let mounted = true;
+    let ready = false;
 
     const selectSource = () => {
-      const src = `${media}/hero-${portrait.matches ? "mobile" : "desktop"}.mp4`;
+      const src = `${media}/hero-${portrait.matches ? "mobile" : "desktop"}-v2.mp4`;
       if (element.getAttribute("src") !== src) {
         element.src = src;
         element.load();
       }
     };
     const update = () => {
-      if (reduced.matches || connection?.saveData || manuallyPaused.current || !inView || document.hidden) {
+      if (!ready || reduced.matches || connection?.saveData || manuallyPaused.current || !inView || document.hidden) {
         element.pause();
         return;
       }
@@ -42,8 +43,16 @@ export default function RestaurantHeroVideo() {
     portrait.addEventListener("change", update);
     reduced.addEventListener("change", update);
     document.addEventListener("visibilitychange", update);
-    // Wait for the poster to paint before competing for network bandwidth.
-    const frame = requestAnimationFrame(() => { if (mounted) update(); });
+    // Finish the critical poster/font requests and allow their first paint before
+    // the background movie starts competing for bandwidth on mobile connections.
+    const poster = element.parentElement?.querySelector('img');
+    let frame = 0;
+    void Promise.all([document.fonts.ready, poster?.decode().catch(() => {})]).then(() => {
+      if (!mounted) return;
+      frame = requestAnimationFrame(() => {
+        frame = requestAnimationFrame(() => { if (mounted) { ready = true; update(); } });
+      });
+    });
     return () => {
       mounted = false;
       cancelAnimationFrame(frame);
@@ -63,7 +72,7 @@ export default function RestaurantHeroVideo() {
     if (element.paused) {
       manuallyPaused.current = false;
       if (!element.getAttribute("src")) {
-        element.src = `${media}/hero-${window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop"}.mp4`;
+        element.src = `${media}/hero-${window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop"}-v2.mp4`;
       }
       void element.play().catch(() => {});
     } else {
@@ -76,12 +85,12 @@ export default function RestaurantHeroVideo() {
     <>
       <div className="rh-hero-media" aria-hidden="true">
         <picture>
-          <source media="(max-width: 767px)" srcSet={`${media}/hero-mobile.webp`} />
-          <img src={`${media}/hero-desktop.webp`} alt="" width="1920" height="1080" fetchPriority="high" />
+          <source media="(max-width: 767px)" srcSet={`${media}/hero-mobile-540-v2.webp 540w, ${media}/hero-mobile-1080-v2.webp 1080w`} sizes="100vw" />
+          <img src={`${media}/hero-desktop-1920-v2.webp`} srcSet={`${media}/hero-desktop-960-v2.webp 960w, ${media}/hero-desktop-1920-v2.webp 1920w`} sizes="100vw" alt="" width="1920" height="1080" fetchPriority="high" />
         </picture>
         <video ref={video} muted loop playsInline preload="none" onPlaying={() => setPlaying(true)} onPause={() => setPlaying(false)} />
       </div>
-      <button className="rh-video-control" type="button" onClick={toggle} aria-label={playing ? "Pause background video" : "Play background video"}>
+      <button className="rh-video-control" type="button" onClick={toggle} aria-label={playing ? "Pause film" : "Play film"}>
         {playing ? <Pause size={14} aria-hidden="true" /> : <Play size={14} aria-hidden="true" />}
         <span>{playing ? "Pause film" : "Play film"}</span>
       </button>
