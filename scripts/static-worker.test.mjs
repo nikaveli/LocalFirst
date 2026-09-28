@@ -51,3 +51,28 @@ test("legacy video range URLs still work after removing the Next server", async 
   assert.equal(response.status, 206);
   assert.equal(await response.text(), "01");
 });
+
+test("restaurant hero videos support the initial iOS byte-range probe", async () => {
+  for (const file of ["hero-desktop.mp4", "hero-mobile.mp4"]) {
+    const path = `/media/restaurant-home/${file}`;
+    const response = await worker.fetch(new Request(`https://localfirstonline.com${path}`, { headers: { Range: "bytes=0-1" } }), {
+      ASSETS: { fetch(request) {
+        assert.equal(new URL(request.url).pathname, path);
+        assert.equal(request.headers.has("Range"), false);
+        return new Response("0123456789", { headers: { "Content-Length": "10", "Content-Type": "video/mp4" } });
+      } },
+    });
+    assert.equal(response.status, 206);
+    assert.equal(response.headers.get("Accept-Ranges"), "bytes");
+    assert.equal(response.headers.get("Content-Range"), "bytes 0-1/10");
+    assert.equal(response.headers.get("Content-Length"), "2");
+    assert.equal(await response.text(), "01");
+  }
+});
+
+test("other media still delegates to static assets without buffering", async () => {
+  const body = new ReadableStream({ start(controller) { controller.close(); } });
+  const asset = new Response(body);
+  const response = await worker.fetch(new Request("https://localfirstonline.com/media/restaurant-home/tacos-1280.webp"), { ASSETS: { fetch() { return asset; } } });
+  assert.equal(response, asset);
+});
