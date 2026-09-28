@@ -17,11 +17,27 @@ export default function RestaurantMotion() {
     const root = anchor.current?.closest<HTMLElement>("[data-restaurant-home], .lf-subpage");
     if (!root) return;
     root.dataset.motionReady = "true";
+    const subpage = root.classList.contains("lf-subpage");
     const media = gsap.matchMedia();
     let interacted = false;
+    let anchorFrame = 0;
     const markInteraction = () => { interacted = true; };
     const interactionEvents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
     interactionEvents.forEach(event => window.addEventListener(event, markInteraction, { passive: true }));
+    const alignAnchor = () => {
+      if (interacted || !window.location.hash) return;
+      cancelAnimationFrame(anchorFrame);
+      // Run after ScrollTrigger's own scroll restoration, including its load refresh.
+      anchorFrame = requestAnimationFrame(() => {
+        if (interacted) return;
+        try {
+          document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView({ behavior: "instant", block: "start" });
+          ScrollTrigger.update();
+        } catch { /* A malformed fragment should not prevent scrolling. */ }
+      });
+    };
+    ScrollTrigger.addEventListener("refresh", alignAnchor);
+    window.addEventListener("load", alignAnchor);
 
     // Locomotive manages wheel smoothing only. Touch keeps its native momentum.
     media.add("(min-width: 992px) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
@@ -105,6 +121,15 @@ export default function RestaurantMotion() {
           root.querySelectorAll<HTMLElement>(revealSelector).forEach(element => {
             // One reveal per content group; don't stack transforms on nested cards.
             if (element.parentElement?.closest("[data-motion-scene], [data-rh-reveal]")) return;
+            if (subpage) {
+              // Visible, reversible choreography: progress follows the scroll,
+              // rather than a small entrance that disappears after one viewing.
+              gsap.fromTo(element, { y: isMobileLandscape ? 36 : 64, opacity: .3 }, {
+                y: 0, opacity: 1, ease: "none",
+                scrollTrigger: { trigger: element, start: "clamp(top 98%)", end: "clamp(top 52%)", scrub: .3, invalidateOnRefresh: true },
+              });
+              return;
+            }
             // Above-the-fold and already-passed copy must never disappear on resize.
             if (element.getBoundingClientRect().top < window.innerHeight * .9) return;
             gsap.fromTo(element, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .8, ease: "power2.out", clearProps: "transform,opacity", scrollTrigger: { trigger: element, start: "top 92%", once: true } });
@@ -113,13 +138,7 @@ export default function RestaurantMotion() {
         ScrollTrigger.refresh();
         // Zoom enhancement changes document height. Re-align a cross-page anchor
         // after layout settles, but never pull someone back after they interact.
-        if (alignInitialHash && !interacted && window.location.hash) {
-          try {
-            const destination = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
-            destination?.scrollIntoView({ behavior: "instant", block: "start" });
-            ScrollTrigger.update();
-          } catch { /* A malformed fragment should not prevent scrolling. */ }
-        }
+        if (alignInitialHash) alignAnchor();
       };
       const resize = () => {
         // iOS address-bar height changes are not layout changes. Avoid rebuilding mid-swipe.
@@ -145,6 +164,9 @@ export default function RestaurantMotion() {
     return () => {
       media.revert();
       interactionEvents.forEach(event => window.removeEventListener(event, markInteraction));
+      ScrollTrigger.removeEventListener("refresh", alignAnchor);
+      window.removeEventListener("load", alignAnchor);
+      cancelAnimationFrame(anchorFrame);
       delete root.dataset.motionReady;
     };
   }, [pathname]);

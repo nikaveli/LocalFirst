@@ -2,6 +2,7 @@
 :root { --rh-paper: #c5baaa; --rh-ink: #2c2c2c; --rh-orange: #ee7828; --rh-craft: #806d61; }
 .rh-header a, .rh-footer a { text-decoration: none; }
 .rh-header a[aria-current="page"] { color: var(--rh-orange); }
+.rh-desktop-nav { gap: clamp(1rem, 1.6vw, 1.65rem); white-space: nowrap; }
 .rh-footer p { line-height: 1.65; }
 .rh-footer-contact a { overflow-wrap: anywhere; }
 .rh-footer-top > * { min-width: 0; }
@@ -57,6 +58,12 @@
 .lf-subpage .lf-refresh-includes article { border-top: 1px solid #c5baaa50; padding-top: 1.5rem; }
 .lf-subpage .lf-refresh-includes h3 { font-family: var(--font-localfirst-display), Georgia, serif; font-size: 2rem; font-weight: 400; line-height: 1.1; }
 .lf-subpage a:focus-visible, .lf-subpage button:focus-visible { outline: 2px solid var(--rh-orange); outline-offset: 4px; }
+@media (max-width: 1200px) {
+  .rh-header .rh-desktop-nav { display: none; }
+  .rh-header .lf-mobile-navigation { display: block; }
+  .rh-header-contact { margin-left: auto; }
+  .rh-header { gap: 1rem; }
+}
 @media (max-width: 767px) {
   .lf-subpage .lf-sub-shell { width: calc(100% - 2.5rem); }
   .lf-subpage .lf-sub-hero, .lf-subpage .lf-first-hero, .lf-subpage .lf-resources-hero, .lf-subpage .lf-sub-section, .lf-subpage .lf-refresh-section, .lf-subpage .lf-first-gallery, .lf-subpage .lf-resource-guide, .lf-subpage .lf-sub-cta { padding-block: 4.5rem; }

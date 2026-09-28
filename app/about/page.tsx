@@ -51,7 +51,7 @@ export default function AboutPage() {
 
         <section className="lf-about-story lf-sub-section">
           <div className="lf-sub-shell lf-about-story__grid">
-            <figure className="lf-about-portrait" data-parallax="trigger" data-parallax-start="3" data-parallax-end="-3" data-parallax-disable="mobileLandscape">
+            <figure className="lf-about-portrait" data-parallax="trigger" data-parallax-start="6" data-parallax-end="-6" data-parallax-disable="mobileLandscape">
               <div className="lf-about-portrait__image" data-parallax="target">
               <Image
                 src="/media/restaurant-home/nick.webp"

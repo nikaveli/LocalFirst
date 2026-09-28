@@ -24,7 +24,7 @@ export default function MobileNavigation({ items = siteNavigation }: { items?: r
       }
     };
     const resize = () => {
-      if (window.innerWidth > 980) setOpen(false);
+      if (window.innerWidth > 1200) setOpen(false);
     };
     document.addEventListener("pointerdown", dismiss);
     document.addEventListener("keydown", escape);

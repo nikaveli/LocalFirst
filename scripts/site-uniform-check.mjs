@@ -20,7 +20,8 @@ try {
       assert.equal(await page.locator('h1').count(), 1, `${path}: H1`);
       assert.equal(await page.locator('.rh-header, .rh-footer').count(), 2, 'Shared header/footer');
       assert.equal(await page.locator('.rh-header img').getAttribute('src'), '/media/localfirst-logo-v3.webp');
-      assert.equal(await page.locator('.rh-desktop-nav a').allTextContents().then(a => a.join('|')), 'The work|How it works|Pricing|About|Contact');
+      assert.equal(await page.locator('.rh-desktop-nav a').allTextContents().then(a => a.join('|')), 'Pricing|Monthly plans|Visual Refresh|First Impressions|Google Profile Guides|About Nick|Contact');
+      assert.deepEqual(await page.locator('.rh-desktop-nav a').allTextContents(), await page.locator('.rh-footer nav a').allTextContents(), 'Header and footer menus match exactly');
       const pricing = await page.locator('a[href$="#pricing"]').evaluateAll(links => links.map(a => a.getAttribute('href')));
       assert.ok(pricing.length >= 3 && pricing.every(href => href === '/#pricing'), `${path}: unified pricing`);
       assert.equal(await page.locator('.lf-refresh-pricing__grid').count(), 0, 'No duplicate pricing');
@@ -29,10 +30,20 @@ try {
       const selector = path === '/contact' ? '.lf-contact-form > label:last-of-type' : path === '/about' ? '.lf-about-credentials .lf-sub-shell' : path === '/first-impressions' ? '.lf-visit-card:nth-child(7)' : path === '/google-business-profile-resources' ? '#restaurants-cafes .lf-sub-shell' : '#includes .lf-sub-shell';
       const reveal = page.locator(selector);
       const before = await reveal.evaluate(el => ({ opacity: getComputedStyle(el).opacity, top: el.getBoundingClientRect().top, viewport: innerHeight }));
-      if (before.top > before.viewport) assert.equal(before.opacity, '0', `${path}: below-fold reveal prepared`);
+      if (before.top > before.viewport) assert.ok(Number(before.opacity) < 1, `${path}: below-fold scroll motion prepared`);
       await reveal.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1100);
       assert.equal(await reveal.evaluate(el => getComputedStyle(el).opacity), '1', `${path}: reveal completed`);
+      const naturalTop = await reveal.evaluate(el => el.getBoundingClientRect().top + scrollY - new DOMMatrixReadOnly(getComputedStyle(el).transform).m42);
+      const samples = [];
+      for (const viewportFraction of [.82, .35, .82]) {
+        await page.evaluate(({ top, fraction }) => scrollTo({ top: top - innerHeight * fraction, behavior: 'instant' }), { top: naturalTop, fraction: viewportFraction });
+        await page.waitForTimeout(500);
+        samples.push(await reveal.evaluate(el => Number(getComputedStyle(el).opacity)));
+      }
+      assert.ok(samples[0] < .95 && samples[1] > .98 && samples[2] < .95, `${path}: reversible scroll progression (${samples})`);
+      await reveal.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(500);
       await page.screenshot({ path: `${shots}/${mobile ? 'mobile' : 'desktop'}-${path.slice(1)}-content.png` });
       if (path === '/google-business-profile-visual-refresh') {
         const geometry = await page.locator('#on-location').evaluate(el => {

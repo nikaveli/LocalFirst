@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "./SiteLink";
-import { pricingHref } from "@/lib/navigation";
+import { siteNavigation } from "@/lib/navigation";
 import RestaurantMotion from "./RestaurantMotion";
 
 export default function SubpageFooter() {
@@ -8,13 +8,7 @@ export default function SubpageFooter() {
     <div className="rh-shell rh-footer-top">
       <div><Link href="/" className="rh-logo" aria-label="LocalFirst home"><Image src="/media/localfirst-logo-v3.webp" alt="LocalFirst" width={480} height={160} sizes="(max-width: 767px) 118px, 152px" /></Link><p>No business left behind.</p></div>
       <nav aria-label="Footer navigation">
-        <Link href={pricingHref} data-underline-link="">Pricing</Link>
-        <Link href="/#monthly" data-underline-link="">Monthly plans</Link>
-        <Link href="/google-business-profile-visual-refresh" data-underline-link="">Visual Refresh</Link>
-        <Link href="/first-impressions" data-underline-link="">First Impressions</Link>
-        <Link href="/google-business-profile-resources" data-underline-link="">Google Profile Guides</Link>
-        <Link href="/about" data-underline-link="">About Nick</Link>
-        <Link href="/contact" data-underline-link="">Contact</Link>
+        {siteNavigation.map(([href, label]) => <Link key={href} href={href} data-underline-link="">{label}</Link>)}
       </nav>
       <div className="rh-footer-contact"><a href="tel:+13035240591" data-underline-link="">303-524-0591</a><a href="mailto:nick.molina@icloud.com" data-underline-link="">nick.molina@icloud.com</a><span>Denver / Aurora · Colorado</span></div>
     </div>
