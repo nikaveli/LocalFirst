@@ -14,7 +14,7 @@ const links = [
   ["/contact", "Contact"],
 ] as const;
 
-export default function MobileNavigation() {
+export default function MobileNavigation({ items = links }: { items?: readonly (readonly [string, string])[] }) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const pathname = usePathname();
@@ -53,7 +53,7 @@ export default function MobileNavigation() {
       <button ref={toggle} type="button" aria-expanded={open} aria-controls={id}
         onClick={() => setOpen(!open)}>{open ? "Close" : "Menu"}</button>
       <nav id={id} hidden={!open} aria-label="Mobile navigation">
-        {links.map(([href, label]) => (
+        {items.map(([href, label]) => (
           <SiteLink key={href} href={href} aria-current={pathname === href ? "page" : undefined}
             onClick={() => setOpen(false)}>{label}</SiteLink>
         ))}

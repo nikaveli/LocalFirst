@@ -1,468 +1,108 @@
-import {
-  ArrowUpRight,
-  Camera,
-  Check,
-  MapPinned,
-  MessageCircleReply,
-  RefreshCw,
-  ShieldCheck,
-  Sparkles,
-  Video,
-} from "lucide-react";
 import Image from "next/image";
+import { ArrowDown, ArrowUpRight, Check, Star } from "lucide-react";
 import Link from "@/components/SiteLink";
 import MobileNavigation from "@/components/MobileNavigation";
-import LocalFirstPortal from "@/components/LocalFirstPortal";
-import ScrollcraftMount from "@/components/ScrollcraftMount";
+import RestaurantHeroVideo from "@/components/RestaurantHeroVideo";
+import RestaurantMotion from "@/components/RestaurantMotion";
+import { BubbleButton, FoodPhoto, ImageZoom } from "@/components/RestaurantVisuals";
 import JsonLd from "@/components/JsonLd";
 import { pageMetadata, pageSchema } from "@/lib/seo";
+import "./restaurant-home.css";
 
 export const metadata = pageMetadata("/");
-
-const updateHref = "sms:+13035240591?&body=Update%20Now";
-
-const googleReviews = [
-  {
-    name: "Daniel Trujillo",
-    initial: "D",
-    age: "10 months ago",
-    quote:
-      "I was extremely impressed with the 360 virtual tour that Local First created for my business. The tour looks professional and polished, and it instantly upgraded my Google Business Profile. The team was responsive and delivered the project quickly. I highly recommend Local First for anyone who wants high quality internet marketing services.",
-  },
-  {
-    name: "Nicole",
-    initial: "N",
-    age: "A year ago",
-    quote: "Left a 5-star rating.",
-  },
-  {
-    name: "Alice P Ochoa",
-    initial: "A",
-    age: "A year ago",
-    quote:
-      "The LocalFirst team’s expertise in Google Business Profile optimization and Google My Business management enabled us to boost our online visibility and presence with effective local SEO strategies. I highly recommend this service to anyone who is looking to amp up their local business profile on Google.",
-  },
-  {
-    name: "Yula Losasso",
-    initial: "Y",
-    age: "A year ago",
-    quote: "Left a 5-star rating.",
-  },
+const textNick = "sms:+13035240591?&body=FIRST";
+const navigation = [["#work", "The work"], ["#how-it-works", "How it works"], ["#pricing", "Pricing"], ["/about", "About"], ["/contact", "Contact"]] as const;
+const packages = [
+  { name: "Visual Refresh", price: "349", suffix: "one time", headline: "A fresh look at what’s cooking.", items: ["On-site business and food photography", "Short-form video content", "Google Business Profile visual update", "Profile information check", "Practical recommendations for your profile"], cta: "Ask about a refresh", message: "I'm interested in the Visual Refresh" },
+  { name: "Complete Profile Update", price: "497", suffix: "one time", headline: "The photos. The details. The full profile.", items: ["Professional photos and short-form video", "Services, hours, categories & description updated", "Google Business Profile posts for 90 days", "360° virtual tour", "Replies to unanswered reviews from the previous 14 days"], cta: "Ask about an update", message: "I'm interested in the Complete Profile Update" },
+  { name: "Product & Menu Item Photo Shoot", price: "750", suffix: "add-on with either service", headline: "Give your menu its own moment.", items: ["A dedicated on-site photo shoot", "Individual menu-item or product photography", "A consistent set of current images", "Deeper coverage beyond the profile shoot"], cta: "Plan a menu shoot", message: "I'm interested in a Product and Menu Item Photo Shoot" },
 ];
 
 export default function Home() {
-  return (
-    <div className="lf-site" data-localfirst-scrollcraft>
-      <JsonLd data={pageSchema("/")} />
-      <div className="sc-grain" aria-hidden="true" />
+  return <div className="restaurant-home" data-restaurant-home>
+    <JsonLd data={pageSchema("/")} />
+    <header className="rh-header">
+      <Link href="/" className="rh-logo" aria-label="LocalFirst home"><Image src="/media/localfirst-logo-v3.webp" alt="LocalFirst" width={480} height={160} priority sizes="150px" /></Link>
+      <nav className="rh-desktop-nav" aria-label="Main navigation">{navigation.map(([href, label]) => <Link key={href} href={href} data-underline-link="">{label}</Link>)}</nav>
+      <a href={textNick} className="rh-header-contact">Let’s talk <ArrowUpRight size={17} aria-hidden="true" /></a>
+      <MobileNavigation items={navigation} />
+    </header>
 
-      <header className="lf-site-bar">
-        <Link className="lf-wordmark" href="/" aria-label="LocalFirst home">
-          <Image
-            src="/media/localfirst-logo-v3.webp"
-            alt="LocalFirst"
-            width={480}
-            height={160}
-            unoptimized
-            sizes="(max-width: 380px) 92px, 154px"
-            priority
-          />
-        </Link>
-        <nav className="lf-site-nav" aria-label="Main navigation">
-          <Link href="/google-business-profile-visual-refresh#pricing">Pricing</Link>
-          <Link href="/google-business-profile-visual-refresh">Visual Refresh</Link>
-          <Link href="/google-business-profile-resources">GBP Guides</Link>
-          <Link href="/first-impressions">First Impressions</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
-        <a className="lf-header-cta" href={updateHref}>
-          Text Nicholas <ArrowUpRight aria-hidden="true" />
-        </a>
-        <MobileNavigation />
-      </header>
+    <main id="main-content" tabIndex={-1}>
+      <section className="rh-hero" aria-labelledby="hero-title">
+        <RestaurantHeroVideo />
+        <div className="rh-hero-shade" aria-hidden="true" />
+        <div className="rh-hero-copy">
+          <p className="rh-eyebrow"><span className="rh-dot" /> For local restaurants · Denver &amp; Aurora</p>
+          <h1 id="hero-title">People are deciding<br className="rh-desktop-break" /> where to eat.<br /><em>Show them<br className="rh-mobile-break" /> what’s cooking.</em></h1>
+          <p className="rh-hero-lede">Your signature dish. Today’s special. The drink everyone should try.</p>
+          <p className="rh-hero-detail">I create photos and video at your restaurant, update your Google profile, and give you the files to share.</p>
+          <div className="rh-actions"><BubbleButton href={textNick}>Text Nick about a shoot</BubbleButton><a href="#work" data-underline-link="">Explore the photography <ArrowDown size={15} aria-hidden="true" /></a></div>
+        </div>
+        <div className="rh-hero-bottom"><span>Real food. Local restaurants. Shot by Nick.</span><a href="#reviews" aria-label="Scroll to reviews"><ArrowDown size={20} /></a></div>
+      </section>
 
-      <div
-        className="lf-film-sheet lf-film-sheet--restaurant-transition"
-        data-lf-restaurant-sheet
-        aria-hidden="true"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/media/frames/v3/restaurant/0000.webp" decoding="async" fetchPriority="low" alt="" />
-        <video
-          data-lf-scrub
-          data-lf-src="/media/hq-v3/restaurant.mp4"
-          data-lf-src-mobile="/media/restaurant-mobile.mp4"
-          muted
-          playsInline
-          preload="none"
-        />
-        <div className="lf-film-shade lf-film-shade--left" />
-      </div>
-
-      <main id="main-content" tabIndex={-1}>
-        <section
-          className="lf-hero"
-          data-sc-act="scrub"
-          data-sc-span="2.35"
-          data-sc-dwell="0.22"
-          data-sc-drift="#2c2c2c"
-          data-lf-hero-act
-          aria-labelledby="hero-title"
-        >
-          <div className="sc-stage lf-hero-stage" data-sc-stage>
-            <div className="lf-hero-media" data-lf-hero-media>
-              {/* The poster must be the video's exact first painted frame. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="lf-hero-poster"
-                src="/media/frames/v3/localfirst/0000.webp"
-                fetchPriority="high"
-                alt="A phone showing a local business Google profile outside the business"
-              />
-              <video
-                className="lf-hero-video"
-                data-sc-scrub
-                data-sc-src="/media/hq-v3/localfirst.mp4"
-                data-sc-src-mobile="/media/localfirst-mobile.mp4"
-                muted
-                playsInline
-                preload="metadata"
-                poster="/media/frames/v3/localfirst/0000.webp"
-                aria-label="LocalFirst photography and video reel"
-              />
-            </div>
-            <div className="lf-hero-scrim" data-lf-hero-scrim aria-hidden="true" />
-            <div
-              className="sc-copy sc-copy--lead lf-hero-copy"
-              data-sc-cue="0 0.48 0 0.2"
-            >
-              <p className="lf-kicker">Google Business Profile visual refresh</p>
-              <h1 id="hero-title">
-                People are already searching{" "}
-                <span>for what you sell.</span>
-              </h1>
-              <p className="lf-hero-lede">
-                What do they see when they find your business?
-              </p>
-              <a className="lf-cta" href={updateHref} data-sc-magnet="0.2">
-                Text Nicholas <ArrowUpRight aria-hidden="true" />
-              </a>
-            </div>
+      <section id="reviews" className="rh-reviews rh-pad" aria-labelledby="reviews-title">
+        <div className="rh-shell rh-reviews-layout">
+          <header><p className="rh-eyebrow">What businesses are saying</p><h2 id="reviews-title">Good work.<br /><em>In their words.</em></h2><p className="rh-review-source">Selected reviews from the LocalFirst Google profile.</p></header>
+          <div className="rh-review-list">
+            <article><div className="rh-stars" role="img" aria-label="5 out of 5 stars">{Array.from({ length: 5 }, (_, i) => <Star key={i} size={15} fill="currentColor" aria-hidden="true" />)}</div><blockquote>“The tour looks professional and polished, and it instantly upgraded my Google business profile. The team was responsive and delivered the project quickly.”</blockquote><p>Daniel Trujillo <span>Google review · excerpt</span></p></article>
+            <article><div className="rh-stars" role="img" aria-label="5 out of 5 stars">{Array.from({ length: 5 }, (_, i) => <Star key={i} size={15} fill="currentColor" aria-hidden="true" />)}</div><blockquote>“I highly recommend this service to anyone who is looking to amp up their local business profile on Google.”</blockquote><p>Alice P Ochoa <span>Google review · excerpt</span></p></article>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section
-          id="work"
-          className="lf-proof-act"
-          data-sc-act="pin"
-          data-sc-span="2.8"
-          data-sc-drift="#2c2c2c"
-          data-lf-proof-act
-          aria-label="LocalFirst photography for restaurants and med spas"
-        >
-          <div className="sc-stage lf-film-stack-stage" data-sc-stage data-lf-proof-stage>
-            <article className="lf-film-sheet lf-film-sheet--restaurant-fallback">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/media/frames/v3/restaurant/0000.webp"
-                loading="lazy"
-                decoding="async"
-                alt="Restaurant exterior and food photography"
-              />
-              <div className="lf-film-shade lf-film-shade--left" aria-hidden="true" />
-              <div className="lf-film-copy lf-film-copy--left">
-                <p className="lf-kicker">Restaurants</p>
-                <h2>Give them a reason to choose your table.</h2>
-                <p>Show your food, your space, and what a visit feels like before they arrive.</p>
-              </div>
-            </article>
+      <ImageZoom id="work" name="tacos" alt="Tacos topped with herbs, onion, and sauce, photographed on-site by LocalFirst" eyebrow="A little appetite goes a long way" title={<>Give them something<br /><em>to crave.</em></>} after={<>Before the first bite,<br />there’s a first impression.</>} copy="Make it a good one. Show people the food you’re proud to serve, while they’re still deciding where to go." position="50% 58%" />
 
-            <div
-              className="lf-film-copy lf-film-copy--left lf-film-copy--restaurant-live"
-              data-lf-restaurant-copy
-            >
-              <p className="lf-kicker">Restaurants</p>
-              <h2>Give them a reason to choose your table.</h2>
-              <p>Show your food, your space, and what a visit feels like before they arrive.</p>
-            </div>
-
-            <article className="lf-film-sheet lf-film-sheet--med-spa" data-lf-med-spa-sheet>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/media/frames/v3/med-spa/0000.webp"
-                loading="lazy"
-                decoding="async"
-                alt="Med spa interior and treatment photography"
-              />
-              <video
-                data-lf-scrub
-                data-lf-src="/media/hq-v3/med-spa.mp4"
-                data-lf-src-mobile="/media/med-spa-mobile.mp4"
-                muted
-                playsInline
-                preload="none"
-                aria-label="Med spa photography and video reel"
-              />
-              <div className="lf-film-shade lf-film-shade--right" aria-hidden="true" />
-              <div className="lf-film-copy lf-film-copy--right" data-lf-med-spa-copy>
-                <p className="lf-kicker">Med spas</p>
-                <h2>Help them feel confident.</h2>
-                <p>Show your space and services so people know what to expect.</p>
-              </div>
-            </article>
-
-            <div className="lf-exposure-tabs" aria-hidden="true">
-              <span data-lf-restaurant-tab>Restaurant</span>
-              <span data-lf-med-spa-tab>Med spa</span>
-            </div>
-
-            <div className="lf-proof-lockup" data-lf-proof-lockup>
-              <p>Show what you offer.</p>
-              <h2>Make it easy to choose.</h2>
-              <span>Help customers see the business that exists today.</span>
-            </div>
+      <section className="rh-gallery rh-pad" aria-labelledby="gallery-title">
+        <div className="rh-shell">
+          <header className="rh-section-heading" data-rh-reveal><div><p className="rh-eyebrow">From your kitchen. To their screen.</p><h2 id="gallery-title">The food.<br /><em>The drinks. The vibe.</em></h2></div><p>A new special or a longtime favorite. A seasonal menu or a patio worth settling into. If it’s part of your restaurant’s story, let’s show it.</p></header>
+          <div className="rh-photo-grid">
+            <figure className="rh-photo rh-photo--wide"><div className="rh-photo-mask" data-parallax="trigger" data-parallax-start="4" data-parallax-end="-4" data-parallax-disable="mobileLandscape"><div className="rh-photo-inner" data-parallax="target"><FoodPhoto name="burger" alt="Toasted burger with golden onion rings on red-and-white checkered paper" /></div></div><figcaption><span>The favorites</span><span>Worth coming back for</span></figcaption></figure>
+            <figure className="rh-photo rh-photo--tall"><div className="rh-photo-mask" data-parallax="trigger" data-parallax-start="-4" data-parallax-end="4" data-parallax-disable="mobileLandscape"><div className="rh-photo-inner" data-parallax="target"><FoodPhoto name="steak" alt="Grilled steak with guacamole, lime, and fresh garnishes" position="50% 65%" /></div></div><figcaption><span>The details</span><span>Up close. On location.</span></figcaption></figure>
+            <figure className="rh-photo rh-photo--small"><div className="rh-photo-mask" data-parallax="trigger" data-parallax-start="4" data-parallax-end="-4" data-parallax-disable="mobileLandscape"><div className="rh-photo-inner" data-parallax="target"><FoodPhoto name="dessert" alt="Layered dessert topped with cream and a strawberry" position="50% 74%" /></div></div><figcaption><span>The sweet finish</span><span>Save a little room</span></figcaption></figure>
+            <figure className="rh-photo rh-photo--last"><div className="rh-photo-mask" data-parallax="trigger" data-parallax-start="-4" data-parallax-end="4" data-parallax-disable="mobileLandscape"><div className="rh-photo-inner" data-parallax="target"><FoodPhoto name="spread" alt="A plate of tacos, rice, beans, lime, and salsa photographed at a local restaurant" /></div></div><figcaption><span>The whole spread</span><span>Give them a reason to visit</span></figcaption></figure>
           </div>
-        </section>
+          <div className="rh-gallery-foot"><p>Real restaurants. Real visits.<br />Photography by Nick, not a stock library.</p><Link href="/first-impressions" data-underline-link="">Watch my local business visits <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+        </div>
+      </section>
 
-        <section
-          id="reviews"
-          className="sc-section lf-reviews"
-          data-sc-act="flow"
-          data-sc-drift="#2c2c2c"
-          data-motion-sheet="up"
-          aria-labelledby="reviews-title"
-        >
-          <div className="lf-section-shell">
-            <header className="lf-reviews-heading" data-motion-reveal>
-              <p className="lf-kicker lf-kicker--gold">What businesses are saying</p>
-              <h2 id="reviews-title">
-                <span>5.0 stars</span> across 19 Google reviews.
-              </h2>
-              <p>Selected reviews from the LocalFirst Google profile.</p>
-            </header>
+      <section id="how-it-works" className="rh-process rh-pad" aria-labelledby="process-title">
+        <div className="rh-shell"><header className="rh-section-heading" data-rh-reveal><div><p className="rh-eyebrow">You run the restaurant. I’ll bring the camera.</p><h2 id="process-title">From the kitchen<br /><em>to your customers.</em></h2></div><p>No agency handoff. You talk to the person who shows up and does the shooting.</p></header>
+          <div className="rh-steps">{[
+            ["01", "You tell me.", "What’s new? What’s a favorite? Tell me what you want people to see, and we’ll plan the visit around your restaurant."],
+            ["02", "I come to you.", "I photograph and film on-site: the dishes, the details, and the space that make your place yours."],
+            ["03", "Ready to share.", "I upload the finished visuals to your Google profile and send you the files for your website and social media."],
+          ].map(([number, title, copy]) => <article key={number} data-rh-reveal><span className="rh-step-number">{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+        </div>
+      </section>
 
-            <div className="lf-review-grid">
-              {googleReviews.map((review) => (
-                <article className="lf-review-card" data-motion-card key={review.name}>
-                  <div className="lf-review-card-top">
-                    <span className="lf-review-stars" role="img" aria-label="5 out of 5 stars">
-                      ★★★★★
-                    </span>
-                    <time>{review.age}</time>
-                  </div>
-                  <blockquote>“{review.quote}”</blockquote>
-                  <footer>
-                    <span className="lf-review-avatar" aria-hidden="true">
-                      {review.initial}
-                    </span>
-                    <span>
-                      <strong>{review.name}</strong>
-                      <small>Verified Google review</small>
-                    </span>
-                  </footer>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+      <ImageZoom id="signature" name="shrimp" alt="Close-up of seasoned shrimp over a colorful restaurant dish" eyebrow="Make the next visit start here" title={<>Your next customer<br /><em>hasn’t tasted it yet.</em></>} after={<>Let the photos<br />make the introduction.</>} copy="Fresh visuals for your Google profile, website, and social feed. One visit. Content you can put to work." dark />
 
-        <LocalFirstPortal updateHref={updateHref} />
+      <section id="pricing" className="rh-pricing rh-pad" aria-labelledby="pricing-title">
+        <div className="rh-shell"><header className="rh-section-heading" data-rh-reveal><div><p className="rh-eyebrow">Clear pricing. On-site service.</p><h2 id="pricing-title">Choose your<br /><em>next step.</em></h2></div><p>Start with fresh photos and video, give your whole Google profile attention, or add a dedicated menu shoot.</p></header>
+          <div className="rh-pricing-grid">{packages.map((offer, index) => <article className={`rh-price-card ${index === 1 ? "rh-price-card--featured" : ""}`} key={offer.name}>
+            <p className="rh-eyebrow">{offer.name}</p><h3>{offer.headline}</h3><p className="rh-price"><span>$</span>{offer.price}</p><p className="rh-price-term">{offer.suffix}</p>
+            {index === 2 && <p className="rh-standalone">Booked on its own <strong>$1,200</strong></p>}
+            <ul>{offer.items.map(item => <li key={item}><Check size={16} aria-hidden="true" /><span>{item}</span></li>)}</ul>
+            <a className="rh-price-link" href={`sms:+13035240591?&body=${encodeURIComponent(offer.message)}`}>{offer.cta}<ArrowUpRight size={18} aria-hidden="true" /></a>
+          </article>)}</div>
+          <p className="rh-pricing-note">The $750 menu and product shoot is an add-on to the $349 Visual Refresh or $497 Complete Profile Update. Standalone price: $1,200.</p>
+          <Link href="/google-business-profile-visual-refresh#pricing" data-underline-link="">See full service details <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        </div>
+      </section>
 
-        <section
-          id="method"
-          className="lf-method"
-          data-sc-act="pan"
-          data-sc-span="2.35"
-          data-sc-drift="#806d61"
-          data-lf-method-act
-          aria-labelledby="method-title"
-        >
-          <div className="sc-stage lf-method-stage" tabIndex={0} role="region" aria-label="How LocalFirst helps" data-sc-stage>
-            <div className="lf-method-rail" data-sc-pan="0.04">
-              <article className="lf-method-panel lf-method-panel--lead" data-lf-method-panel>
-                <div>
-                  <p className="lf-kicker">How LocalFirst helps</p>
-                  <h2 id="method-title">Find your business. Trust it. Take the next step.</h2>
-                </div>
-                <p className="lf-method-lede">
-                  Your Google Business Profile helps people who already want what you sell
-                  find your business, trust it, and feel confident taking the next step.
-                </p>
-              </article>
+      <section id="about" className="rh-founder rh-pad" aria-labelledby="founder-title">
+        <div className="rh-shell rh-founder-grid">
+          <figure className="rh-founder-photo"><div className="rh-founder-mask" data-parallax="trigger" data-parallax-start="3" data-parallax-end="-3" data-parallax-disable="mobileLandscape"><div data-parallax="target"><Image src="/media/restaurant-home/nick.webp" alt="Nick Molina, founder and photographer at LocalFirst" width={900} height={1350} sizes="(max-width: 767px) 90vw, 40vw" /></div></div><figcaption>Nick Molina <span>Your photographer. Your point of contact.</span></figcaption></figure>
+          <div className="rh-founder-copy" data-rh-reveal><p className="rh-eyebrow">The person behind the camera</p><h2 id="founder-title">I’m Nick.<br /><em>I’ll see you there.</em></h2><p className="rh-founder-lead">I’m local, I show up in person, and I do the shooting myself.</p><p>You put real work into what you serve. I help people see it before they walk through your door—with photography, video, and a Google profile that reflects your restaurant today.</p><p>I work in Denver and Aurora. Other Front Range visits are available by arrangement.</p><Link href="/about" data-underline-link="">A little more about me <ArrowUpRight size={16} aria-hidden="true" /></Link><div className="rh-credentials"><span>Google Local Guide · Level 7</span><span>BBB A+ Accredited</span><span>Colorado-based</span></div></div>
+        </div>
+      </section>
 
-              <article className="lf-method-panel" data-lf-method-panel>
-                <div className="lf-method-icon" aria-hidden="true"><Camera /></div>
-                <div>
-                  <p className="lf-kicker">Capture</p>
-                  <h3>Show customers the business that exists today.</h3>
-                </div>
-                <p>
-                  Professional photos and short-form video show your products, services,
-                  space, and the details customers want to see.
-                </p>
-              </article>
+      <section className="rh-close rh-pad" aria-labelledby="close-title"><div className="rh-shell" data-rh-reveal><p className="rh-eyebrow">Something good is happening at your restaurant.</p><h2 id="close-title">Let’s show off<br /><em>what’s new.</em></h2><p>A dish. A special. A whole new menu.<br />Tell me what you have in mind.</p><BubbleButton href={textNick}>Text Nick about a shoot</BubbleButton><a className="rh-close-phone" href="tel:+13035240591" data-underline-link="">Or call 303-524-0591</a></div></section>
+    </main>
 
-              <article className="lf-method-panel lf-method-panel--brick" data-lf-method-panel>
-                <div className="lf-method-icon" aria-hidden="true"><MapPinned /></div>
-                <div>
-                  <p className="lf-kicker lf-kicker--dark">Update</p>
-                  <h3>Make what you offer clear at a glance.</h3>
-                </div>
-                <p>
-                  Fresh visuals and a profile information check help customers understand
-                  what you offer and know what to expect.
-                </p>
-              </article>
-
-              <article className="lf-method-panel" data-lf-method-panel>
-                <div className="lf-method-icon" aria-hidden="true"><RefreshCw /></div>
-                <div>
-                  <p className="lf-kicker">Review</p>
-                  <h3>Know what could make your profile stronger.</h3>
-                </div>
-                <p>
-                  I review what customers see and recommend practical improvements
-                  that make your profile clearer and more useful.
-                </p>
-              </article>
-
-              <article className="lf-method-panel lf-method-panel--finish" data-lf-method-panel>
-                <ShieldCheck aria-hidden="true" />
-                <div>
-                  <p className="lf-kicker">On-site. Firsthand. Colorado only.</p>
-                  <h3>Your business deserves to look as good on Google as it does in person.</h3>
-                </div>
-                <p>
-                  Whether customers search or ask AI, give them a clear, current picture of what you offer.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="about"
-          className="sc-section lf-founder"
-          data-sc-act="flow"
-          data-sc-drift="#2c2c2c"
-          aria-labelledby="founder-title"
-        >
-          <div className="lf-section-shell lf-founder-grid">
-            <figure className="lf-founder-portrait" data-motion-media>
-              {/* The supplied reference contains the current founder portrait. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/media/nicholas-founder-source.png"
-                alt="Nicholas Molina, founder of LocalFirst"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Founder · LocalFirst</figcaption>
-            </figure>
-
-            <div className="lf-founder-story" data-motion-group>
-              <p className="lf-kicker lf-kicker--gold">Why I started LocalFirst</p>
-              <h2 id="founder-title">
-                “People are already looking for what you sell. I help make sure they see
-                a business they can trust and feel confident choosing.”
-              </h2>
-              <p className="lf-founder-promise">Show customers the business that exists today.</p>
-              <p className="lf-founder-mission">No Business Left Behind.</p>
-              <p className="lf-founder-signature">
-                Nicholas Molina <span>Founder · LocalFirst · Colorado</span>
-              </p>
-
-              <div className="lf-founder-credentials" aria-label="Nicholas Molina credentials">
-                <span>Google Local Guide · Level 7</span>
-                <span>Top 1% contributor</span>
-                <span>BBB A+ accredited</span>
-                <span>Colorado-based</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="offer"
-          className="sc-section lf-offer"
-          data-sc-act="flow"
-          data-sc-drift="#2c2c2c"
-          aria-labelledby="offer-title"
-        >
-          <div className="lf-section-shell lf-offer-grid">
-            <div className="lf-offer-intro" data-motion-group>
-              <p className="lf-kicker">One clear place to start</p>
-              <h2>Help turn people searching into customers.</h2>
-              <p>
-                I come directly to your business and create fresh professional photos
-                and video for your Google Business Profile.
-              </p>
-              <p className="lf-proof-note">On-site. Firsthand. Colorado only.</p>
-            </div>
-
-            <article className="lf-offer-plate" data-motion-from-right>
-              <div className="lf-offer-heading">
-                <p className="lf-kicker lf-kicker--dark">Google Business Profile Visual Refresh</p>
-                <h2 id="offer-title">One visit. Fresh content. A stronger first impression.</h2>
-                <div className="lf-price">
-                  <span>$</span><strong>349</strong><small>one time</small>
-                </div>
-              </div>
-              <ul>
-                <li><Check aria-hidden="true" /> Professional photos of your business</li>
-                <li><Camera aria-hidden="true" /> Photos of your products, services, or work</li>
-                <li><Video aria-hidden="true" /> Short-form video content</li>
-                <li><Sparkles aria-hidden="true" /> Google Business Profile visual update</li>
-                <li><RefreshCw aria-hidden="true" /> Profile information check</li>
-                <li><MessageCircleReply aria-hidden="true" /> Recommendations for improving your profile</li>
-              </ul>
-              <a className="lf-cta lf-cta--ink lf-offer-cta" href={updateHref}>
-                Text Nicholas <ArrowUpRight aria-hidden="true" />
-              </a>
-              <p className="lf-offer-fineprint">
-                <Link href="/google-business-profile-visual-refresh">Explore the $349 package and common questions →</Link>
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section
-          id="contact"
-          className="lf-close"
-          data-sc-act="pin"
-          data-sc-span="1.1"
-          data-sc-drift="#2c2c2c"
-          aria-labelledby="close-title"
-        >
-          <div className="sc-stage lf-close-stage" data-sc-stage data-sc-spotlight>
-            <div className="lf-close-inner">
-              <p className="lf-kicker">No Business Left Behind</p>
-              <h2 id="close-title" data-sc-cue="0.04 1 0 0" data-sc-kinetic="lines">
-                Give them a reason to choose you.
-              </h2>
-              <p data-sc-cue="0.1 1 0.08 0">
-                Call or text Nicholas. Help the next person searching feel confident saying, “This is the place.”
-              </p>
-              <a
-                className="lf-cta"
-                href={updateHref}
-                data-sc-magnet="0.24"
-                data-sc-cue="0.12 1 0.08 0"
-              >
-                Text Nicholas <ArrowUpRight aria-hidden="true" />
-              </a>
-            </div>
-            <footer className="lf-footer">
-              <a href="mailto:nick.molina@icloud.com">nick.molina@icloud.com</a>
-              <span>Denver · Aurora · Colorado</span>
-              <span>© {new Date().getFullYear()} LocalFirst</span>
-            </footer>
-          </div>
-        </section>
-      </main>
-
-      <ScrollcraftMount />
-    </div>
-  );
+    <footer className="rh-footer"><div className="rh-shell rh-footer-top"><div><Link href="/" className="rh-logo" aria-label="LocalFirst home"><Image src="/media/localfirst-logo-v3.webp" alt="LocalFirst" width={480} height={160} sizes="150px" /></Link><p>No business left behind.</p></div><nav aria-label="Footer navigation"><Link href="/first-impressions" data-underline-link="">First Impressions</Link><Link href="/google-business-profile-resources" data-underline-link="">Google Profile Guides</Link><Link href="/about" data-underline-link="">About Nick</Link><Link href="/contact" data-underline-link="">Contact</Link></nav><div className="rh-footer-contact"><a href="tel:+13035240591" data-underline-link="">303-524-0591</a><a href="mailto:nick.molina@icloud.com" data-underline-link="">nick.molina@icloud.com</a><span>Denver / Aurora · Colorado</span></div></div><div className="rh-shell rh-footer-bottom"><span>© {new Date().getFullYear()} LocalFirst</span><span>Restaurant photography · Video · Google Business Profiles</span></div></footer>
+    <RestaurantMotion />
+  </div>;
 }

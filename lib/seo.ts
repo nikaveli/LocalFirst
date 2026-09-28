@@ -10,9 +10,9 @@ export const seoPages = {
     type: "WebPage",
   },
   "/": {
-    title: "Google Business Profile Visual Refresh | LocalFirst Denver",
+    title: "Restaurant Photography & Video in Denver | LocalFirst",
     description:
-      "Help customers find, trust, and choose your business. A $349 Google Business Profile visual refresh with on-site photos and video in Denver and Aurora, CO.",
+      "On-site restaurant photography, food videos, and Google Business Profile updates in Denver and Aurora, CO. Show what’s cooking with Nick at LocalFirst.",
     type: "WebPage",
   },
   "/about": {
@@ -46,10 +46,10 @@ export type SeoPath = keyof typeof seoPages;
 export function pageMetadata(path: SeoPath): Metadata {
   const { title, description } = seoPages[path];
   const images = [{
-    url: `${siteUrl}/media/localfirst-poster.jpg`,
-    width: 1920,
-    height: 1080,
-    alt: "LocalFirst on-site photography and Google Business Profile visual showcase",
+    url: `${siteUrl}${path === "/" ? "/media/restaurant-home/social.jpg" : "/media/localfirst-poster.jpg"}`,
+    width: path === "/" ? 1200 : 1920,
+    height: path === "/" ? 630 : 1080,
+    alt: path === "/" ? "Local restaurant food photography by Nick at LocalFirst" : "LocalFirst on-site photography and Google Business Profile visual showcase",
   }];
 
   return {
