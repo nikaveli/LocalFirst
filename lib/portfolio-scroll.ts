@@ -11,6 +11,8 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
   const video = root.querySelector<HTMLVideoElement>('video')!;
   const stage = root.querySelector<HTMLElement>('[data-preview-stage]')!;
   const heading = root.querySelector<HTMLElement>('.wd-project-heading')!;
+  const media = root.querySelector<HTMLElement>('.wd-preview-media')!;
+  const caption = root.querySelector<HTMLElement>('.wd-preview-caption')!;
   const tools = root.querySelector<HTMLElement>('.wd-preview-tools')!;
   const fill = root.querySelector<HTMLElement>('[data-preview-progress]')!;
   const status = root.querySelector<HTMLElement>('[data-preview-status]')!;
@@ -23,9 +25,10 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
   let tier = phone || small.matches ? 'mobile' : 'desktop';
   let active = true, near = false, inView = false, blocked = false, cramped = false;
   let loading: AbortController | null = null, objectURL = '', failed = false;
-  let frame = 0, revealFrame = 0, paintCallback = 0, generation = 0;
+  let frame = 0, revealFrame = 0, layoutFrame = 0, paintCallback = 0, generation = 0;
   let target = 0, current = 0, priming = false, manual = false;
   let width = innerWidth, viewport = innerHeight;
+  let pinned = stage, introHeight = 0, stickyTop = 24;
   const clamp = (n: number) => Math.max(0, Math.min(1, n));
   const staticMode = () => reduced.matches || !!connection?.saveData || blocked || cramped;
   const setStatus = (message: string) => { if (status.textContent !== message) status.textContent = message; };
@@ -123,7 +126,7 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
     if (!active) return;
     const rect = root.getBoundingClientRect();
     inView = rect.bottom > 0 && rect.top < innerHeight;
-    target = clamp((24 - rect.top) / Math.max(1, root.offsetHeight - stage.offsetHeight));
+    target = clamp((stickyTop - rect.top - introHeight) / Math.max(1, root.offsetHeight - introHeight - pinned.offsetHeight));
     fill.style.transform = `scaleX(${target})`;
     if (!inView && !video.paused) video.pause();
     if (rect.bottom < -viewport || rect.top > viewport * 2) {
@@ -136,15 +139,20 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
     root.dataset.tier = tier;
     const source = root.querySelector('picture source');
     source?.setAttribute('media', tier === 'mobile' ? 'all' : 'not all');
-    // The copy and film share one pinned stage. Budget the film around the actual
-    // text height, including wrapping/font changes, instead of pinning it alone.
+    // Phones show the complete description before the film, then pin a compact
+    // title with the large preview. Keeping the full paragraph pinned made the
+    // portrait movie shrink to a thumbnail on real browser viewports.
+    const compact = small.matches;
+    pinned = compact ? media : stage;
+    introHeight = compact ? heading.offsetHeight : 0;
+    stickyTop = compact ? 12 : 24;
     const beside = matchMedia('(min-width: 600px) and (max-height: 600px)').matches;
-    const usable = viewport - 48 - 16 - (coarse ? 64 : 0);
-    const filmHeight = usable - tools.offsetHeight - (beside ? 0 : heading.offsetHeight);
-    cramped = filmHeight < 180 || (beside && heading.offsetHeight > usable);
+    const usable = compact ? viewport - 24 - 12 : viewport - 48 - 16 - (coarse ? 64 : 0);
+    const filmHeight = usable - tools.offsetHeight - (compact ? Math.max(48, caption.offsetHeight) : beside ? 0 : heading.offsetHeight);
+    cramped = filmHeight < 180 || (!compact && beside && heading.offsetHeight > usable);
     root.style.setProperty('--wd-frame-height', `${Math.max(180, filmHeight)}px`);
     root.dataset.mode = staticMode() ? 'static' : 'scroll';
-    root.style.height = staticMode() ? '' : `${stage.offsetHeight + viewport * scrollViewports}px`;
+    root.style.height = staticMode() ? '' : `${introHeight + pinned.offsetHeight + viewport * scrollViewports}px`;
     setStatus(staticMode() ? 'Still preview · Play the video when you’re ready.' : 'Scroll to explore · Scroll up to rewind');
     read();
   }
@@ -180,7 +188,12 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
   function preference() { release(); blocked = false; layout(); }
   function gesture() { if (inView && objectURL && !priming && !manual && !staticMode()) void prime(); }
   const observer = new IntersectionObserver(([entry]) => { near = entry.isIntersecting; read(); }, { rootMargin: '180px' });
-  const sizeObserver = new ResizeObserver(() => layout());
+  // Defer geometry writes outside ResizeObserver delivery, especially when the
+  // mobile caption appears or the pinned element changes after rotation.
+  const sizeObserver = new ResizeObserver(() => {
+    if (!active || layoutFrame) return;
+    layoutFrame = requestAnimationFrame(() => { layoutFrame = 0; if (active) layout(); });
+  });
   root.dataset.ready = 'true';
   play.hidden = false;
   video.addEventListener('loadeddata', ready);
@@ -197,10 +210,13 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
   observer.observe(root);
   sizeObserver.observe(stage);
   sizeObserver.observe(heading);
+  sizeObserver.observe(media);
+  sizeObserver.observe(caption);
   sizeObserver.observe(tools);
   layout();
   return () => {
     active = false;
+    cancelAnimationFrame(layoutFrame);
     observer.disconnect(); sizeObserver.disconnect();
     window.removeEventListener('scroll', read);
     window.removeEventListener('resize', resize);

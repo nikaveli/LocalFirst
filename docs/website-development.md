@@ -43,9 +43,11 @@ Native touch scrolling is preserved. Videos never obscure their project copy.
 Each film uses 5.2 viewport-heights of scroll travel, double the initial 2.6,
 so the same gesture advances the video half as far. Native/manual playback speed
 and the looping hero are unchanged.
-Each project's heading, description, visit link, and film now share one sticky
-stage. Film size is budgeted from the actual copy height so the information stays
-visible throughout the scrub. Short landscape screens put copy beside the film;
+On desktop, each project's heading, description, visit link, and film share one
+sticky stage. On narrow phones, the full copy precedes a large pinned movie with a
+compact project title and a Project details link back to that copy. The portrait
+movie gets the available viewport height rather than the leftover space beneath
+the full paragraph. Short landscape screens put copy beside the film;
 screens too small for both use the natural-flow still/manual-play fallback instead
 of pinning inaccessible content. Touch toolbar resizes do not change the track.
 

@@ -41,13 +41,19 @@ try {
     for (let i = 0; i < (only ? 1 : 5); i++) {
       const preview = previews.nth(i);
       const id = await preview.getAttribute('data-project');
-      const trackViewports = await preview.evaluate(root =>
-        (root.offsetHeight - root.querySelector('[data-preview-stage]').offsetHeight) / innerHeight);
+      const trackViewports = await preview.evaluate(root => {
+        const compact = innerWidth <= 767;
+        const pin = root.querySelector(compact ? '.wd-preview-media' : '[data-preview-stage]');
+        const intro = compact ? root.querySelector('.wd-project-heading').offsetHeight : 0;
+        return (root.offsetHeight - intro - pin.offsetHeight) / innerHeight;
+      });
       assert.ok(Math.abs(trackViewports - 5.2) < .01, `${id}: slower 5.2-screen scroll distance`);
       const scroll = async progress => {
         await preview.evaluate((root, progress) => {
-          const stage = root.querySelector('[data-preview-stage]');
-          scrollTo({ top: root.getBoundingClientRect().top + scrollY - 24 + (root.offsetHeight - stage.offsetHeight) * progress, behavior: 'instant' });
+          const compact = innerWidth <= 767;
+          const stage = root.querySelector(compact ? '.wd-preview-media' : '[data-preview-stage]');
+          const intro = compact ? root.querySelector('.wd-project-heading').offsetHeight : 0;
+          scrollTo({ top: root.getBoundingClientRect().top + scrollY + intro - (compact ? 12 : 24) + (root.offsetHeight - intro - stage.offsetHeight) * progress, behavior: 'instant' });
         }, progress);
       };
       await scroll(.05);
@@ -63,14 +69,18 @@ try {
           return Math.abs(video.currentTime - progress * (video.duration - 1 / 30)) < .4;
         }, { id, progress }, { timeout: 15000 });
         const bounds = await preview.evaluate(root => {
-          const title = root.querySelector('h3').getBoundingClientRect();
+          const compact = innerWidth <= 767;
+          const title = root.querySelector(compact ? '.wd-preview-caption' : 'h3').getBoundingClientRect();
           const description = root.querySelector('.wd-project-heading > div:last-child').getBoundingClientRect();
           const film = root.querySelector('.wd-preview-frame').getBoundingClientRect();
-          const stage = root.querySelector('[data-preview-stage]').getBoundingClientRect();
-          return { title: title.top, description: description.bottom, film: film.bottom, stage: stage.top, viewport: innerHeight };
+          const stage = root.querySelector(compact ? '.wd-preview-media' : '[data-preview-stage]').getBoundingClientRect();
+          return { compact, title: title.top, description: description.bottom, film: film.bottom, filmWidth: film.width, width: innerWidth, stage: stage.top, viewport: innerHeight };
         });
-        assert.ok(Math.abs(bounds.stage - 24) < 2, `${id}: entire project stage is pinned`);
-        assert.ok(bounds.title >= 24 && bounds.description < bounds.viewport, `${id}: title and full description stay visible at ${progress}`);
+        const pinTop = bounds.compact ? 12 : 24;
+        assert.ok(Math.abs(bounds.stage - pinTop) < 2, `${id}: project stage is pinned`);
+        assert.ok(bounds.title >= pinTop, `${id}: project title stays visible at ${progress}`);
+        if (bounds.compact) assert.ok(bounds.filmWidth / bounds.width > .8, `${id}: mobile movie fills most of the screen width`);
+        else assert.ok(bounds.description < bounds.viewport, `${id}: desktop description stays visible`);
         assert.ok(bounds.film <= bounds.viewport, `${id}: complete film stays in view`);
       }
       await page.waitForFunction(id => document.querySelector(`[data-project="${id}"]`).dataset.painted === 'true', id);
@@ -100,7 +110,7 @@ try {
       await page.waitForFunction(id => !document.querySelector(`[data-project="${id}"] video`).paused, id);
       await preview.locator('video').evaluate(video => video.pause());
       await scroll(1.1);
-      assert.ok(await preview.locator('[data-preview-stage]').evaluate(stage => stage.getBoundingClientRect().top < 0), 'Copy and video release together after scrub');
+      assert.ok(await preview.evaluate(root => root.querySelector(innerWidth <= 767 ? '.wd-preview-media' : '[data-preview-stage]').getBoundingClientRect().top < 0), 'Pinned preview releases after scrub');
       console.log(`PASS ${engine}/${name}/${id}: forward, reverse, real frames, manual play, bounded loading`);
     }
     await page.locator('#website-pricing').scrollIntoViewIfNeeded();
@@ -122,7 +132,7 @@ try {
     for (const preview of await page.locator('.wd-preview').all()) {
       await preview.scrollIntoViewIfNeeded();
       assert.equal(await preview.getAttribute('data-mode'), 'static');
-      assert.ok(await preview.evaluate(root => root.offsetHeight < innerHeight), 'Static preview does not retain long scroll run');
+      assert.ok(await preview.evaluate(root => Math.abs(root.offsetHeight - root.querySelector('.wd-project-heading').offsetHeight - root.querySelector('.wd-preview-media').offsetHeight) < 3), 'Static preview has natural content height, no scroll spacer');
     }
     assert.deepEqual(movies, [], 'No automatic video loads in fallback mode');
     console.log(`PASS ${engine}/${mode}`);
@@ -159,5 +169,41 @@ try {
     assert.deepEqual(movies, [], 'Data saver does not load video automatically');
     await saver.close();
     console.log('PASS retry, route cleanup, and data saver');
+  }
+  if (!only) for (const [width, height] of [[440, 800], [390, 700], [375, 667], [320, 568]]) {
+    // Visible browser height, not the full phone screen: catches thumbnail-sized
+    // movies that can pass tests using a tall, toolbar-free emulator viewport.
+    const page = await browser.newPage({ viewport: { width, height }, screen: { width: 440, height: 956 }, isMobile: true, hasTouch: true });
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(base + '/website-development', { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    for (const root of await page.locator('.wd-preview').all()) {
+      await root.evaluate(root => {
+        const intro = root.querySelector('.wd-project-heading').offsetHeight;
+        const pin = root.querySelector('.wd-preview-media');
+        scrollTo({ top: root.getBoundingClientRect().top + scrollY + intro - 12 + (root.offsetHeight - intro - pin.offsetHeight) * .4, behavior: 'instant' });
+      });
+      await page.waitForTimeout(150);
+      const size = await root.evaluate(root => {
+        const media = root.querySelector('.wd-preview-media').getBoundingClientRect();
+        const film = root.querySelector('.wd-preview-frame').getBoundingClientRect();
+        return { id: root.dataset.project, top: media.top, bottom: media.bottom, width: film.width, mode: root.dataset.mode };
+      });
+      assert.equal(size.mode, 'scroll');
+      assert.ok(Math.abs(size.top - 12) < 2);
+      assert.ok(size.bottom <= height, `${size.id}: pinned video and controls fit the visible browser`);
+      assert.ok(size.width / width >= .7, `${size.id}: video retains useful size on short phones`);
+      if (size.id === 'summit') await page.screenshot({ path: `${shots}/${engine}-large-mobile-${width}.png` });
+      await root.locator('.wd-preview-caption a').click();
+      await page.waitForFunction(id => {
+        const rect = document.querySelector(`[data-project="${id}"] .wd-project-heading`).getBoundingClientRect();
+        return rect.top >= 0 && rect.bottom < innerHeight;
+      }, size.id);
+    }
+    assert.deepEqual(errors, []);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    console.log(`PASS ${engine}/${width}x${height}: large mobile videos, visible controls, project details link`);
+    await page.close();
   }
 } finally { await browser.close(); }

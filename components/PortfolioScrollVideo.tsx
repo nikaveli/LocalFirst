@@ -14,6 +14,7 @@ export default function PortfolioScrollVideo({ id, name, next, children }: { id:
     <div className="wd-preview-stage" data-preview-stage>
       {children}
       <div className="wd-preview-media">
+      <div className="wd-preview-caption"><span>{name}</span><a href={`#project-${id}`}>Project details ↑</a></div>
       <div className="wd-preview-frame">
         <video muted playsInline preload="none" aria-label={`${name} website walkthrough`} />
         <picture className="wd-preview-poster">
