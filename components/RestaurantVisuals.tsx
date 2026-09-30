@@ -1,6 +1,11 @@
 import type { CSSProperties } from "react";
 
 const base = "/media/restaurant-home";
+// Intrinsic dimensions of the 1280px derivatives, also available before lazy decode.
+const photoSizes: Record<string, readonly [number, number]> = {
+  tacos: [1280, 2276], shrimp: [1280, 836], burger: [1280, 960],
+  steak: [1280, 2276], dessert: [1280, 2276], spread: [1280, 720],
+};
 
 export function FoodPhoto({ name, alt, className = "", sizes = "(max-width: 767px) 100vw, 50vw", position }: {
   name: string; alt: string; className?: string; sizes?: string; position?: string;
@@ -8,7 +13,7 @@ export function FoodPhoto({ name, alt, className = "", sizes = "(max-width: 767p
   return (
     // Explicit derivatives support the site's static export without a runtime image server.
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={className} src={`${base}/${name}-1280.webp`} srcSet={`${base}/${name}-640.webp 640w, ${base}/${name}-1280.webp 1280w, ${base}/${name}-1920.webp 1920w`} sizes={sizes} alt={alt} loading="lazy" decoding="async" style={position ? { objectPosition: position } : undefined} />
+    <img className={className} src={`${base}/${name}-1280.webp`} srcSet={`${base}/${name}-640.webp 640w, ${base}/${name}-1280.webp 1280w, ${base}/${name}-1920.webp 1920w`} width={photoSizes[name]?.[0]} height={photoSizes[name]?.[1]} sizes={sizes} alt={alt} loading="lazy" decoding="async" style={position ? { objectPosition: position } : undefined} />
   );
 }
 

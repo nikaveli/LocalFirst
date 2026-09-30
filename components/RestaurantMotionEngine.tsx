@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { zoomPhotoTransform } from "@/lib/image-zoom";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -103,14 +104,42 @@ export default function RestaurantMotionEngine() {
             const image = container.querySelector("[data-bg-zoom-img]");
             if (!start || !end || !content) return;
             const radius = getComputedStyle(start).borderRadius;
-            Flip.fit(content, start, { scale: false });
+            const photo = image?.querySelector('img');
+            const aspect = photo ? Number(photo.getAttribute('width')) / Number(photo.getAttribute('height')) : 0;
+            let updatePhoto: (() => void) | undefined;
+            if (photo && Number.isFinite(aspect) && aspect > 0) {
+              const { width: frameWidth, height: frameHeight } = end.getBoundingClientRect();
+              const photoHeight = Math.max(frameHeight, frameWidth / aspect);
+              const startWidth = start.getBoundingClientRect().width;
+              const startRadius = parseFloat(radius) * (radius.includes('%') ? startWidth / 100 : 1);
+              const endRadius = parseFloat(getComputedStyle(end).borderRadius) || 0;
+              const position = getComputedStyle(photo).objectPosition.split(' ').map(value => parseFloat(value) / 100);
+              // Allocate the full-size layer once. Scaling the mask avoids layout
+              // and image re-rasterization on every scroll frame. Counter-scale
+              // the photo to preserve its proportions and original crop.
+              gsap.set(content, { width: frameWidth, height: frameHeight, transformOrigin: '0 0', force3D: true });
+              gsap.set(photo, { width: photoHeight * aspect, height: photoHeight, maxWidth: 'none', objectFit: 'fill', transformOrigin: '0 0', x: 0, y: 0, scale: 1, force3D: true });
+              const get = gsap.getProperty(content);
+              updatePhoto = () => {
+                const sx = Number(get('scaleX')), sy = Number(get('scaleY'));
+                const fit = zoomPhotoTransform(frameWidth, frameHeight, sx, sy, aspect, position);
+                // One style write; don't allocate a new GSAP tween per frame.
+                // The setup tween above owns/restores this transform on revert.
+                photo.style.transform = `translate3d(${fit.x}px, ${fit.y}px, 0) scale(${fit.scaleX}, ${fit.scaleY})`;
+                const progress = gsap.utils.clamp(0, 1, (frameWidth * sx - startWidth) / Math.max(1, frameWidth - startWidth));
+                const corner = startRadius + (endRadius - startRadius) * progress;
+                content.style.borderRadius = `${corner / sx}px / ${corner / sy}px`;
+              };
+            }
+            Flip.fit(content, start, { scale: !!updatePhoto });
             gsap.set(content, { borderRadius: radius });
+            updatePhoto?.();
             const zoomRange = range({ trigger: start, start: "clamp(top bottom)", endTrigger: end, end: "center center" });
             const afterRange = range({ trigger: end, start: "center center", endTrigger: container, end: "bottom top" });
             const timeline = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: start, start: "clamp(top bottom)", endTrigger: container, end: "bottom top", scrub: true } });
-            const fit = Flip.fit(content, end, { duration: zoomRange, ease: "none", scale: false });
+            const fit = Flip.fit(content, end, { duration: zoomRange, ease: "none", scale: !!updatePhoto, onUpdate: updatePhoto });
             if (fit) timeline.add(fit as gsap.core.Tween);
-            timeline.to(content, { borderRadius: getComputedStyle(end).borderRadius, duration: zoomRange }, "<");
+            if (!updatePhoto) timeline.to(content, { borderRadius: getComputedStyle(end).borderRadius, duration: zoomRange }, "<");
             timeline.to(content, { y: `+=${afterRange}`, duration: afterRange });
             if (dark) timeline.fromTo(dark, { opacity: 0 }, { opacity: 0.75, duration: afterRange * .25 }, "<");
             if (image) timeline.fromTo(image, { scale: 1, yPercent: 0 }, { scale: 1.25, yPercent: -10, duration: afterRange }, zoomRange);
