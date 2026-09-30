@@ -5,6 +5,7 @@ export const siteNavigation = [
   ["/#monthly", "Monthly plans"],
   ["/google-business-profile-visual-refresh", "Visual Refresh"],
   ["/first-impressions", "First Impressions"],
+  ["/website-development", "Websites"],
   ["/google-business-profile-resources", "Google Profile Guides"],
   ["/about", "About Nick"],
   ["/contact", "Contact"],

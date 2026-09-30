@@ -13,6 +13,7 @@ const paths = [
   "/first-impressions",
   "/google-business-profile-resources",
   "/google-business-profile-visual-refresh",
+  "/website-development",
 ];
 const titles = new Set();
 const descriptions = new Set();

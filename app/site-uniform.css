@@ -1,6 +1,7 @@
 /* The homepage's material, typography, spacing, and interaction system, shared. */
 :root { --rh-paper: #c5baaa; --rh-ink: #2c2c2c; --rh-orange: #ee7828; --rh-craft: #806d61; }
 .rh-header a, .rh-footer a { text-decoration: none; }
+.rh-header .lf-mobile-navigation nav { max-height: calc(100dvh - 110px); overflow-y: auto; overscroll-behavior: contain; }
 .rh-header a[aria-current="page"] { color: var(--rh-orange); }
 .rh-desktop-nav { gap: clamp(1rem, 1.6vw, 1.65rem); white-space: nowrap; }
 .rh-footer p { line-height: 1.65; }

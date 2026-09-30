@@ -43,7 +43,7 @@ export default function MobileNavigation({ items = siteNavigation }: { items?: r
       }}>
       <button ref={toggle} type="button" aria-expanded={open} aria-controls={id}
         onClick={() => setOpen(!open)}>{open ? "Close" : "Menu"}</button>
-      <nav id={id} hidden={!open} aria-label="Mobile navigation">
+      <nav id={id} hidden={!open} aria-label="Mobile navigation" data-lenis-prevent>
         {items.map(([href, label]) => (
           <SiteLink key={href} href={href} aria-current={pathname === href ? "page" : undefined}
             onClick={() => setOpen(false)}>{label}</SiteLink>

@@ -3,7 +3,7 @@ import { chromium } from 'playwright-core';
 import { mkdir } from 'node:fs/promises';
 
 const base = process.argv[2] || 'http://localhost:3002';
-const paths = ['/about', '/contact', '/first-impressions', '/google-business-profile-resources', '/google-business-profile-visual-refresh'];
+const paths = ['/about', '/contact', '/first-impressions', '/google-business-profile-resources', '/google-business-profile-visual-refresh', '/website-development'];
 const shots = '/tmp/localfirst-uniform-qa';
 await mkdir(shots, { recursive: true });
 const browser = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
@@ -20,14 +20,14 @@ try {
       assert.equal(await page.locator('h1').count(), 1, `${path}: H1`);
       assert.equal(await page.locator('.rh-header, .rh-footer').count(), 2, 'Shared header/footer');
       assert.equal(await page.locator('.rh-header img').getAttribute('src'), '/media/localfirst-logo-v3.webp');
-      assert.equal(await page.locator('.rh-desktop-nav a').allTextContents().then(a => a.join('|')), 'Pricing|Monthly plans|Visual Refresh|First Impressions|Google Profile Guides|About Nick|Contact');
+      assert.equal(await page.locator('.rh-desktop-nav a').allTextContents().then(a => a.join('|')), 'Pricing|Monthly plans|Visual Refresh|First Impressions|Websites|Google Profile Guides|About Nick|Contact');
       assert.deepEqual(await page.locator('.rh-desktop-nav a').allTextContents(), await page.locator('.rh-footer nav a').allTextContents(), 'Header and footer menus match exactly');
       const pricing = await page.locator('a[href$="#pricing"]').evaluateAll(links => links.map(a => a.getAttribute('href')));
       assert.ok(pricing.length >= 3 && pricing.every(href => href === '/#pricing'), `${path}: unified pricing`);
       assert.equal(await page.locator('.lf-refresh-pricing__grid').count(), 0, 'No duplicate pricing');
       await page.screenshot({ path: `${shots}/${mobile ? 'mobile' : 'desktop'}-${path.slice(1)}-top.png` });
       // Verify a below-fold reveal actually animates, then finishes visibly.
-      const selector = path === '/contact' ? '.lf-contact-form > label:last-of-type' : path === '/about' ? '.lf-about-credentials .lf-sub-shell' : path === '/first-impressions' ? '.lf-visit-card:nth-child(7)' : path === '/google-business-profile-resources' ? '#restaurants-cafes .lf-sub-shell' : '#includes .lf-sub-shell';
+      const selector = path === '/website-development' ? '.wd-services-grid article:nth-child(3)' : path === '/contact' ? '.lf-contact-form > label:last-of-type' : path === '/about' ? '.lf-about-credentials .lf-sub-shell' : path === '/first-impressions' ? '.lf-visit-card:nth-child(7)' : path === '/google-business-profile-resources' ? '#restaurants-cafes .lf-sub-shell' : '#includes .lf-sub-shell';
       const reveal = page.locator(selector);
       const before = await reveal.evaluate(el => ({ opacity: getComputedStyle(el).opacity, top: el.getBoundingClientRect().top, viewport: innerHeight }));
       assert.equal(Number(before.opacity), 1, `${path}: text retains full contrast throughout motion`);

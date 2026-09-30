@@ -70,7 +70,7 @@ export default function ContactForm() {
         <textarea
           name="message"
           rows={5}
-          placeholder="Tell me what your business offers and what you would like to refresh on your Google profile."
+          placeholder="Tell me about your business and what you need: photos, video, a Google profile refresh, or a new website."
           required
         />
       </label>

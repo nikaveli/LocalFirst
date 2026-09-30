@@ -4,7 +4,7 @@ import Link from "./SiteLink";
 import MobileNavigation from "./MobileNavigation";
 import { siteNavigation } from "@/lib/navigation";
 
-type ActivePage = "about" | "contact" | "first-impressions" | "pricing" | "resources" | "visual-refresh";
+type ActivePage = "about" | "contact" | "first-impressions" | "pricing" | "resources" | "visual-refresh" | "website-development";
 
 export default function SubpageHeader({ activePage }: { activePage?: ActivePage }) {
   const activeHref = activePage === "resources" ? "/google-business-profile-resources" : activePage === "visual-refresh" ? "/google-business-profile-visual-refresh" : `/${activePage}`;

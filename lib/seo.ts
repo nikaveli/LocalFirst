@@ -3,6 +3,11 @@ import type { Metadata } from "next";
 export const siteUrl = "https://localfirstonline.com";
 
 export const seoPages = {
+  "/website-development": {
+    title: "Website Design & Development in Colorado | LocalFirst",
+    description: "Custom websites for local businesses, with clear messaging, mobile-friendly design, and a direct path to contact. Explore LocalFirst’s work and talk to Nick.",
+    type: "WebPage",
+  },
   "/google-business-profile-visual-refresh": {
     title: "Google Business Profile Services & Pricing | LocalFirst",
     description:
@@ -46,10 +51,10 @@ export type SeoPath = keyof typeof seoPages;
 export function pageMetadata(path: SeoPath): Metadata {
   const { title, description } = seoPages[path];
   const images = [{
-    url: `${siteUrl}${path === "/" ? "/media/restaurant-home/social.jpg" : "/media/localfirst-poster.jpg"}`,
-    width: path === "/" ? 1200 : 1920,
-    height: path === "/" ? 630 : 1080,
-    alt: path === "/" ? "Local restaurant food photography by Nick at LocalFirst" : "LocalFirst on-site photography and Google Business Profile visual showcase",
+    url: `${siteUrl}${path === "/" ? "/media/restaurant-home/social.jpg" : path === "/website-development" ? "/media/website-portfolio/v1/localfirst-desktop.webp" : "/media/localfirst-poster.jpg"}`,
+    width: path === "/" ? 1200 : path === "/website-development" ? 1280 : 1920,
+    height: path === "/" ? 630 : path === "/website-development" ? 720 : 1080,
+    alt: path === "/" ? "Local restaurant food photography by Nick at LocalFirst" : path === "/website-development" ? "Custom website design by LocalFirst" : "LocalFirst on-site photography and Google Business Profile visual showcase",
   }];
 
   return {
@@ -125,6 +130,15 @@ export function pageSchema(path: SeoPath) {
     inLanguage: "en-US",
     isPartOf: { "@id": `${siteUrl}/#website` },
     about: { "@id": `${siteUrl}/#organization` },
+    ...(path === "/website-development" ? {
+      mainEntity: {
+        "@type": "Service",
+        name: "Website design and development",
+        serviceType: "Custom website design and development for local businesses",
+        provider: { "@id": `${siteUrl}/#organization` },
+        url,
+      },
+    } : {}),
     ...(path === "/google-business-profile-visual-refresh" ? {
       mainEntity: {
         "@type": "Service",
