@@ -40,6 +40,9 @@ connectors were generated; the user supplied complete website walkthroughs.
 Video downloads begin near the preview, never at the top of this page. Reduced
 motion and data saver use stills unless the visitor explicitly requests playback.
 Native touch scrolling is preserved. Videos never obscure their project copy.
+Each film uses 5.2 viewport-heights of scroll travel, double the initial 2.6,
+so the same gesture advances the video half as far. Native/manual playback speed
+and the looping hero are unchanged.
 Each project's heading, description, visit link, and film now share one sticky
 stage. Film size is budgeted from the actual copy height so the information stays
 visible throughout the scrub. Short landscape screens put copy beside the film;

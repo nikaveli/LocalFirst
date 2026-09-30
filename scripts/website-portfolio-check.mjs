@@ -41,6 +41,9 @@ try {
     for (let i = 0; i < (only ? 1 : 5); i++) {
       const preview = previews.nth(i);
       const id = await preview.getAttribute('data-project');
+      const trackViewports = await preview.evaluate(root =>
+        (root.offsetHeight - root.querySelector('[data-preview-stage]').offsetHeight) / innerHeight);
+      assert.ok(Math.abs(trackViewports - 5.2) < .01, `${id}: slower 5.2-screen scroll distance`);
       const scroll = async progress => {
         await preview.evaluate((root, progress) => {
           const stage = root.querySelector('[data-preview-stage]');

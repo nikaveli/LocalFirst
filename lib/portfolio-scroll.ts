@@ -6,6 +6,8 @@
  * Unlike the standalone engine, every listener, fetch and object URL is disposable.
  */
 export function mountPortfolioScroll(root: HTMLElement, base: string) {
+  // Twice the original track length: half the video travel per scroll gesture.
+  const scrollViewports = 5.2;
   const video = root.querySelector<HTMLVideoElement>('video')!;
   const stage = root.querySelector<HTMLElement>('[data-preview-stage]')!;
   const heading = root.querySelector<HTMLElement>('.wd-project-heading')!;
@@ -142,7 +144,7 @@ export function mountPortfolioScroll(root: HTMLElement, base: string) {
     cramped = filmHeight < 180 || (beside && heading.offsetHeight > usable);
     root.style.setProperty('--wd-frame-height', `${Math.max(180, filmHeight)}px`);
     root.dataset.mode = staticMode() ? 'static' : 'scroll';
-    root.style.height = staticMode() ? '' : `${stage.offsetHeight + viewport * 2.6}px`;
+    root.style.height = staticMode() ? '' : `${stage.offsetHeight + viewport * scrollViewports}px`;
     setStatus(staticMode() ? 'Still preview · Play the video when you’re ready.' : 'Scroll to explore · Scroll up to rewind');
     read();
   }
