@@ -100,9 +100,10 @@ export default function RestaurantMotionEngine() {
             const start = container.querySelector<HTMLElement>("[data-bg-zoom-start]");
             const end = container.querySelector<HTMLElement>("[data-bg-zoom-end]");
             const content = container.querySelector<HTMLElement>("[data-bg-zoom-content]");
-            const dark = container.querySelector("[data-bg-zoom-dark]");
             const image = container.querySelector("[data-bg-zoom-img]");
-            if (!start || !end || !content) return;
+            const background = container.querySelector('.rh-zoom-background');
+            const backgroundShade = container.querySelector('.rh-zoom-background-shade');
+            if (!start || !end || !content || !background || !backgroundShade) return;
             const radius = getComputedStyle(start).borderRadius;
             const photo = image?.querySelector('img');
             const aspect = photo ? Number(photo.getAttribute('width')) / Number(photo.getAttribute('height')) : 0;
@@ -140,9 +141,14 @@ export default function RestaurantMotionEngine() {
             const fit = Flip.fit(content, end, { duration: zoomRange, ease: "none", scale: !!updatePhoto, onUpdate: updatePhoto });
             if (fit) timeline.add(fit as gsap.core.Tween);
             if (!updatePhoto) timeline.to(content, { borderRadius: getComputedStyle(end).borderRadius, duration: zoomRange }, "<");
-            timeline.to(content, { y: `+=${afterRange}`, duration: afterRange });
-            if (dark) timeline.fromTo(dark, { opacity: 0 }, { opacity: 0.75, duration: afterRange * .25 }, "<");
-            if (image) timeline.fromTo(image, { scale: 1, yPercent: 0 }, { scale: 1.25, yPercent: -10, duration: afterRange }, zoomRange);
+            // At full size, hand the identical crop to a native sticky layer.
+            // No JS counter-scroll or second zoom while copy passes over it.
+            // Timeline sets reverse automatically when scrolling back up.
+            timeline.set(content, { visibility: 'hidden' }, zoomRange);
+            timeline.set(background, { visibility: 'visible' }, zoomRange);
+            timeline.fromTo(backgroundShade, { opacity: 0 }, { opacity: 0.75, duration: afterRange * .25 }, zoomRange);
+            // Preserve the scroll-to-time mapping throughout the entire story.
+            timeline.to({}, { duration: afterRange }, zoomRange);
             const story = container.querySelector('.rh-zoom-story');
             // Match copy contrast to the actual background as the photo arrives.
             if (story && !container.classList.contains('rh-zoom--dark')) {

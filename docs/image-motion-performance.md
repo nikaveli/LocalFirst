@@ -51,3 +51,24 @@ behavior regresses: revert this change and redeploy the previous production
 revision `eabf7681f8007b9eb473fb4a246978afcd5b7389` through the existing workflow.
 
 Reference: [GSAP Flip.fit scale option](https://gsap.com/docs/v3/Plugins/Flip/static.fit%28%29/).
+
+## Follow-up: full-screen → text-overlay handoff
+
+The owner localized remaining stutter to the story phase, rather than expansion.
+That phase still counteracted scrolling with a per-frame container translation
+and enlarged the child image another 25%. The initial benchmark only measured
+expansion and did not validate this phase.
+
+The story now uses a native CSS sticky background with an identical cover crop.
+At full size the timeline switches visibility from the zoom layer to that
+background. There is no second zoom and no JS counter-scroll. Text remains in
+normal document flow, and the background leaves naturally with the section.
+The same existing image URL is reused; no additional asset is generated.
+
+Browser regression checks now explicitly sample the story phase: the background
+stays fixed-size and stationary, text advances by the scroll distance, and the
+old layer's transform does not change. Checks also verify the reverse handoff
+and reduced-motion/no-JavaScript fallback. Physical iPhone validation is still
+needed to confirm the owner's particular stutter is gone.
+
+For this follow-up alone, rollback to `628592549d4e3fd91806bc3d2c0b614c85bec09d`.

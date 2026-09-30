@@ -37,7 +37,15 @@ export function ImageZoom({ id, name, alt, eyebrow, title, after, copy, position
         <div data-bg-zoom-dark="" className="rh-zoom-shade" />
       </div>
     </div>
-    <div data-bg-zoom-end="" className="rh-zoom-end" aria-hidden="true" />
-    <div className="rh-zoom-story"><h3>{after}</h3><p>{copy}</p><span className="rh-photo-credit">Photographed by Nick · LocalFirst</span></div>
+    <div className="rh-zoom-stage">
+      <div className="rh-zoom-background-track" aria-hidden="true">
+        <div className="rh-zoom-background">
+          <FoodPhoto name={name} alt="" sizes="100vw" />
+          <div className="rh-zoom-background-shade" />
+        </div>
+      </div>
+      <div data-bg-zoom-end="" className="rh-zoom-end" aria-hidden="true" />
+      <div className="rh-zoom-story"><h3>{after}</h3><p>{copy}</p><span className="rh-photo-credit">Photographed by Nick · LocalFirst</span></div>
+    </div>
   </section>;
 }
