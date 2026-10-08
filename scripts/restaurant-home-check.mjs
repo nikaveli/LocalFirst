@@ -56,7 +56,7 @@ try {
       await page.waitForTimeout(250);
       await page.screenshot({ path: `${shots}/${name}-${id}-story.png` });
     }
-    for (const selector of ['.rh-gallery', '#how-it-works', '#pricing', '#monthly', '#about', '.rh-close']) {
+    for (const selector of ['.rh-gallery', '#how-it-works', '#pricing', '#monthly', '#training', '#about', '.rh-close']) {
       await page.locator(selector).scrollIntoViewIfNeeded();
       await page.waitForTimeout(950);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `No overflow at ${selector}`);
@@ -65,6 +65,10 @@ try {
     assert.equal(await video.evaluate(el => el.paused), true, 'Offscreen hero pauses');
     const priceText = await page.locator('#pricing').innerText();
     for (const price of ['$349', '$497', '$750', '$1,200']) assert.ok(priceText.includes(price), `${price} visible`);
+    const refresh = await page.locator('#pricing .rh-price-card').first().innerText();
+    for (const detail of ['2–3-hour on-site shoot', '20 photos total', '5 signature dish photos', '5 specials photos', 'within one week of your shoot']) {
+      assert.ok(refresh.includes(detail), `Visual Refresh: ${detail}`);
+    }
     const monthly = page.locator('#monthly .rh-price-card');
     assert.equal(await monthly.count(), 2, 'Two monthly plans');
     for (const [index, price] of ['299', '497'].entries()) {
@@ -76,10 +80,19 @@ try {
       assert.ok(sms.searchParams.get('body').includes(`$${price}/month`), 'SMS identifies monthly plan');
     }
     assert.ok((await monthly.nth(1).innerText()).includes('Ongoing Google Business Profile updates'));
+    const training = page.locator('#pricing #training');
+    const trainingCopy = await training.innerText();
+    for (const detail of ['$497', 'one time', 'No photography booking required.', 'No monthly subscription.', '2 hours at your business', 'A guide to keep', 'A 1-hour follow-up']) {
+      assert.ok(trainingCopy.includes(detail), `Standalone training: ${detail}`);
+    }
+    const trainingSms = new URL(await training.getByRole('link', { name: 'Ask Nick about training' }).getAttribute('href'));
+    assert.equal(trainingSms.protocol, 'sms:');
+    assert.equal(trainingSms.pathname, '+13035240591');
+    assert.ok(trainingSms.searchParams.get('body').includes('standalone Google Business Profile training at $497'));
     assert.equal(await page.locator('main').evaluate(el => [...el.querySelectorAll('*')].filter(n => n.children.length === 0 && n.textContent.includes('$') && !n.closest('#pricing')).length), 0, 'Prices only in pricing');
     const contact = new URL(await page.locator('.rh-close .btn-bubble-arrow').getAttribute('href'));
     assert.equal(contact.pathname, '+13035240591');
-    assert.equal(contact.searchParams.get('body'), 'FIRST');
+    assert.ok(contact.searchParams.get('body').includes('plan a photo shoot for my business'));
     assert.ok(!requests.some(url => /\/frames\/|hq-v3|scrollcraft\.js/.test(url)), 'No legacy hero downloads');
     assert.equal(new Set(requests.filter(url => /hero-.*\.mp4/.test(url))).size, 1, 'Only one video source downloaded');
     if (mobile) {

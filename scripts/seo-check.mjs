@@ -87,6 +87,22 @@ for (const path of paths) {
   check(meta["og:image"]?.startsWith(`${origin}/`) && Boolean(meta["og:image:alt"]), `${path}: absolute share image and alt`);
   check(meta["twitter:card"] === "summary_large_image" && meta["twitter:title"] === title, `${path}: Twitter card`);
   check(tags(html, "h1").length === 1, `${path}: one server-rendered H1`);
+  if (path === "/" || path === "/google-business-profile-visual-refresh") {
+    for (const detail of ["2–3-hour on-site shoot", "20 photos total", "5 signature dish photos", "5 specials photos", "within one week of your shoot"]) {
+      check(html.includes(detail), `${path}: confirmed Visual Refresh detail: ${detail}`);
+    }
+  }
+  const h1 = decode(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ") || "");
+  const headingTerms = {
+    "/": ["Food photography", "Denver", "Aurora"],
+    "/google-business-profile-visual-refresh": ["Google Business Profile photos", "Denver", "Aurora"],
+    "/website-development": ["Website design", "development", "Colorado"],
+    "/about": ["Nick Molina", "LocalFirst"],
+    "/contact": ["Contact LocalFirst", "Denver", "Aurora"],
+    "/first-impressions": ["Denver", "Aurora", "Business Videos"],
+    "/google-business-profile-resources": ["Google Business Profile guides"],
+  };
+  check(headingTerms[path].every(term => h1.includes(term)), `${path}: descriptive, service-specific H1`);
   check(tags(html, "html")[0]?.lang === "en", `${path}: document language`);
   check(meta.viewport?.includes("width=device-width"), `${path}: responsive viewport`);
   check(!/(?:src|poster)="http:\/\//i.test(html), `${path}: no insecure embedded resources`);
@@ -103,7 +119,7 @@ for (const path of paths) {
     const servicePage = entities.find((e) => e.url === expected && e.mainEntity);
     check(servicePage?.mainEntity?.offers?.price === "349" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $349 offer schema");
     check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
-    check(tags(html, "a").some((a) => a.href.startsWith("sms:+13035240591?") && new URL(a.href.replaceAll("&amp;", "&")).searchParams.get("body") === "FIRST"), "Refresh: direct text contact");
+    check(tags(html, "a").some((a) => a.href.startsWith("sms:+13035240591?") && new URL(a.href.replaceAll("&amp;", "&")).searchParams.get("body")?.includes("plan a photo shoot for my business")), "Refresh: photography-specific text inquiry");
     check(html.includes('id="pricing"'), "Refresh: pricing anchor");
     check(html.includes('href="/#pricing"') && html.includes('href="/#monthly"'), "Refresh: one-time and monthly offers link to canonical homepage pricing");
     check(!html.includes('class="lf-refresh-pricing__grid"'), "Refresh: no duplicate pricing grid");

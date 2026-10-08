@@ -4,6 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import SubpageFooter from "@/components/SubpageFooter";
 import SubpageHeader from "@/components/SubpageHeader";
 import { BubbleButton } from "@/components/RestaurantVisuals";
+import { photographyInquiry, photographyInquiryLabel } from "@/lib/photography-inquiry";
 
 export const metadata = pageMetadata("/contact");
 
@@ -16,14 +17,14 @@ export default function ContactPage() {
         <section className="lf-sub-hero lf-contact-hero">
           <div className="lf-sub-shell lf-sub-hero__copy" data-motion-intro>
             <p className="lf-sub-eyebrow">Contact</p>
-            <h1>Let&apos;s refresh <em>what customers see.</em></h1>
+            <h1>Contact LocalFirst <em>in Denver &amp; Aurora.</em></h1>
             <p>
-              Call or text Nick about a shoot, a profile refresh, or monthly content.
+              Call or text Nick about photography, video, or monthly content for your business. Google Business Profile updates and website services are also available.
               Tell me what your business offers and what you want customers to see.
               Prefer email? The form below opens a draft you can review and send.
             </p>
             <div className="lf-sub-actions">
-              <BubbleButton href="sms:+13035240591?&body=FIRST">Text Nick about a shoot</BubbleButton>
+              <BubbleButton href={photographyInquiry}>{photographyInquiryLabel}</BubbleButton>
               <a className="lf-sub-button" href="tel:+13035240591">Call 303-524-0591</a>
             </div>
           </div>

@@ -26,7 +26,7 @@ export default function WebsiteDevelopmentPage() {
         <div className="lf-sub-shell wd-hero-grid">
           <div className="wd-hero-copy">
             <p className="wd-eyebrow">LocalFirst / Website design & development</p>
-            <h1 id="website-title">Good at what you do?<br /><em>Make it obvious.</em></h1>
+            <h1 id="website-title">Website design &amp; development<br /><em>for Colorado businesses.</em></h1>
             <p>Your next customer is deciding before you ever meet. Give them a website that shows your work, explains your value, and makes getting in touch feel easy.</p>
             <div className="wd-actions"><BubbleButton href={websiteInquiry}>Text Nick about a website</BubbleButton><a href="#portfolio" data-underline-link="">Explore the work ↓</a></div>
           </div>

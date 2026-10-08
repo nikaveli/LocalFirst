@@ -40,7 +40,7 @@ export default function AboutPage() {
         <section className="lf-sub-hero">
           <div className="lf-sub-shell lf-sub-hero__copy" data-motion-intro>
             <p className="lf-sub-eyebrow">About</p>
-            <h1>Hi, I&apos;m <em>Nicholas.</em></h1>
+            <h1>Meet Nick Molina,<br /><em>founder of LocalFirst.</em></h1>
             <p>
               I help Colorado businesses improve what customers see when they find them
               on Google. People are already looking for what you sell. I help you give

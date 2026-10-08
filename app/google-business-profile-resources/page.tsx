@@ -118,7 +118,7 @@ export default function GoogleBusinessProfileResourcesPage() {
           <div className="lf-sub-shell lf-resources-hero__grid">
             <div className="lf-resources-hero__copy" data-motion-intro>
               <p className="lf-sub-eyebrow">Free resources from Google</p>
-              <h1>Business Profile guidance, <em>organized for your industry.</em></h1>
+              <h1>Google Business Profile guides <em>for your industry.</em></h1>
               <p>
                 Google created separate 2026 playbooks for four kinds of local businesses.
                 Start with the guide closest to your business, then use the shared checklist

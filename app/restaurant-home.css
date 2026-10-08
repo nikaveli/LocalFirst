@@ -116,6 +116,7 @@
 .rh-gallery-foot { display: flex; align-items: end; justify-content: space-between; gap: 2rem; padding-top: 3rem; margin-top: 3rem; border-top: 1px solid #2c2c2c30; font-size: .78rem; }
 .rh-gallery-foot a, .rh-pricing .rh-shell > a, .rh-founder-copy > a { display: inline-flex; align-items: center; gap: .7rem; font-size: .78rem; }
 .rh-process { background: var(--rh-orange); }
+.rh-google { background: var(--rh-ink); color: var(--rh-paper); }
 .rh-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4vw; padding-top: 2rem; }
 .rh-step-number { display: block; font-size: .78rem; border-top: 1px solid #2c2c2c50; padding-top: 1.5rem; margin-bottom: 3rem; }
 .restaurant-home .rh-steps h3 { font-size: 2.7rem; line-height: 1.1; margin-bottom: 1rem; }
@@ -143,6 +144,18 @@
 .rh-price-card li svg { flex-shrink: 0; margin-top: 3px; }
 .rh-price-link { border-top: 1px solid currentColor; padding-top: 1.2rem; margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-size: .77rem; font-weight: 650; min-height: 48px; }
 .restaurant-home .rh-pricing-note { max-width: 840px; font-size: .75rem; margin-block: 1.6rem 1.3rem; }
+.rh-training { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 7vw, 7rem); margin-top: clamp(3.5rem, 7vw, 6rem); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid #2c2c2c50; scroll-margin-top: 6rem; }
+.restaurant-home .rh-training h3 { font-size: clamp(2.4rem, 3.5vw, 3.5rem); line-height: 1.08; max-width: 440px; margin-bottom: 1.4rem; }
+.rh-training-intro > p:not(.rh-eyebrow) { font-size: .88rem; max-width: 470px; }
+.restaurant-home .rh-training-price { display: flex; align-items: baseline; gap: .7rem; margin-top: 1.5rem; }
+.rh-training-price strong { font-family: var(--font-localfirst-display), Georgia, serif; font-size: 3.2rem; line-height: 1; font-weight: 400; }
+.restaurant-home .rh-training-terms { margin-block: 1rem 1.5rem; font-weight: 600; }
+.rh-training-intro .rh-price-link { max-width: 470px; }
+.rh-training-includes { margin: 0; }
+.rh-training-includes > div { padding-block: 1.4rem; border-bottom: 1px solid #2c2c2c30; }
+.rh-training-includes > div:first-child { padding-top: 0; }
+.rh-training-includes dt { font-size: 1rem; font-weight: 600; margin-bottom: .65rem; }
+.rh-training-includes dd { margin: 0; font-size: .86rem; line-height: 1.7; max-width: 490px; }
 
 .rh-founder { background: var(--rh-ink); color: var(--rh-paper); }
 .rh-founder-grid { display: grid; grid-template-columns: 1fr 1.15fr; align-items: center; gap: 9vw; }
@@ -226,6 +239,7 @@
   .rh-step-number { margin-bottom: 1rem; padding-top: 1rem; }
   .rh-steps p { max-width: 440px; }
   .rh-pricing-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .rh-training { grid-template-columns: 1fr; gap: 2.5rem; }
   .rh-price-card { padding: 1.75rem; }
   .restaurant-home .rh-price-card h4, .restaurant-home .rh-monthly .rh-price-card h4 { min-height: 0; max-width: 340px; font-size: 2.6rem; }
   .restaurant-home .rh-price-card .rh-eyebrow { min-height: 0; }
