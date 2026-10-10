@@ -40,9 +40,11 @@ export default function RootLayout({
       className={`${inter.variable} ${instrumentSerif.variable}`}
       data-scroll-behavior="smooth"
     >
+      <head>
+        <JsonLd data={businessSchema} />
+      </head>
       <body>
         <noscript><style>{`.rh-zoom .rh-zoom-end{display:none}.rh-zoom .rh-zoom-story{min-height:0;padding:5rem 1.5rem;margin-top:3rem}`}</style></noscript>
-        <JsonLd data={businessSchema} />
         <a className="lf-skip-link" href="#main-content">Skip to content</a>
         {children}
       </body>

@@ -168,6 +168,15 @@
 .rh-founder-copy > p:not(.rh-eyebrow) { font-size: .88rem; margin-bottom: 1.2rem; max-width: 490px; }
 .restaurant-home .rh-founder-copy .rh-founder-lead { font-size: 1.12rem; color: white; }
 .rh-credentials { display: flex; flex-wrap: wrap; gap: .75rem 1.1rem; font-size: .6rem; border-top: 1px solid #c5baaa40; padding-top: 1.5rem; margin-top: 2.4rem; }
+.rh-faq { background: var(--rh-paper); color: var(--rh-ink); }
+.rh-faq .rh-shell { max-width: 1120px; }
+.rh-faq-embed { height: 600px; border-block: 1px solid var(--rh-ink); border-top: 3px solid var(--rh-orange); overflow: hidden; background: var(--rh-paper); }
+/* Match the light-mode embedded document; a dark/light color-scheme mismatch
+   makes browsers paint an opaque canvas behind otherwise transparent frames. */
+.rh-faq-embed iframe { display: block; width: 100%; height: 100%; border: 0; background: transparent; color-scheme: light; }
+.restaurant-home .rh-faq-help { margin-top: 1.25rem; font-size: .8rem; color: var(--rh-ink); }
+.rh-faq-help a { display: inline-flex; align-items: center; gap: .3rem; }
+.rh-faq a:focus-visible, .rh-faq-embed iframe:focus-visible { outline: 2px solid var(--rh-ink); outline-offset: 5px; }
 .rh-close { background: var(--rh-orange); text-align: center; }
 .restaurant-home .rh-close h2 { font-size: clamp(4.5rem, 10vw, 10rem); }
 .restaurant-home .rh-close p:not(.rh-eyebrow) { margin-block: 2rem; font-size: .95rem; }

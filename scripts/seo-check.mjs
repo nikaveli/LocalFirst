@@ -111,7 +111,12 @@ for (const path of paths) {
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
   check(schemas.length === (path === "/google-business-profile-resources" ? 3 : 2), `${path}: valid JSON-LD documents`);
   const entities = schemas.flatMap((s) => s["@graph"] || [s]);
-  check(entities.some((e) => e["@type"] === "Organization" && e.telephone === "+1-303-524-0591" && e.email === "nick.molina@icloud.com"), `${path}: accurate business entity`);
+  const business = entities.filter((e) => e["@id"] === `${origin}/#organization`);
+  check(business.length === 1 && business[0]["@type"] === "ProfessionalService" && business[0].telephone === "+1-303-524-0591" && business[0].email === "nick.molina@icloud.com", `${path}: one accurate business entity`);
+  check(business[0].address?.streetAddress === "2590 Welton St Ste 200" && business[0].areaServed.length === 7, `${path}: owner-supplied address and service areas`);
+  check(business[0].openingHoursSpecification[0].dayOfWeek.join(",") === "Monday,Tuesday,Wednesday,Thursday,Friday", `${path}: valid weekday names`);
+  const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1] || "";
+  check(head.includes('"@type":"ProfessionalService"'), `${path}: business schema in head`);
   check(entities.some((e) => ["WebPage", "AboutPage", "ContactPage", "CollectionPage"].includes(e["@type"]) && e.url === expected), `${path}: page schema`);
   check(entities.filter((e) => e["@type"] === "Service").length === 4, `${path}: four service entities`);
   check(!JSON.stringify(schemas).includes("AggregateRating"), `${path}: no self-serving star markup`);
@@ -126,6 +131,10 @@ for (const path of paths) {
   }
   check(tags(html, "a").filter((a) => /#pricing$/.test(a.href || "")).every((a) => a.href === "/#pricing"), `${path}: all pricing links use homepage`);
   if (path === "/") {
+    const faqFrame = tags(html, "iframe").filter(f => f.id === "ai-seo-iframe");
+    check(faqFrame.length === 1 && faqFrame[0].loading === "lazy" && Boolean(faqFrame[0].title), "Home: one accessible lazy-loaded FAQ embed");
+    check(new URL(faqFrame[0].src).pathname === "/api/questions/localfirst-frequently-asked-questions", "Home: supplied FAQ source");
+    check(html.indexOf('id="faqs"') < html.indexOf('class="rh-close rh-pad"'), "Home: FAQs before final contact CTA");
     check(html.includes('class="rh-standalone"') && html.includes("<strong>$1,200</strong>"), "Home: prominent standalone photo-shoot price");
     check(html.includes("The $750 menu and product shoot is an add-on to the $349 Visual Refresh or $497 Complete Profile Update"), "Home: add-on eligibility explicit");
     check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Home: complete update scope visible");

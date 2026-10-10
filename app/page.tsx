@@ -11,6 +11,7 @@ import { photographyInquiry, photographyInquiryLabel } from "@/lib/photography-i
 
 export const metadata = pageMetadata("/");
 const textNick = photographyInquiry;
+const faqEmbedUrl = "https://www.localmarketingmanager.com/api/questions/localfirst-frequently-asked-questions?textColor=%23000000&backgroundColor=%23ffffff&showTitle=true&borderRadius=13px&visibility=showOnlyFirstExpanded&isTransparentBackgroundApplied=true";
 const trainingInquiry = `sms:+13035240591?&body=${encodeURIComponent("Hi Nick, I'm interested in the standalone Google Business Profile training at $497.")}`;
 const packages = [
   { name: "Visual Refresh", price: "349", suffix: "one time", headline: "A fresh look at what’s cooking.", items: ["2–3-hour on-site shoot", "20 photos total, including 5 signature dish photos and 5 specials photos (drinks or daily specials)", "Short-form video content", "Google Business Profile visual update", "Profile information check & practical recommendations", "Delivery within one week of your shoot"], cta: "Ask about a refresh", message: "I'm interested in the Visual Refresh" },
@@ -130,6 +131,19 @@ export default function Home() {
         <div className="rh-shell rh-founder-grid">
           <figure className="rh-founder-photo"><div className="rh-founder-mask" data-parallax="trigger" data-parallax-start="3" data-parallax-end="-3" data-parallax-disable="mobileLandscape"><div data-parallax="target"><Image src="/media/restaurant-home/nick.webp" alt="Nick Molina, founder and photographer at LocalFirst" width={900} height={1350} sizes="(max-width: 767px) 90vw, 40vw" /></div></div><figcaption>Nick Molina <span>Your photographer. Your point of contact.</span></figcaption></figure>
           <div className="rh-founder-copy" data-rh-reveal><p className="rh-eyebrow">The person behind the camera</p><h2 id="founder-title">I’m Nick.<br /><em>I’ll see you there.</em></h2><p className="rh-founder-lead">I’m local, I show up in person, and I do the shooting myself.</p><p>You put real work into what you serve. I help people see it before they walk through your door—with photography, video, and a Google profile that reflects your restaurant today.</p><p>I work in Denver and Aurora. Other Front Range visits are available by arrangement.</p><Link href="/about" data-underline-link="">A little more about me <ArrowUpRight size={16} aria-hidden="true" /></Link><div className="rh-credentials"><span>Google Local Guide · Level 7</span><span>BBB A+ Accredited</span><span>Colorado-based</span></div></div>
+        </div>
+      </section>
+
+      <section id="faqs" className="rh-faq rh-pad" aria-labelledby="faq-title">
+        <div className="rh-shell">
+          <header className="rh-section-heading" data-rh-reveal>
+            <div><p className="rh-eyebrow">Before we plan your shoot</p><h2 id="faq-title">A few questions?<br /><em>Start here.</em></h2></div>
+            <p>Find answers about photography, video, and Google Business Profile services. Still have a question? <a href={textNick} data-underline-link="">Ask Nick.</a></p>
+          </header>
+          <div className="rh-faq-embed" data-lenis-prevent>
+            <iframe src={faqEmbedUrl} title="LocalFirst frequently asked questions" loading="lazy" id="ai-seo-iframe" />
+          </div>
+          <p className="rh-faq-help">Scroll within the questions to see more. <a href={faqEmbedUrl} target="_blank" rel="noopener noreferrer" data-underline-link="">Open all FAQs in a new tab <ArrowUpRight size={14} aria-hidden="true" /></a></p>
         </div>
       </section>
 

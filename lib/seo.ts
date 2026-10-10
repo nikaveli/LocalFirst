@@ -74,13 +74,13 @@ export function pageMetadata(path: SeoPath): Metadata {
   };
 }
 
-// Use Organization, not LocalBusiness: no public street address was supplied.
-// Do not add self-serving review stars or invented local-business credentials.
+// Owner-supplied business details, merged into the existing entity so page and
+// service references remain connected. Self-serving review stars are omitted.
 export const businessSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "ProfessionalService",
       "@id": `${siteUrl}/#organization`,
       name: "LocalFirst",
       url: siteUrl,
@@ -90,7 +90,33 @@ export const businessSchema = {
       email: "nick.molina@icloud.com",
       founder: { "@type": "Person", name: "Nicholas Molina" },
       description: "LocalFirst helps Colorado businesses improve what customers see on Google with on-site photos, video, and a Google Business Profile visual refresh.",
-      areaServed: ["Denver, Colorado", "Aurora, Colorado"],
+      currenciesAccepted: "USD",
+      paymentAccepted: "Cash, Credit Card",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "2590 Welton St Ste 200",
+        addressLocality: "Denver",
+        addressRegion: "CO",
+        postalCode: "80205-4268",
+        addressCountry: "US",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 39.75341179999999,
+        longitude: -104.9795588,
+      },
+      openingHoursSpecification: [{
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "17:00",
+      }],
+      areaServed: ["Denver", "Lakewood", "Aurora", "Littleton", "Thornton", "Centennial", "Wheat Ridge"].map(name => ({ "@type": "Place", name })),
+      sameAs: [
+        "https://www.facebook.com/LocalFirstOnline",
+        "https://www.linkedin.com/in/nickmolina",
+        "https://www.instagram.com/LocalFirst_Media",
+      ],
     },
     {
       "@type": "WebSite",
