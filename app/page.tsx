@@ -11,12 +11,13 @@ import { photographyInquiry, photographyInquiryLabel } from "@/lib/photography-i
 
 export const metadata = pageMetadata("/");
 const textNick = photographyInquiry;
+const postsEmbedUrl = "https://www.localmarketingmanager.com/api/local-posts/localfirst-local-posts-widget?objectFit=cover";
 const faqEmbedUrl = "https://www.localmarketingmanager.com/api/questions/localfirst-frequently-asked-questions?textColor=%23000000&backgroundColor=%23ffffff&showTitle=true&borderRadius=13px&visibility=showOnlyFirstExpanded&isTransparentBackgroundApplied=true";
 const trainingInquiry = `sms:+13035240591?&body=${encodeURIComponent("Hi Nick, I'm interested in the standalone Google Business Profile training at $497.")}`;
 const packages = [
-  { name: "Visual Refresh", price: "349", suffix: "one time", headline: "A fresh look at what’s cooking.", items: ["2–3-hour on-site shoot", "20 photos total, including 5 signature dish photos and 5 specials photos (drinks or daily specials)", "Short-form video content", "Google Business Profile visual update", "Profile information check & practical recommendations", "Delivery within one week of your shoot"], cta: "Ask about a refresh", message: "I'm interested in the Visual Refresh" },
+  { name: "Visual Refresh", price: "255", suffix: "one time", headline: "A fresh look at what’s cooking.", items: ["2-hour on-site shoot", "20 photos total, including 5 signature dish photos and 5 specials photos (drinks or daily specials)", "Short-form video content", "Google Business Profile visual update", "Profile information check & practical recommendations", "Delivery within one week of your shoot"], cta: "Ask about a refresh", message: "I'm interested in the Visual Refresh" },
   { name: "Complete Profile Update", price: "497", suffix: "one time", headline: "The photos. The details. The full profile.", items: ["Professional photos and short-form video", "Services, hours, categories & description updated", "Google Business Profile posts for 90 days", "360° virtual tour", "Replies to unanswered reviews from the previous 14 days"], cta: "Ask about an update", message: "I'm interested in the Complete Profile Update" },
-  { name: "Product & Menu Item Photo Shoot", price: "750", suffix: "add-on with either service", headline: "Give your menu its own moment.", items: ["A dedicated on-site photo shoot", "Individual menu-item or product photography", "A consistent set of current images", "Deeper coverage beyond the profile shoot"], cta: "Plan a menu shoot", message: "I'm interested in a Product and Menu Item Photo Shoot" },
+  { name: "Product & Menu Item Photo Shoot", price: "525", suffix: "add-on with either service", headline: "Give your menu its own moment.", items: ["A dedicated on-site photo shoot", "Individual menu-item or product photography", "A consistent set of current images", "Deeper coverage beyond the profile shoot"], cta: "Plan a menu shoot", message: "I'm interested in a Product and Menu Item Photo Shoot" },
 ];
 const monthlyPackages = [
   { name: "Monthly Content", price: "299", headline: "Keep something fresh on the menu.", items: ["8–10 new photos every month", "1 short video clip every month", "Showcase new dishes, drinks, and events"], cta: "Ask about monthly content", message: "I'm interested in Monthly Content at $299/month" },
@@ -95,11 +96,11 @@ export default function Home() {
           <h3 className="rh-pricing-group-title">One-time</h3>
           <div className="rh-pricing-grid">{packages.map((offer, index) => <article className={`rh-price-card ${index === 1 ? "rh-price-card--featured" : ""}`} key={offer.name}>
             <p className="rh-eyebrow">{offer.name}</p><h4>{offer.headline}</h4><p className="rh-price"><span>$</span>{offer.price}</p><p className="rh-price-term">{offer.suffix}</p>
-            {index === 2 && <p className="rh-standalone">Booked on its own <strong>$1,200</strong></p>}
+            {index === 2 && <p className="rh-standalone">Booked on its own <strong>$755</strong></p>}
             <ul>{offer.items.map(item => <li key={item}><Check size={16} aria-hidden="true" /><span>{item}</span></li>)}</ul>
             <a className="rh-price-link" href={`sms:+13035240591?&body=${encodeURIComponent(offer.message)}`}>{offer.cta}<ArrowUpRight size={18} aria-hidden="true" /></a>
           </article>)}</div>
-          <p className="rh-pricing-note">The $750 menu and product shoot is an add-on to the $349 Visual Refresh or $497 Complete Profile Update. Standalone price: $1,200.</p>
+          <p className="rh-pricing-note">The $525 menu and product shoot is an add-on to the $255 Visual Refresh or $497 Complete Profile Update. Standalone price: $755.</p>
           <Link href="/google-business-profile-visual-refresh#includes" data-underline-link="">See full service details <ArrowUpRight size={16} aria-hidden="true" /></Link>
           <section id="monthly" className="rh-monthly" aria-labelledby="monthly-title">
             <header className="rh-monthly-heading" data-rh-reveal><h3 id="monthly-title" className="rh-pricing-group-title">Monthly</h3><p>Your restaurant doesn’t stand still. Keep creating new photos and video as dishes, drinks, and specials change. Choose content only, or add ongoing Google Business Profile updates.</p></header>
@@ -131,6 +132,19 @@ export default function Home() {
         <div className="rh-shell rh-founder-grid">
           <figure className="rh-founder-photo"><div className="rh-founder-mask" data-parallax="trigger" data-parallax-start="3" data-parallax-end="-3" data-parallax-disable="mobileLandscape"><div data-parallax="target"><Image src="/media/restaurant-home/nick.webp" alt="Nick Molina, founder and photographer at LocalFirst" width={900} height={1350} sizes="(max-width: 767px) 90vw, 40vw" /></div></div><figcaption>Nick Molina <span>Your photographer. Your point of contact.</span></figcaption></figure>
           <div className="rh-founder-copy" data-rh-reveal><p className="rh-eyebrow">The person behind the camera</p><h2 id="founder-title">I’m Nick.<br /><em>I’ll see you there.</em></h2><p className="rh-founder-lead">I’m local, I show up in person, and I do the shooting myself.</p><p>You put real work into what you serve. I help people see it before they walk through your door—with photography, video, and a Google profile that reflects your restaurant today.</p><p>I work in Denver and Aurora. Other Front Range visits are available by arrangement.</p><Link href="/about" data-underline-link="">A little more about me <ArrowUpRight size={16} aria-hidden="true" /></Link><div className="rh-credentials"><span>Google Local Guide · Level 7</span><span>BBB A+ Accredited</span><span>Colorado-based</span></div></div>
+        </div>
+      </section>
+
+      <section id="updates" className="rh-updates rh-pad" aria-labelledby="updates-title">
+        <div className="rh-shell">
+          <header className="rh-section-heading" data-rh-reveal>
+            <div><p className="rh-eyebrow">What’s happening</p><h2 id="updates-title">Fresh updates<br /><em>from LocalFirst.</em></h2></div>
+            <p>Photography, local business tips, and ideas for keeping your Google profile current.</p>
+          </header>
+          <div className="rh-posts-embed" data-lenis-prevent>
+            <iframe src={postsEmbedUrl} title="LocalFirst local posts" loading="lazy" id="local-posts-iframe" />
+          </div>
+          <p className="rh-posts-help">Scroll within the posts to explore more. <a href={postsEmbedUrl} target="_blank" rel="noopener noreferrer" data-underline-link="">Open updates in a new tab <ArrowUpRight size={14} aria-hidden="true" /></a></p>
         </div>
       </section>
 

@@ -168,6 +168,13 @@
 .rh-founder-copy > p:not(.rh-eyebrow) { font-size: .88rem; margin-bottom: 1.2rem; max-width: 490px; }
 .restaurant-home .rh-founder-copy .rh-founder-lead { font-size: 1.12rem; color: white; }
 .rh-credentials { display: flex; flex-wrap: wrap; gap: .75rem 1.1rem; font-size: .6rem; border-top: 1px solid #c5baaa40; padding-top: 1.5rem; margin-top: 2.4rem; }
+.rh-updates { background: var(--rh-paper); color: var(--rh-ink); }
+.rh-updates .rh-shell { max-width: 1120px; }
+.rh-posts-embed { border-top: 3px solid var(--rh-orange); }
+.rh-posts-embed iframe { display: block; width: 100%; height: 480px; border: 0; background: transparent; color-scheme: light; }
+.restaurant-home .rh-posts-help { margin-top: 1.25rem; font-size: .8rem; }
+.rh-posts-help a { display: inline-flex; align-items: center; gap: .3rem; }
+.rh-updates a:focus-visible, .rh-posts-embed iframe:focus-visible { outline: 2px solid var(--rh-ink); outline-offset: 5px; }
 .rh-faq { background: var(--rh-paper); color: var(--rh-ink); }
 .rh-faq .rh-shell { max-width: 1120px; }
 .rh-faq-embed { height: 600px; border-block: 1px solid var(--rh-ink); border-top: 3px solid var(--rh-orange); overflow: hidden; background: var(--rh-paper); }

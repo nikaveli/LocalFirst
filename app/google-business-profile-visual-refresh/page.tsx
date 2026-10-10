@@ -20,9 +20,9 @@ const includes = [
 ];
 const questions = [
   ["Why update a profile I already set up?", "Your business keeps changing. New photos, current hours, and accurate information about what you offer help people decide whether to visit or contact you. A profile created years ago may not show the business you run today."],
-  ["What does the Visual Refresh include?", "The one-time package includes a 2–3-hour on-site shoot, 20 photos total, short-form video, a Google Business Profile visual update, an information check, and recommendations for improving your profile. Delivery is within one week of your shoot."],
+  ["What does the Visual Refresh include?", "The one-time package includes a 2-hour on-site shoot, 20 photos total, short-form video, a Google Business Profile visual update, an information check, and recommendations for improving your profile. Delivery is within one week of your shoot."],
   ["Which restaurant photos are included in the 20?", "Your 20 photos include 5 signature dish photos and 5 specials photos. The specials can be drinks or daily specials. Both groups are part of the 20-photo total, not additional photos."],
-  ["How long does the shoot take, and when will I receive the content?", "Plan for 2–3 hours on-site. You’ll receive your photos and short-form video within one week of your shoot."],
+  ["How long does the shoot take, and when will I receive the content?", "Plan for 2 hours on-site. You’ll receive your photos and short-form video within one week of your shoot."],
   ["Do you come to my business?", "Yes. I come directly to your business to create fresh photos and video of the products, services, space, and details customers want to see."],
   ["Where do you work?", "LocalFirst serves the Denver and Aurora metro area. Other Front Range visits are available by arrangement. Contact Nicholas with your location to confirm availability."],
   ["Is this a monthly service?", "The Visual Refresh is a one-time service. Monthly content and content-plus-profile-update plans are also available. See the homepage pricing section to compare all options."],
@@ -60,7 +60,7 @@ export default function VisualRefreshPage() {
           <div className="lf-sub-shell" data-rh-reveal>
             <p className="lf-sub-eyebrow">What’s included</p>
             <h2>Fresh content. A stronger first impression.</h2>
-            <p>A 2–3-hour on-site shoot. 20 photos total. Delivery within one week of your shoot.</p>
+            <p>A 2-hour on-site shoot. 20 photos total. Delivery within one week of your shoot.</p>
             <p>For restaurants, the 20 photos include 5 signature dish photos and 5 specials photos—drinks or daily specials. These are included in the total, not added on top.</p>
             <div className="lf-refresh-includes">
               {includes.map(([title, description], i) => (

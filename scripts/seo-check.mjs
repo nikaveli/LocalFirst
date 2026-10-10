@@ -88,7 +88,7 @@ for (const path of paths) {
   check(meta["twitter:card"] === "summary_large_image" && meta["twitter:title"] === title, `${path}: Twitter card`);
   check(tags(html, "h1").length === 1, `${path}: one server-rendered H1`);
   if (path === "/" || path === "/google-business-profile-visual-refresh") {
-    for (const detail of ["2–3-hour on-site shoot", "20 photos total", "5 signature dish photos", "5 specials photos", "within one week of your shoot"]) {
+    for (const detail of ["2-hour on-site shoot", "20 photos total", "5 signature dish photos", "5 specials photos", "within one week of your shoot"]) {
       check(html.includes(detail), `${path}: confirmed Visual Refresh detail: ${detail}`);
     }
   }
@@ -122,7 +122,7 @@ for (const path of paths) {
   check(!JSON.stringify(schemas).includes("AggregateRating"), `${path}: no self-serving star markup`);
   if (path === "/google-business-profile-visual-refresh") {
     const servicePage = entities.find((e) => e.url === expected && e.mainEntity);
-    check(servicePage?.mainEntity?.offers?.price === "349" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $349 offer schema");
+    check(servicePage?.mainEntity?.offers?.price === "255" && servicePage.mainEntity.offers.priceCurrency === "USD", "Refresh: accurate $255 offer schema");
     check(html.includes("Professional photos of your business") && html.includes("Profile information check"), "Refresh: visible package detail");
     check(tags(html, "a").some((a) => a.href.startsWith("sms:+13035240591?") && new URL(a.href.replaceAll("&amp;", "&")).searchParams.get("body")?.includes("plan a photo shoot for my business")), "Refresh: photography-specific text inquiry");
     check(html.includes('id="pricing"'), "Refresh: pricing anchor");
@@ -135,8 +135,8 @@ for (const path of paths) {
     check(faqFrame.length === 1 && faqFrame[0].loading === "lazy" && Boolean(faqFrame[0].title), "Home: one accessible lazy-loaded FAQ embed");
     check(new URL(faqFrame[0].src).pathname === "/api/questions/localfirst-frequently-asked-questions", "Home: supplied FAQ source");
     check(html.indexOf('id="faqs"') < html.indexOf('class="rh-close rh-pad"'), "Home: FAQs before final contact CTA");
-    check(html.includes('class="rh-standalone"') && html.includes("<strong>$1,200</strong>"), "Home: prominent standalone photo-shoot price");
-    check(html.includes("The $750 menu and product shoot is an add-on to the $349 Visual Refresh or $497 Complete Profile Update"), "Home: add-on eligibility explicit");
+    check(html.includes('class="rh-standalone"') && html.includes("<strong>$755</strong>"), "Home: prominent standalone photo-shoot price");
+    check(html.includes("The $525 menu and product shoot is an add-on to the $255 Visual Refresh or $497 Complete Profile Update"), "Home: add-on eligibility explicit");
     check(html.includes("Google Business Profile posts for 90 days") && html.includes("360° virtual tour"), "Home: complete update scope visible");
     check(html.includes('id="monthly"') && html.includes("8–10 new photos every month") && html.includes("Ongoing Google Business Profile updates"), "Home: monthly content and profile plans visible");
   }

@@ -29,7 +29,7 @@ export const seoPages = {
   "/contact": {
     title: "Contact LocalFirst | Denver Photography & Profile Updates",
     description:
-      "Call or text Nicholas about a $349 Google Business Profile Visual Refresh in Denver and Aurora. Show customers your business today with fresh photos and video.",
+      "Call or text Nicholas about a $255 Google Business Profile Visual Refresh in Denver and Aurora. Show customers your business today with fresh photos and video.",
     type: "ContactPage",
   },
   "/first-impressions": {
@@ -175,7 +175,7 @@ export function pageSchema(path: SeoPath) {
         areaServed: ["Denver, Colorado", "Aurora, Colorado"],
         offers: {
           "@type": "Offer",
-          price: "349",
+          price: "255",
           priceCurrency: "USD",
           url,
           description: "One-time Google Business Profile Visual Refresh",

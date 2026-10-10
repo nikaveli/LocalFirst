@@ -64,9 +64,9 @@ try {
     }
     assert.equal(await video.evaluate(el => el.paused), true, 'Offscreen hero pauses');
     const priceText = await page.locator('#pricing').innerText();
-    for (const price of ['$349', '$497', '$750', '$1,200']) assert.ok(priceText.includes(price), `${price} visible`);
+    for (const price of ['$255', '$497', '$525', '$755']) assert.ok(priceText.includes(price), `${price} visible`);
     const refresh = await page.locator('#pricing .rh-price-card').first().innerText();
-    for (const detail of ['2–3-hour on-site shoot', '20 photos total', '5 signature dish photos', '5 specials photos', 'within one week of your shoot']) {
+    for (const detail of ['2-hour on-site shoot', '20 photos total', '5 signature dish photos', '5 specials photos', 'within one week of your shoot']) {
       assert.ok(refresh.includes(detail), `Visual Refresh: ${detail}`);
     }
     const monthly = page.locator('#monthly .rh-price-card');
@@ -118,7 +118,7 @@ try {
     assert.equal(await page.locator('.rh-zoom-enhanced').count(), 0, 'Static accessible fallback');
     assert.equal(requests.some(url => /hero-.*\.mp4/.test(url)), false, 'No automatic video in fallback');
     await page.locator('#pricing').scrollIntoViewIfNeeded();
-    assert.ok((await page.locator('#pricing').innerText()).includes('$1,200'));
+    assert.ok((await page.locator('#pricing').innerText()).includes('$755'));
     await page.screenshot({ path: `${shots}/${mode}-pricing.png` });
     await page.close();
     console.log(`PASS ${mode}`);
