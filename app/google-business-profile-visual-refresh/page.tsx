@@ -52,7 +52,7 @@ export default function VisualRefreshPage() {
           <div className="lf-sub-shell lf-refresh-copy" data-rh-reveal>
             <p className="lf-sub-eyebrow">One-time visits &amp; monthly content</p>
             <h2 id="pricing-title">All your options. One place.</h2>
-            <p>Compare the Visual Refresh, Complete Profile Update, dedicated menu shoot, and monthly content plans in our homepage pricing section.</p>
+            <p>Compare the Visual Refresh Holiday Special, Complete Profile Update, dedicated menu shoot, and monthly content plans in our homepage pricing section.</p>
             <div className="lf-sub-actions"><BubbleButton href="/#pricing">See all pricing</BubbleButton><Link href="/#monthly" className="lf-sub-button">Explore monthly plans →</Link></div>
           </div>
         </section>
